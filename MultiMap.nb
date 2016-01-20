@@ -1,0 +1,3607 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    123474,       3598]
+NotebookOptionsPosition[    114134,       3283]
+NotebookOutlinePosition[    114488,       3299]
+CellTagsIndexPosition[    114445,       3296]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+we have a pile of different associations / dictionaries. 
+System is a pair (name,dimension). 
+A (vector) space dictionary for a given single system records the system and \
+its type (ket or bra). Call it AtomicSpace. 
+General spaces associated with several systems are lists of AtomicSpaces. \
+Call them Space.
+Index dictionaries are lists of spaces, call them IndexDict.
+Multilinear maps are given by a pair, an IndexDict and an Array, having the \
+same dimensions. Call them MultiMap. (I.e. the IndexDict records which \
+systems correspond to which indices in the Array.)
+\
+\>", "Text",
+ CellChangeTimes->{{3.662109685484845*^9, 3.662109826955888*^9}, {
+  3.662273261477108*^9, 3.662273462355505*^9}, {3.662274299737558*^9, 
+  3.662274326582492*^9}, {3.662274673076333*^9, 3.6622747047240267`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Unprotect", "[", 
+  RowBox[{
+  "AtomicSpace", ",", "VecSpace", ",", "System", ",", "MapDict", ",", 
+   "IndexDict", ",", "MultiMap", ",", "Name", ",", "Dimension"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.662291929221422*^9, 3.662291938837514*^9}, {
+  3.662293836512594*^9, 3.662293858663412*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"AtomicSpace\"\>", ",", "\<\"VecSpace\"\>", 
+   ",", "\<\"System\"\>", ",", "\<\"MapDict\"\>", ",", "\<\"IndexDict\"\>", 
+   ",", "\<\"MultiMap\"\>", ",", "\<\"Name\"\>", ",", "\<\"Dimension\"\>"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.662291927053184*^9, 3.6622919392657623`*^9}, {
+  3.66229381923702*^9, 3.6622938591910133`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["MapDict", "Subsubsection",
+ CellChangeTimes->{{3.662283411326865*^9, 3.662283415306919*^9}}],
+
+Cell["\<\
+somewhat separately from this, we need to manipulate the mapping dictionary \
+for multilinear maps: what are its inputs and what are its outputs. Can we \
+compose two given maps in a given order? What systems will be contracted out \
+when doing so? Etc. Call such a dictionary MapDict. It is two lists: a list \
+of output system names and a list of input system names. \
+\>", "Text",
+ CellChangeTimes->{{3.662283081954138*^9, 3.6622831925089397`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ContractableSystems", "[", 
+     RowBox[{"L_MapDict", ",", "R_MapDict"}], "]"}], ":=", 
+    RowBox[{"Intersection", "[", 
+     RowBox[{
+      RowBox[{"L", "[", 
+       RowBox[{"[", "2", "]"}], "]"}], ",", 
+      RowBox[{"R", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.66211105437976*^9, 3.662111096031035*^9}, {
+   3.662111543944193*^9, 3.662111577017915*^9}, {3.662112373220849*^9, 
+   3.662112416396427*^9}, {3.662112481392501*^9, 3.662112486558167*^9}, {
+   3.662112653444107*^9, 3.6621126700148287`*^9}, {3.6621127229232597`*^9, 
+   3.662112774112805*^9}, {3.662221502598542*^9, 3.662221516579818*^9}, {
+   3.6622832694725027`*^9, 3.662283316336261*^9}, 3.6622836919644938`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ComposeMaps", "[", 
+     RowBox[{"L_MapDict", ",", "R_MapDict"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"MapDict", "@@", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Join", "[", 
+           RowBox[{
+            RowBox[{"L", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], ",", 
+            RowBox[{"Complement", "[", 
+             RowBox[{
+              RowBox[{"R", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", "#"}], "]"}]}], "]"}], 
+          ",", 
+          RowBox[{"Join", "[", 
+           RowBox[{
+            RowBox[{"R", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], ",", 
+            RowBox[{"Complement", "[", 
+             RowBox[{
+              RowBox[{"L", "[", 
+               RowBox[{"[", "2", "]"}], "]"}], ",", "#"}], "]"}]}], "]"}]}], 
+         "}"}], "&"}], "[", 
+       RowBox[{"ContractableSystems", "[", 
+        RowBox[{"L", ",", "R"}], "]"}], "]"}], ")"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.662112778781818*^9, 3.6621127853454742`*^9}, {
+   3.66222220550554*^9, 3.66222224433633*^9}, {3.662225610196677*^9, 
+   3.662225625889799*^9}, {3.662283226744028*^9, 3.662283245610001*^9}, {
+   3.662283323127592*^9, 3.6622833265606203`*^9}, 3.662283584321101*^9, {
+   3.662285838418852*^9, 3.6622858438793364`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"ValidMappingQ", "[", "x_MapDict", "]"}], ":=", 
+   RowBox[{"And", "@@", 
+    RowBox[{"(", 
+     RowBox[{"DuplicateFreeQ", "/@", "x"}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ComposableQ", "[", 
+    RowBox[{"L_MapDict", ",", "R_MapDict"}], "]"}], ":=", 
+   RowBox[{"ValidMappingQ", "[", 
+    RowBox[{"ComposeMaps", "[", 
+     RowBox[{"L", ",", "R"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MappingEqualQ", "[", 
+    RowBox[{"x_MapDict", ",", "y_MapDict"}], "]"}], ":=", 
+   RowBox[{"Equal", "@@", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Sort", "/@", "#"}], "&"}], "/@", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "y"}], "}"}]}], ")"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.662112488255588*^9, 3.66211248868856*^9}, {
+  3.6621127414910717`*^9, 3.662112790396048*^9}, {3.662113490643487*^9, 
+  3.6621135831133747`*^9}, {3.662222253457362*^9, 3.662222299179803*^9}, {
+  3.662223569444311*^9, 3.662223573763803*^9}, {3.662227133292222*^9, 
+  3.66222715884816*^9}, {3.662283330018176*^9, 3.662283393272646*^9}, {
+  3.662283586767538*^9, 3.662283624881011*^9}, {3.6622836580806303`*^9, 
+  3.662283662495296*^9}, {3.662283696980051*^9, 3.662283698051847*^9}}],
+
+Cell["\<\
+strictly speaking, partial traces are outside the scope of composition of \
+multilinear maps. (one can do it by composing entangled states at input and \
+output, but the point is it is not a composition itself)\
+\>", "Text",
+ CellChangeTimes->{{3.662283702390099*^9, 3.66228372484581*^9}, {
+  3.662283777885207*^9, 3.6622838250450974`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"ContractableSystems", "[", "x_MapDict", "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"ContractableSystems", "[", 
+    RowBox[{"x", ",", "x"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ContractableSystemQ", "[", 
+    RowBox[{"x_MapDict", ",", "sysname_"}], "]"}], ":=", 
+   RowBox[{"And", "@@", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"MemberQ", "[", 
+        RowBox[{"#", ",", "sysname"}], "]"}], "&"}], "/@", "x"}], ")"}]}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.662283699718206*^9, 3.6622836998993673`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ValidMappingQ", "[", 
+  RowBox[{"MapDict", "[", 
+   RowBox[{
+    RowBox[{"{", "\"\<a\>\"", "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"\"\<b\>\"", ",", "\"\<a\>\""}], "}"}]}], "]"}], "]"}]], "Input",\
+
+ CellChangeTimes->{{3.662283626259259*^9, 3.6622836404163647`*^9}}],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.66228364097106*^9, 3.662291957554069*^9, 
+  3.6622938285696363`*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["System", "Subsubsection",
+ CellChangeTimes->{{3.662283418928402*^9, 3.662283422464493*^9}}],
+
+Cell["\<\
+System is the ordered pair of the system name and its dimension. There\
+\[CloseCurlyQuote]s no reason to have a constructor, just type \
+\[OpenCurlyDoubleQuote]System\[CloseCurlyDoubleQuote] and give it these two \
+things as arguments. \
+\>", "Text",
+ CellChangeTimes->{{3.6622734846710176`*^9, 3.662273540990765*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", "=", 
+   RowBox[{"System", "[", 
+    RowBox[{"\"\<a\>\"", ",", "2"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b", "=", 
+   RowBox[{"System", "[", 
+    RowBox[{"\"\<b\>\"", ",", "4"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"c", "=", 
+   RowBox[{"System", "[", 
+    RowBox[{"\"\<c\>\"", ",", "3"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"d", "=", 
+   RowBox[{"System", "[", 
+    RowBox[{"\"\<d\>\"", ",", "7"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.66227347710021*^9, 3.662273503171404*^9}, {
+  3.662273585381023*^9, 3.662273586900214*^9}, {3.662273686253149*^9, 
+  3.6622736909546537`*^9}, {3.662274855412529*^9, 3.66227486189627*^9}, {
+  3.662285558026546*^9, 3.662285564309938*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Name", "[", "x_System", "]"}], ":=", 
+   RowBox[{"x", "[", 
+    RowBox[{"[", "1", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Dimension", "[", "x_System", "]"}], ":=", 
+   RowBox[{"x", "[", 
+    RowBox[{"[", "2", "]"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.662275700336529*^9, 3.662275729057496*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["AtomicSpace", "Subsubsection",
+ CellChangeTimes->{{3.6622834272148533`*^9, 3.662283430061561*^9}}],
+
+Cell["\<\
+Atomic spaces are ordered triples of a system name, dimension, and one of the \
+two strings \[OpenCurlyDoubleQuote]ket\[CloseCurlyDoubleQuote] or \
+\[OpenCurlyDoubleQuote]bra\[CloseCurlyDoubleQuote]. The dimension information \
+is present in \
+\>", "Text",
+ CellChangeTimes->{{3.6622736274062757`*^9, 3.662273671183414*^9}, {
+   3.662274345450026*^9, 3.662274356796391*^9}, {3.6622743883435507`*^9, 
+   3.662274402525012*^9}, 3.662274465746611*^9, 3.662274713709137*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"asp1", "=", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{"a", ",", "\"\<ket\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"asp2", "=", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{"b", ",", "\"\<bra\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"asp3", "=", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{"a", ",", "\"\<bra\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"asp4", "=", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{"c", ",", "\"\<ket\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"asp6", "=", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{"c", ",", "\"\<bra\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"asp5", "=", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{"d", ",", "\"\<ket\>\""}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6622735779167337`*^9, 3.6622736240913477`*^9}, {
+  3.662273697277484*^9, 3.6622737078734493`*^9}, {3.6622737939325027`*^9, 
+  3.66227379464914*^9}, {3.662274017787868*^9, 3.662274029715137*^9}, {
+  3.6622745256860027`*^9, 3.662274531386921*^9}, {3.66227486407924*^9, 
+  3.66227488055497*^9}, {3.662285573008834*^9, 3.662285586378227*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Name", "[", "x_AtomicSpace", "]"}], ":=", 
+  RowBox[{"Name", "[", 
+   RowBox[{"x", "[", 
+    RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Dimension", "[", "x_AtomicSpace", "]"}], ":=", 
+   RowBox[{"Dimension", "[", 
+    RowBox[{"x", "[", 
+     RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Type", "[", "x_AtomicSpace", "]"}], ":=", 
+   RowBox[{"x", "[", 
+    RowBox[{"[", "2", "]"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.662275753411787*^9, 3.66227579702544*^9}, {
+  3.662288496675582*^9, 3.662288496719036*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Type", "[", "asp1", "]"}]], "Input",
+ CellChangeTimes->{{3.662275835474313*^9, 3.662275837169052*^9}}],
+
+Cell[BoxData["\<\"ket\"\>"], "Output",
+ CellChangeTimes->{3.662275837540572*^9, 3.662293867741827*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Name", "[", "asp1", "]"}]], "Input",
+ CellChangeTimes->{{3.662275769110223*^9, 3.662275771147558*^9}}],
+
+Cell[BoxData["\<\"a\"\>"], "Output",
+ CellChangeTimes->{3.662275771475374*^9, 3.662293868594974*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["VecSpace", "Subsubsection",
+ CellChangeTimes->{{3.6622834361410313`*^9, 3.6622834387315063`*^9}}],
+
+Cell["\<\
+General spaces are just lists of atomic spaces, but with head \
+\[OpenCurlyDoubleQuote]VecSpace\[CloseCurlyDoubleQuote]\
+\>", "Text",
+ CellChangeTimes->{{3.662273714279039*^9, 3.6622737331509333`*^9}, {
+  3.662273860425611*^9, 3.6622738647385902`*^9}, {3.662273897278823*^9, 
+  3.662273897632307*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"sp1", "=", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"asp1", ",", "asp2"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sp2", "=", 
+   RowBox[{"VecSpace", "[", "asp3", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"sp1", "//", "TreeForm"}]}], "Input",
+ CellChangeTimes->{{3.6622737902613783`*^9, 3.662273822843605*^9}, {
+  3.662273899345306*^9, 3.6622738997821503`*^9}, {3.662274941984221*^9, 
+  3.6622749499411917`*^9}, {3.6622938824741364`*^9, 3.662293883071697*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[
+  TagBox[GraphicsComplexBox[{{1.6903085094570331`, 2.53546276418555}, {
+    0.8451542547285166, 1.6903085094570334`}, {0.4225771273642583, 
+    0.8451542547285167}, {0., 0.}, {0.8451542547285166, 0.}, {
+    1.267731382092775, 0.8451542547285167}, {2.53546276418555, 
+    1.6903085094570334`}, {2.1128856368212916`, 0.8451542547285167}, {
+    1.6903085094570331`, 0.}, {2.53546276418555, 0.}, {2.958039891549808, 
+    0.8451542547285167}}, {
+     {RGBColor[0.55, 0.45, 0.45], 
+      LineBox[{{1, 2}, {1, 7}, {2, 3}, {2, 6}, {3, 4}, {3, 5}, {7, 8}, {7, 
+       11}, {8, 9}, {8, 10}}]}, {
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["VecSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 1],
+        TagBox[
+         RowBox[{"VecSpace", "[", 
+           RowBox[{
+             RowBox[{"AtomicSpace", "[", 
+               RowBox[{
+                 RowBox[{"System", "[", 
+                   RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"ket\""}], 
+               "]"}], ",", 
+             RowBox[{"AtomicSpace", "[", 
+               RowBox[{
+                 RowBox[{"System", "[", 
+                   RowBox[{"\"b\"", ",", "4"}], "]"}], ",", "\"bra\""}], 
+               "]"}]}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`VecSpace[
+          $CellContext`AtomicSpace[
+           $CellContext`System["a", 2], "ket"], 
+          $CellContext`AtomicSpace[
+           $CellContext`System["b", 4], "bra"]]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["AtomicSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 2],
+        TagBox[
+         RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+             RowBox[{"System", "[", 
+               RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"ket\""}], "]"}], 
+         HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`AtomicSpace[
+          $CellContext`System["a", 2], "ket"]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["System", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 3],
+        TagBox[
+         RowBox[{"System", "[", 
+           RowBox[{"\"a\"", ",", "2"}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`System["a", 2]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"a\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 4],
+        TagBox["\"a\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["a"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["2",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 5],
+        TagBox["2", HoldForm]],
+       Annotation[#, 
+        HoldForm[2], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"ket\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 6],
+        TagBox["\"ket\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["ket"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["AtomicSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 7],
+        TagBox[
+         RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+             RowBox[{"System", "[", 
+               RowBox[{"\"b\"", ",", "4"}], "]"}], ",", "\"bra\""}], "]"}], 
+         HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`AtomicSpace[
+          $CellContext`System["b", 4], "bra"]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["System", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 8],
+        TagBox[
+         RowBox[{"System", "[", 
+           RowBox[{"\"b\"", ",", "4"}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`System["b", 4]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"b\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 9],
+        TagBox["\"b\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["b"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["4",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 10],
+        TagBox["4", HoldForm]],
+       Annotation[#, 
+        HoldForm[4], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"bra\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.03636363636363637],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 11],
+        TagBox["\"bra\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["bra"], "Tooltip"]& ]}}],
+   Annotation[#, 
+    VertexCoordinateRules -> {{1.6903085094570331`, 2.53546276418555}, {
+     0.8451542547285166, 1.6903085094570334`}, {0.4225771273642583, 
+     0.8451542547285167}, {0., 0.}, {0.8451542547285166, 0.}, {
+     1.267731382092775, 0.8451542547285167}, {2.53546276418555, 
+     1.6903085094570334`}, {2.1128856368212916`, 0.8451542547285167}, {
+     1.6903085094570331`, 0.}, {2.53546276418555, 0.}, {2.958039891549808, 
+     0.8451542547285167}}]& ],
+  AspectRatio->NCache[2 11^Rational[-1, 2], 0.6030226891555273],
+  FrameTicks->Automatic,
+  PlotRange->All,
+  PlotRangePadding->Scaled[0.1]]], "Output",
+ CellChangeTimes->{
+  3.662274950248639*^9, 3.662276183707161*^9, 3.6622919695388403`*^9, {
+   3.662293870380364*^9, 3.662293883606895*^9}}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"AtomNames", "[", "x_VecSpace", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Level", "[", 
+     RowBox[{"x", ",", 
+      RowBox[{"{", "3", "}"}]}], "]"}], "[", 
+    RowBox[{"[", 
+     RowBox[{";;", ";;", "2"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"AtomicQ", "[", "x_VecSpace", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Length", "[", "x", "]"}], "\[Equal]", "1"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"AtomDimensions", "[", "x_VecSpace", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Level", "[", 
+     RowBox[{"x", ",", 
+      RowBox[{"{", "3", "}"}]}], "]"}], "[", 
+    RowBox[{"[", 
+     RowBox[{"2", ";;", ";;", "2"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Dimension", "[", "x_VecSpace", "]"}], ":=", 
+   RowBox[{"Times", "@@", 
+    RowBox[{"AtomDimensions", "[", "x", "]"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.66227585422672*^9, 3.6622758887349653`*^9}, {
+  3.662276017892874*^9, 3.662276107302302*^9}, {3.662276314347785*^9, 
+  3.662276365048831*^9}, {3.662284834097622*^9, 3.6622848489599524`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomNames", "[", "sp1", "]"}]], "Input",
+ CellChangeTimes->{{3.662275889789942*^9, 3.662275892231267*^9}, {
+  3.662276096547195*^9, 3.662276111273059*^9}, {3.662276378895471*^9, 
+  3.6622763803021917`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"a\"\>", ",", "\<\"b\"\>"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.662275892511573*^9, {3.662276030310894*^9, 3.662276046674541*^9}, {
+   3.662276097648509*^9, 3.66227611161366*^9}, 3.6622763805445223`*^9}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.662274885329867*^9, 3.6622748913922358`*^9}, 
+   3.66229388007088*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomNames", "[", "sp1", "]"}]], "Input",
+ CellChangeTimes->{{3.662276385107862*^9, 3.6622763878549833`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"a\"\>", ",", "\<\"b\"\>"}], "}"}]], "Output",
+ CellChangeTimes->{3.662276388177705*^9}]
+}, Open  ]],
+
+Cell["to get the leaves, use Level {-1}", "Text",
+ CellChangeTimes->{{3.662274727004858*^9, 3.662274735148239*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Map", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"List", "@@", "#"}], "&"}], ",", "sp1", ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.662275290805478*^9, 3.66227536589331*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"System", "[", 
+      RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"System", "[", 
+      RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.662275291394425*^9, 3.6622753663041162`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Level", "[", 
+  RowBox[{"sp1", ",", 
+   RowBox[{"{", 
+    RowBox[{"-", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.66227393188669*^9, 3.662273950217844*^9}, {
+  3.662274181991528*^9, 3.662274190637236*^9}, {3.662274467480071*^9, 
+  3.662274474421733*^9}, {3.662274537425928*^9, 3.662274538361134*^9}, {
+  3.662274648230628*^9, 3.6622746493873053`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"a\"\>", ",", "2", ",", "\<\"ket\"\>", ",", "\<\"b\"\>", ",", 
+   "4", ",", "\<\"bra\"\>"}], "}"}]], "Output",
+ CellChangeTimes->{{3.662273939544408*^9, 3.662273950557961*^9}, 
+   3.6622740436885223`*^9, {3.6622741848741837`*^9, 3.6622741915409527`*^9}, 
+   3.66227447482542*^9, 3.66227453866896*^9, 3.6622746497902193`*^9, 
+   3.6622938869331837`*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["IndexDict", "Subsubsection",
+ CellChangeTimes->{{3.6622834799880457`*^9, 3.6622834814346857`*^9}}],
+
+Cell["\<\
+Index dictionary: list of vector spaces. Shouldn\[CloseCurlyQuote]t contain \
+AtomicSpaces with the same name and type.\
+\>", "Text",
+ CellChangeTimes->{{3.662274751420806*^9, 3.662274796747672*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"td1", "=", 
+  RowBox[{"IndexDict", "[", 
+   RowBox[{"sp1", ",", "sp2"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.662274894401555*^9, 3.662274904677022*^9}, {
+  3.662274935802114*^9, 3.662274937479762*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+     ",", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}]}],
+     "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662274937908298*^9, 3.662274952004601*^9}, 
+   3.6622762300812674`*^9, 3.6622919820236883`*^9, 3.662293890187468*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"td2", "=", 
+  RowBox[{"IndexDict", "[", 
+   RowBox[{
+    RowBox[{"VecSpace", "[", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{"b", ",", "\"\<ket\>\""}], "]"}], "]"}], ",", 
+    RowBox[{"VecSpace", "[", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{"d", ",", "\"\<bra\>\""}], "]"}], "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.66228562638272*^9, 3.662285652038891*^9}, {
+  3.662285745015152*^9, 3.66228575723075*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"d\"\>", ",", "7"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.662285654492757*^9, 3.662285757763101*^9, 
+  3.6622919963712254`*^9, 3.662293890902166*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"td1", "//", "TreeForm"}]], "Input",
+ CellChangeTimes->{{3.662275454715846*^9, 3.662275456957732*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[
+  TagBox[GraphicsComplexBox[{{2.803299942217696, 3.2037713625345092`}, {
+    1.6018856812672546`, 2.402828521900882}, {0.8009428406336273, 
+    1.6018856812672546`}, {0.40047142031681365`, 0.8009428406336272}, {0., 
+    0.}, {0.8009428406336273, 0.}, {1.201414260950441, 0.8009428406336272}, {
+    2.402828521900882, 1.6018856812672546`}, {2.002357101584068, 
+    0.8009428406336272}, {1.6018856812672546`, 0.}, {2.402828521900882, 0.}, {
+    2.803299942217696, 0.8009428406336272}, {4.004714203168136, 
+    2.402828521900882}, {4.004714203168136, 1.6018856812672546`}, {
+    3.604242782851323, 0.8009428406336272}, {3.2037713625345092`, 0.}, {
+    4.004714203168136, 0.}, {4.40518562348495, 0.8009428406336272}}, {
+     {RGBColor[0.55, 0.45, 0.45], 
+      LineBox[{{1, 2}, {1, 13}, {2, 3}, {2, 8}, {3, 4}, {3, 7}, {4, 5}, {4, 
+       6}, {8, 9}, {8, 12}, {9, 10}, {9, 11}, {13, 14}, {14, 15}, {14, 18}, {
+       15, 16}, {15, 17}}]}, {
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["IndexDict", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 1],
+        TagBox[
+         RowBox[{"IndexDict", "[", 
+           RowBox[{
+             RowBox[{"VecSpace", "[", 
+               RowBox[{
+                 RowBox[{"AtomicSpace", "[", 
+                   RowBox[{
+                    RowBox[{"System", "[", 
+                    RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"ket\""}], 
+                   "]"}], ",", 
+                 RowBox[{"AtomicSpace", "[", 
+                   RowBox[{
+                    RowBox[{"System", "[", 
+                    RowBox[{"\"b\"", ",", "4"}], "]"}], ",", "\"bra\""}], 
+                   "]"}]}], "]"}], ",", 
+             RowBox[{"VecSpace", "[", 
+               RowBox[{"AtomicSpace", "[", 
+                 RowBox[{
+                   RowBox[{"System", "[", 
+                    RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"bra\""}], 
+                 "]"}], "]"}]}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`IndexDict[
+          $CellContext`VecSpace[
+           $CellContext`AtomicSpace[
+            $CellContext`System["a", 2], "ket"], 
+           $CellContext`AtomicSpace[
+            $CellContext`System["b", 4], "bra"]], 
+          $CellContext`VecSpace[
+           $CellContext`AtomicSpace[
+            $CellContext`System["a", 2], "bra"]]]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["VecSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 2],
+        TagBox[
+         RowBox[{"VecSpace", "[", 
+           RowBox[{
+             RowBox[{"AtomicSpace", "[", 
+               RowBox[{
+                 RowBox[{"System", "[", 
+                   RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"ket\""}], 
+               "]"}], ",", 
+             RowBox[{"AtomicSpace", "[", 
+               RowBox[{
+                 RowBox[{"System", "[", 
+                   RowBox[{"\"b\"", ",", "4"}], "]"}], ",", "\"bra\""}], 
+               "]"}]}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`VecSpace[
+          $CellContext`AtomicSpace[
+           $CellContext`System["a", 2], "ket"], 
+          $CellContext`AtomicSpace[
+           $CellContext`System["b", 4], "bra"]]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["AtomicSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 3],
+        TagBox[
+         RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+             RowBox[{"System", "[", 
+               RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"ket\""}], "]"}], 
+         HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`AtomicSpace[
+          $CellContext`System["a", 2], "ket"]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["System", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 4],
+        TagBox[
+         RowBox[{"System", "[", 
+           RowBox[{"\"a\"", ",", "2"}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`System["a", 2]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"a\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 5],
+        TagBox["\"a\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["a"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["2",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 6],
+        TagBox["2", HoldForm]],
+       Annotation[#, 
+        HoldForm[2], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"ket\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 7],
+        TagBox["\"ket\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["ket"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["AtomicSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 8],
+        TagBox[
+         RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+             RowBox[{"System", "[", 
+               RowBox[{"\"b\"", ",", "4"}], "]"}], ",", "\"bra\""}], "]"}], 
+         HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`AtomicSpace[
+          $CellContext`System["b", 4], "bra"]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["System", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 9],
+        TagBox[
+         RowBox[{"System", "[", 
+           RowBox[{"\"b\"", ",", "4"}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`System["b", 4]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"b\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 10],
+        TagBox["\"b\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["b"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["4",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 11],
+        TagBox["4", HoldForm]],
+       Annotation[#, 
+        HoldForm[4], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"bra\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 12],
+        TagBox["\"bra\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["bra"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["VecSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 13],
+        TagBox[
+         RowBox[{"VecSpace", "[", 
+           RowBox[{"AtomicSpace", "[", 
+             RowBox[{
+               RowBox[{"System", "[", 
+                 RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"bra\""}], "]"}], 
+           "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`VecSpace[
+          $CellContext`AtomicSpace[
+           $CellContext`System["a", 2], "bra"]]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["AtomicSpace", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 14],
+        TagBox[
+         RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+             RowBox[{"System", "[", 
+               RowBox[{"\"a\"", ",", "2"}], "]"}], ",", "\"bra\""}], "]"}], 
+         HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`AtomicSpace[
+          $CellContext`System["a", 2], "bra"]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["System", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 15],
+        TagBox[
+         RowBox[{"System", "[", 
+           RowBox[{"\"a\"", ",", "2"}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`System["a", 2]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"a\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 16],
+        TagBox["\"a\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["a"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["2",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 17],
+        TagBox["2", HoldForm]],
+       Annotation[#, 
+        HoldForm[2], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"bra\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.024242424242424246`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 18],
+        TagBox["\"bra\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["bra"], "Tooltip"]& ]}}],
+   Annotation[#, 
+    VertexCoordinateRules -> {{2.803299942217696, 3.2037713625345092`}, {
+     1.6018856812672546`, 2.402828521900882}, {0.8009428406336273, 
+     1.6018856812672546`}, {0.40047142031681365`, 0.8009428406336272}, {0., 
+     0.}, {0.8009428406336273, 0.}, {1.201414260950441, 0.8009428406336272}, {
+     2.402828521900882, 1.6018856812672546`}, {2.002357101584068, 
+     0.8009428406336272}, {1.6018856812672546`, 0.}, {2.402828521900882, 
+     0.}, {2.803299942217696, 0.8009428406336272}, {4.004714203168136, 
+     2.402828521900882}, {4.004714203168136, 1.6018856812672546`}, {
+     3.604242782851323, 0.8009428406336272}, {3.2037713625345092`, 0.}, {
+     4.004714203168136, 0.}, {4.40518562348495, 0.8009428406336272}}]& ],
+  AspectRatio->NCache[Rational[10, 33]^Rational[1, 2], 0.5504818825631803],
+  FrameTicks->Automatic,
+  PlotRange->All,
+  PlotRangePadding->Scaled[0.1]]], "Output",
+ CellChangeTimes->{3.662275457292509*^9, 3.66227623184767*^9, 
+  3.6622938916094933`*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Atoms", "[", "x_IndexDict", "]"}], ":=", 
+   RowBox[{"Level", "[", 
+    RowBox[{"x", ",", 
+     RowBox[{"{", "2", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Atomize", "[", "x_IndexDict", "]"}], ":=", 
+   RowBox[{"IndexDict", "@@", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"VecSpace", "[", "#", "]"}], "&"}], "/@", 
+      RowBox[{"Atoms", "[", "x", "]"}]}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"AtomicQ", "[", "x_IndexDict", "]"}], ":=", 
+   RowBox[{"And", "@@", 
+    RowBox[{"(", 
+     RowBox[{"AtomicQ", "/@", "x"}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"AtomNames", "[", "x_IndexDict", "]"}], ":=", 
+  RowBox[{
+   RowBox[{"Level", "[", 
+    RowBox[{"x", ",", 
+     RowBox[{"{", "4", "}"}]}], "]"}], "[", 
+   RowBox[{"[", 
+    RowBox[{";;", ";;", "2"}], "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.662275584501058*^9, 3.662275630437377*^9}, {
+  3.662276278420989*^9, 3.662276304506445*^9}, {3.66228393778132*^9, 
+  3.662283986572818*^9}, {3.662284027657468*^9, 3.6622840311987877`*^9}, {
+  3.662284171580566*^9, 3.662284203101263*^9}, {3.662284241605627*^9, 
+  3.662284242992298*^9}, {3.662284881747169*^9, 3.6622849408670473`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"(", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"VecSpace", "[", "#", "]"}], "&"}], "/@", 
+   RowBox[{"Atoms", "[", "td1", "]"}]}], ")"}]], "Input",
+ CellChangeTimes->{{3.66228400072742*^9, 3.6622840244410257`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.662284001518092*^9, 3.662284033901038*^9, 
+  3.662293893743438*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomicQ", "[", 
+  RowBox[{"Atomize", "[", "td1", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.662284898448538*^9, 3.6622849039013233`*^9}, {
+  3.662284949638843*^9, 3.6622849524768353`*^9}}],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{{3.66228490180132*^9, 3.66228490418499*^9}, {
+   3.6622849379681168`*^9, 3.66228495281008*^9}, 3.662292023136777*^9, 
+   3.6622938946988153`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"(", 
+  RowBox[{"AtomicQ", "/@", "td1"}], ")"}]], "Input",
+ CellChangeTimes->{{3.662284907010294*^9, 3.6622849182146873`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{"False", ",", "True"}], "]"}]], "Output",
+ CellChangeTimes->{{3.662284915956464*^9, 3.6622849185617447`*^9}, 
+   3.662292027138245*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Atomize", "[", "td1", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.662284136538457*^9, 3.6622920290576897`*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Kets", "[", "x_IndexDict", "]"}], ":=", 
+  RowBox[{"Select", "[", 
+   RowBox[{
+    RowBox[{"Atoms", "[", "x", "]"}], ",", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"#", "[", 
+       RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", "\"\<ket\>\""}], "&"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Bras", "[", "x_IndexDict", "]"}], ":=", 
+  RowBox[{"Select", "[", 
+   RowBox[{
+    RowBox[{"Atoms", "[", "x", "]"}], ",", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"#", "[", 
+       RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", "\"\<bra\>\""}], "&"}]}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.662277364878234*^9, 3.662277402647128*^9}, {
+  3.6622774571895647`*^9, 3.662277527187682*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Bras", "[", "td1", "]"}]], "Input",
+ CellChangeTimes->{{3.662277385293271*^9, 3.662277388732139*^9}, {
+  3.662277529296794*^9, 3.662277530964855*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{
+     RowBox[{"System", "[", 
+      RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+   ",", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{
+     RowBox[{"System", "[", 
+      RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.662277389088193*^9, 3.662277403717992*^9}, {
+  3.66227750753788*^9, 3.662277531491848*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Name", "/@", 
+  RowBox[{"Bras", "[", "td1", "]"}]}]], "Input",
+ CellChangeTimes->{{3.662277555481153*^9, 3.662277562826838*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"b\"\>", ",", "\<\"a\"\>"}], "}"}]], "Output",
+ CellChangeTimes->{{3.662277560234502*^9, 3.662277563169714*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["td1"], "Input",
+ CellChangeTimes->{{3.6622775101291933`*^9, 3.6622775111590157`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+     ",", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}]}],
+     "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.662277511795182*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"SystemMapping", "[", "x_IndexDict", "]"}], ":=", 
+   RowBox[{"MapDict", "@@", 
+    RowBox[{"(", 
+     RowBox[{"Map", "[", 
+      RowBox[{"Name", ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Kets", "[", "x", "]"}], ",", 
+         RowBox[{"Bras", "[", "x", "]"}]}], "}"}], ",", 
+       RowBox[{"{", "2", "}"}]}], "]"}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ValidMappingQ", "[", "x_IndexDict", "]"}], ":=", 
+   RowBox[{"ValidMappingQ", "[", 
+    RowBox[{"SystemMapping", "[", "x", "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ComposableQ", "[", 
+   RowBox[{"L_IndexDict", ",", "R_IndexDict"}], "]"}], ":=", 
+  RowBox[{"ComposableQ", "[", 
+   RowBox[{
+    RowBox[{"SystemMapping", "@", "L"}], ",", 
+    RowBox[{"SystemMapping", "@", "R"}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.6622777267420597`*^9, 3.662277734954753*^9}, {
+  3.662277838109755*^9, 3.6622778740239677`*^9}, {3.662283522384871*^9, 
+  3.662283526764757*^9}, {3.662283887446104*^9, 3.662283896588129*^9}, {
+  3.662284343685481*^9, 3.6622843820229263`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SystemMapping", "[", "td1", "]"}]], "Input",
+ CellChangeTimes->{{3.662285616193471*^9, 3.662285621781733*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "\<\"a\"\>", "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"b\"\>", ",", "\<\"a\"\>"}], "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.662285622118638*^9, 3.662291983390345*^9, 
+  3.662292014904434*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"td2", "//", "SystemMapping"}]], "Input",
+ CellChangeTimes->{{3.662285671140061*^9, 3.662285674526176*^9}, {
+  3.662285766874053*^9, 3.662285774503046*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "\<\"b\"\>", "}"}], ",", 
+   RowBox[{"{", "\<\"d\"\>", "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{
+  3.6622856748739767`*^9, {3.6622857600762033`*^9, 3.662285774884952*^9}, 
+   3.6622920158060493`*^9, 3.6622939009920607`*^9}]
+}, Open  ]],
+
+Cell["these are for atomic IndexDicts only", "Text",
+ CellChangeTimes->{{3.6622844531847973`*^9, 3.662284461875654*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"NameSort", "[", 
+   RowBox[{"x_IndexDict", "/;", 
+    RowBox[{"AtomicQ", "[", "x", "]"}]}], "]"}], ":=", 
+  RowBox[{"IndexDict", "@@", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"VecSpace", "[", "#", "]"}], "&"}], "/@", 
+     RowBox[{"SortBy", "[", 
+      RowBox[{
+       RowBox[{"Level", "[", 
+        RowBox[{"x", ",", 
+         RowBox[{"{", "2", "}"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Name", ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Type", "[", "#", "]"}], "\[Equal]", "\"\<bra\>\""}], 
+          "&"}]}], "}"}]}], "]"}]}], ")"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"TypeSort", "[", 
+   RowBox[{"x_IndexDict", "/;", 
+    RowBox[{"AtomicQ", "[", "x", "]"}]}], "]"}], ":=", 
+  RowBox[{"IndexDict", "@@", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"VecSpace", "[", "#", "]"}], "&"}], "/@", 
+     RowBox[{"SortBy", "[", 
+      RowBox[{
+       RowBox[{"Level", "[", 
+        RowBox[{"x", ",", 
+         RowBox[{"{", "2", "}"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Type", "[", "#", "]"}], "\[Equal]", "\"\<bra\>\""}], 
+          "&"}], ",", "Name"}], "}"}]}], "]"}]}], ")"}]}]}]}], "Input",
+ CellChangeTimes->{{3.661937999416551*^9, 3.6619380063816233`*^9}, {
+  3.662099885898498*^9, 3.662099888523641*^9}, {3.662113730092189*^9, 
+  3.662113731057187*^9}, {3.662113811955566*^9, 3.662113819300243*^9}, {
+  3.662223462173745*^9, 3.662223504976098*^9}, {3.662284725123434*^9, 
+  3.662284744940628*^9}, {3.6622852282736683`*^9, 3.6622852689775667`*^9}, {
+  3.6622853027584763`*^9, 3.662285346010784*^9}}],
+
+Cell["\<\
+these as well. all of these are really bad in the sense that they would \
+produce syntactically-valid output from non-atomic IndexDicts, but the \
+outputs don\[CloseCurlyQuote]t mean anything useful in terms of the original \
+object. \
+\>", "Text",
+ CellChangeTimes->{{3.662285119036172*^9, 3.662285180758026*^9}, {
+  3.6622852955321617`*^9, 3.662285296024791*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"KetIndices", "[", "x_IndexDict", "]"}], ":=", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{"Position", "[", 
+     RowBox[{
+      RowBox[{"Atoms", "[", "x", "]"}], ",", 
+      RowBox[{"z_", "/;", 
+       RowBox[{
+        RowBox[{"Type", "[", "z", "]"}], "\[Equal]", "\"\<ket\>\""}]}]}], 
+     "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"BraIndices", "[", "x_IndexDict", "]"}], ":=", 
+  RowBox[{"Flatten", "[", 
+   RowBox[{"Position", "[", 
+    RowBox[{
+     RowBox[{"Atoms", "[", "x", "]"}], ",", 
+     RowBox[{"z_", "/;", 
+      RowBox[{
+       RowBox[{"Type", "[", "z", "]"}], "\[Equal]", "\"\<bra\>\""}]}]}], 
+    "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.662285036857441*^9, 3.662285041474057*^9}, {
+  3.662285100756813*^9, 3.6622851067579517`*^9}, {3.662285410178493*^9, 
+  3.662285411661463*^9}, {3.662288072022284*^9, 3.662288080729385*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"CompositionIndices", "[", 
+    RowBox[{"L_IndexDict", ",", "R_IndexDict"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Flatten", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Position", "[", 
+         RowBox[{
+          RowBox[{"Atoms", "@", "L"}], ",", 
+          RowBox[{"z_", "/;", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Type", "[", "z", "]"}], "\[Equal]", "\"\<bra\>\""}], "&&", 
+            RowBox[{
+             RowBox[{"Name", "[", "z", "]"}], "\[Equal]", "#"}]}]}]}], "]"}], 
+        ",", 
+        RowBox[{"Position", "[", 
+         RowBox[{
+          RowBox[{"Atoms", "@", "R"}], ",", 
+          RowBox[{"z_", "/;", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Type", "[", "z", "]"}], "\[Equal]", "\"\<ket\>\""}], "&&", 
+            RowBox[{
+             RowBox[{"Name", "[", "z", "]"}], "\[Equal]", "#"}]}]}]}], 
+         "]"}]}], "}"}], "]"}], "&"}], "/@", 
+    RowBox[{"(", 
+     RowBox[{"ContractableSystems", "@@", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"SystemMapping", "[", "#", "]"}], "&"}], "/@", 
+        RowBox[{"{", 
+         RowBox[{"L", ",", "R"}], "}"}]}], ")"}]}], ")"}]}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.6622854545424*^9, 3.662285527284487*^9}, {
+  3.662285935341673*^9, 3.662285941531919*^9}, {3.662286015969225*^9, 
+  3.662286016131527*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ComposeMaps", "[", 
+   RowBox[{
+    RowBox[{"L_IndexDict", "/;", 
+     RowBox[{"AtomicQ", "[", "L", "]"}]}], ",", 
+    RowBox[{"R_IndexDict", "/;", 
+     RowBox[{"AtomicQ", "[", "R", "]"}]}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"ci", "=", 
+      RowBox[{"CompositionIndices", "[", 
+       RowBox[{"L", ",", "R"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"ci", "\[Equal]", 
+       RowBox[{"{", "}"}]}], ",", 
+      RowBox[{"IndexDict", "@@", 
+       RowBox[{"(", 
+        RowBox[{"Join", "[", 
+         RowBox[{"L", ",", "R"}], "]"}], ")"}]}], ",", 
+      RowBox[{"IndexDict", "@@", 
+       RowBox[{"(", 
+        RowBox[{"Join", "@@", 
+         RowBox[{"MapThread", "[", 
+          RowBox[{"Delete", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"L", ",", "R"}], "}"}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Transpose", "[", 
+                RowBox[{"{", "#", "}"}], "]"}], "&"}], "/@", 
+              RowBox[{"Transpose", "[", 
+               RowBox[{"CompositionIndices", "[", 
+                RowBox[{"L", ",", "R"}], "]"}], "]"}]}]}], "}"}]}], "]"}]}], 
+        ")"}]}]}], "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6622860592464743`*^9, 3.662286074505887*^9}, {
+  3.6622861333781967`*^9, 3.662286161900343*^9}, {3.66228623177634*^9, 
+  3.66228623891467*^9}, {3.662286352430064*^9, 3.662286423903563*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ComposeMaps", "[", 
+   RowBox[{
+    RowBox[{"Atomize", "[", "td1", "]"}], ",", "td2"}], "]"}], "//", 
+  "SystemMapping"}]], "Input",
+ CellChangeTimes->{{3.6622861820326242`*^9, 3.662286208261742*^9}, {
+  3.6622862468482513`*^9, 3.662286253835956*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "\<\"a\"\>", "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"a\"\>", ",", "\<\"d\"\>"}], "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662286197712573*^9, 3.662286208670785*^9}, {
+   3.6622862416380997`*^9, 3.662286254077393*^9}, 3.66228642768908*^9, 
+   3.662288108795383*^9, 3.662292047813611*^9, 3.66229390808491*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ComposeMaps", "[", 
+   RowBox[{"td2", ",", 
+    RowBox[{"Atomize", "[", "td1", "]"}]}], "]"}], "//", 
+  "SystemMapping"}]], "Input",
+ CellChangeTimes->{{3.662286263676507*^9, 3.662286265805594*^9}, {
+  3.6622864325300093`*^9, 3.662286435154825*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"b\"\>", ",", "\<\"a\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"d\"\>", ",", "\<\"b\"\>", ",", "\<\"a\"\>"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{
+  3.662286266278924*^9, {3.662286430390367*^9, 3.6622864354539537`*^9}, 
+   3.6622881096933393`*^9, 3.662292049457013*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomicQ", "[", "td2", "]"}]], "Input",
+ CellChangeTimes->{{3.662286215176207*^9, 3.6622862245837717`*^9}}],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{{3.662286215976054*^9, 3.662286224912677*^9}, 
+   3.662292051094336*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["MultiMap", "Subsubsection",
+ CellChangeTimes->{{3.662288173302196*^9, 3.662288176222569*^9}}],
+
+Cell["\<\
+it seems that we have to separately deal with the exceptional case of maps \
+from C to C (i.e. numbers). This case is exceptional because the array in the \
+second slot of MultiMap is now just a number; it has no dimensions, and so it \
+doesn\[CloseCurlyQuote]t work with ArrayReshape.\
+\>", "Text",
+ CellChangeTimes->{{3.662290829286705*^9, 3.662290898669429*^9}, {
+  3.6622909745159397`*^9, 3.662290995466642*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"AtomicQ", "[", "t_MultiMap", "]"}], ":=", 
+   RowBox[{"And", "[", 
+    RowBox[{
+     RowBox[{"AtomicQ", "[", 
+      RowBox[{"t", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+     RowBox[{
+      RowBox[{"List", "@@", 
+       RowBox[{"Dimension", "/@", 
+        RowBox[{"Atoms", "[", 
+         RowBox[{"t", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "]"}]}]}], "\[Equal]", 
+      RowBox[{"Dimensions", "[", 
+       RowBox[{"t", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "]"}]}]}], "]"}]}], ";", 
+  RowBox[{
+   RowBox[{"Atomize", "[", "t_MultiMap", "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"AtomicQ", "[", "t", "]"}], ",", "t", ",", "\[IndentingNewLine]", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"atomdict", "=", 
+         RowBox[{"Atomize", "[", 
+          RowBox[{"t", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"MultiMap", "@@", 
+        RowBox[{"{", 
+         RowBox[{"atomdict", ",", 
+          RowBox[{"ArrayReshape", "[", 
+           RowBox[{
+            RowBox[{"t", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], ",", 
+            RowBox[{"List", "@@", 
+             RowBox[{"Dimension", "/@", "atomdict"}]}]}], "]"}]}], "}"}]}]}], 
+      "]"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.6622881922312813`*^9, 3.662288270048793*^9}, {
+  3.662288314338972*^9, 3.662288330499509*^9}, {3.662288408390126*^9, 
+  3.662288448718438*^9}, {3.662288510576621*^9, 3.662288530009214*^9}, {
+  3.662291005182624*^9, 3.662291051536075*^9}, {3.662292524152083*^9, 
+  3.662292538527424*^9}, {3.66229266931544*^9, 3.662292737637439*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ComposableQ", "[", 
+    RowBox[{"L_MultiMap", ",", "R_MultiMap"}], "]"}], ":=", 
+   RowBox[{"ComposableQ", "[", 
+    RowBox[{
+     RowBox[{"L", "[", 
+      RowBox[{"[", "1", "]"}], "]"}], ",", 
+     RowBox[{"R", "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.662290468599729*^9, 3.662290489468749*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ComposeAtomicTensors", "[", 
+   RowBox[{"L_MultiMap", ",", "R_MultiMap"}], "]"}], ":=", 
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"ComposableQ", "[", 
+     RowBox[{
+      RowBox[{"L", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], ",", 
+      RowBox[{"R", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], "]"}], ",", 
+    RowBox[{"MultiMap", "@@", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"ComposeMaps", "[", 
+        RowBox[{
+         RowBox[{"L", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", 
+         RowBox[{"R", "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}], "]"}], ",", 
+       RowBox[{"Activate", "[", 
+        RowBox[{"TensorContract", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Inactive", "[", "TensorProduct", "]"}], "[", 
+           RowBox[{
+            RowBox[{"L", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], ",", 
+            RowBox[{"R", "[", 
+             RowBox[{"[", "2", "]"}], "]"}]}], "]"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"#", "+", 
+              RowBox[{"{", 
+               RowBox[{"0", ",", 
+                RowBox[{"Length", "[", 
+                 RowBox[{"L", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "}"}]}], ")"}], 
+            "&"}], "/@", 
+           RowBox[{"CompositionIndices", "[", 
+            RowBox[{
+             RowBox[{"L", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], ",", 
+             RowBox[{"R", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}]}], "]"}], "]"}]}], 
+      "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6622885908814297`*^9, 3.66228867682613*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ComposeMaps", "[", 
+    RowBox[{"L_MultiMap", ",", "R_MultiMap"}], "]"}], ":=", 
+   RowBox[{"ComposeAtomicTensors", "[", 
+    RowBox[{
+     RowBox[{"Atomize", "[", "L", "]"}], ",", 
+     RowBox[{"Atomize", "[", "R", "]"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.662293355426916*^9, 3.6622933789495277`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SystemMapping", "[", "t_MultiMap", "]"}], ":=", 
+  RowBox[{"SystemMapping", "[", 
+   RowBox[{"t", "[", 
+    RowBox[{"[", "1", "]"}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6622896955243063`*^9, 3.662289707981903*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"t1", "=", 
+   RowBox[{"MultiMap", "[", 
+    RowBox[{"td1", ",", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"8", ",", "2"}], "}"}]}], "]"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"t2", "=", 
+   RowBox[{"MultiMap", "[", 
+    RowBox[{"td2", ",", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"4", ",", "7"}], "}"}]}], "]"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"testket", "=", 
+   RowBox[{"MultiMap", "[", 
+    RowBox[{
+     RowBox[{"IndexDict", "[", 
+      RowBox[{"VecSpace", "[", 
+       RowBox[{"AtomicSpace", "[", 
+        RowBox[{
+         RowBox[{"System", "[", 
+          RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<ket\>\""}], "]"}],
+        "]"}], "]"}], ",", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", "2", "}"}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"testbra", "=", 
+   RowBox[{"MultiMap", "[", 
+    RowBox[{
+     RowBox[{"IndexDict", "[", 
+      RowBox[{"VecSpace", "[", 
+       RowBox[{"AtomicSpace", "[", 
+        RowBox[{
+         RowBox[{"System", "[", 
+          RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<bra\>\""}], "]"}],
+        "]"}], "]"}], ",", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", "2", "}"}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"trivial", "=", 
+   RowBox[{"ComposeAtomicTensors", "[", 
+    RowBox[{"testbra", ",", "testket"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.662288358884511*^9, 3.662288385198831*^9}, 
+   3.6622926149788437`*^9, {3.662293933802597*^9, 3.6622939368048058`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SystemMapping", "[", "t2", "]"}]], "Input",
+ CellChangeTimes->{{3.662289709699367*^9, 3.662289713753622*^9}, {
+  3.662292095857153*^9, 3.6622920959486227`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "\<\"b\"\>", "}"}], ",", 
+   RowBox[{"{", "\<\"d\"\>", "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{
+  3.6622897140217867`*^9, {3.6622920944305696`*^9, 3.662292096216507*^9}, 
+   3.662293919338749*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Atomize", "[", "testbra", "]"}]], "Input",
+ CellChangeTimes->{{3.662292593273962*^9, 3.66229260452563*^9}, {
+  3.662292741531993*^9, 3.662292742895256*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", 
+    RowBox[{"VecSpace", "[", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+     "]"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.4508668438711587`", ",", "0.10299298351299213`"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{{3.662292597436954*^9, 3.6622926047693367`*^9}, 
+   3.662292743502097*^9, 3.662293920609573*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"genPerm", "[", 
+    RowBox[{"list1_", ",", "list2_"}], "]"}], ":=", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Position", "[", 
+       RowBox[{"list1", ",", "#"}], "]"}], "&"}], "/@", "list2"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SortMap", "[", 
+   RowBox[{
+    RowBox[{"x_IndexDict", "/;", 
+     RowBox[{"AtomicQ", "[", "x", "]"}]}], ",", "f_"}], "]"}], ":=", 
+  RowBox[{"genPerm", "[", 
+   RowBox[{
+    RowBox[{"List", "@@", 
+     RowBox[{"(", 
+      RowBox[{"f", "[", "x", "]"}], ")"}]}], ",", 
+    RowBox[{"List", "@@", "x"}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.6618579032086782`*^9, 3.661857950955736*^9}, {
+  3.661858267770702*^9, 3.661858291501759*^9}, {3.6619659812975273`*^9, 
+  3.661965981752877*^9}, {3.662136366258006*^9, 3.6621363677168713`*^9}, {
+  3.662292249016747*^9, 3.662292249591618*^9}, {3.662292391260453*^9, 
+  3.662292441581807*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SortMap", "[", 
+  RowBox[{
+   RowBox[{"Atomize", "[", "td1", "]"}], ",", "TypeSort"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6622898887933807`*^9, 3.662289901837141*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1", ",", "3", ",", "2"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.662289902332583*^9, 3.662292105918124*^9, {3.662292225048972*^9, 
+   3.6622922522613077`*^9}, 3.662292455318821*^9, 3.662293947787376*^9}]
+}, Open  ]],
+
+Cell["Canonical is kets then bras, i.e. Type sorted. ", "Text",
+ CellChangeTimes->{{3.6622912375718327`*^9, 3.662291248725424*^9}, {
+  3.6622931703217907`*^9, 3.662293183179882*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Canonicalize", "[", "t_MultiMap", "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Length", "[", 
+       RowBox[{"t", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "]"}], "\[Equal]", "0"}], ",", "t", 
+     ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"MultiMap", "@@", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"TypeSort", "[", 
+           RowBox[{"#", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+          RowBox[{"Transpose", "[", 
+           RowBox[{
+            RowBox[{"#", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], ",", 
+            RowBox[{"SortMap", "[", 
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", "TypeSort"}], "]"}]}], 
+           "]"}]}], "}"}]}], "&"}], "[", 
+      RowBox[{"Atomize", "[", "t", "]"}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Matrixize", "[", "t_MultiMap", "]"}], ":=", "\[IndentingNewLine]", 
+  
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"ct", ",", "keti", ",", "brai"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"ct", "=", 
+      RowBox[{"Canonicalize", "[", "t", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"keti", "=", 
+      RowBox[{"KetIndices", "[", 
+       RowBox[{"ct", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"brai", "=", 
+      RowBox[{"BraIndices", "[", 
+       RowBox[{"ct", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Which", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"keti", "\[Equal]", 
+         RowBox[{"{", "}"}]}], "&&", 
+        RowBox[{"brai", "\[Equal]", 
+         RowBox[{"{", "}"}]}]}], ",", "\[IndentingNewLine]", 
+       RowBox[{"MultiMap", "[", 
+        RowBox[{
+         RowBox[{"IndexDict", "[", "]"}], ",", 
+         RowBox[{"ct", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"keti", "\[Equal]", 
+         RowBox[{"{", "}"}]}], "||", 
+        RowBox[{"brai", "==", 
+         RowBox[{"{", "}"}]}]}], ",", "\[IndentingNewLine]", 
+       RowBox[{"MultiMap", "[", 
+        RowBox[{
+         RowBox[{"IndexDict", "[", 
+          RowBox[{"VecSpace", "@@", 
+           RowBox[{"Atoms", "[", 
+            RowBox[{"ct", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "]"}], ",", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{"ct", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "]"}], ",", 
+       "\[IndentingNewLine]", "True", ",", "\[IndentingNewLine]", 
+       RowBox[{"MultiMap", "@@", 
+        RowBox[{"(", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"IndexDict", "@@", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"VecSpace", "[", "#", "]"}], "&"}], "/@", 
+              RowBox[{"SplitBy", "[", 
+               RowBox[{
+                RowBox[{"List", "@@", 
+                 RowBox[{"Atoms", "[", 
+                  RowBox[{"ct", "[", 
+                   RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ",", "Type"}], 
+               "]"}]}], ")"}]}], ",", 
+           RowBox[{"Flatten", "[", 
+            RowBox[{
+             RowBox[{"ct", "[", 
+              RowBox[{"[", "2", "]"}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"keti", ",", "brai"}], "}"}]}], "]"}]}], "}"}], 
+         ")"}]}]}], "]"}]}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.662136655948927*^9, 3.662136659994413*^9}, {
+   3.662137672201889*^9, 3.662137690588224*^9}, {3.662138098451522*^9, 
+   3.662138103950452*^9}, {3.66213814869676*^9, 3.662138150881999*^9}, {
+   3.662289931361678*^9, 3.662289970269702*^9}, {3.662290035554151*^9, 
+   3.662290126779221*^9}, {3.662290156790887*^9, 3.662290163845595*^9}, {
+   3.662290198535327*^9, 3.662290245608856*^9}, {3.662290676923354*^9, 
+   3.66229074104944*^9}, {3.6622912588542557`*^9, 3.662291278665625*^9}, {
+   3.662291331458407*^9, 3.662291398258482*^9}, {3.6622916460335503`*^9, 
+   3.662291702298497*^9}, {3.662292883970436*^9, 3.6622929062778482`*^9}, {
+   3.662293017585043*^9, 3.662293020142514*^9}, {3.662293068104684*^9, 
+   3.6622930798458014`*^9}, 3.662293114378652*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Canonicalize", "[", "trivial", "]"}]], "Input",
+ CellChangeTimes->{{3.662291846638589*^9, 3.662291866782065*^9}, {
+  3.662292791707412*^9, 3.662292844431148*^9}, {3.662292944791232*^9, 
+  3.662292945522334*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", "]"}], ",", "0.4112673235568372`"}], 
+  "]"}]], "Output",
+ CellChangeTimes->{{3.6622918472897663`*^9, 3.662291867107068*^9}, 
+   3.662292482336954*^9, 3.662292543540511*^9, 3.662292755846681*^9, {
+   3.662292793678884*^9, 3.662292844759837*^9}, 3.6622929459308643`*^9, 
+   3.662293959444418*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ComposeMaps", "[", 
+   RowBox[{"t2", ",", "t1"}], "]"}], "//", "SystemMapping"}]], "Input",
+ CellChangeTimes->{{3.662293329248728*^9, 3.662293333507574*^9}, {
+  3.662293389643173*^9, 3.662293405259886*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"\<\"b\"\>", ",", "\<\"a\"\>"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"d\"\>", ",", "\<\"b\"\>", ",", "\<\"a\"\>"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{
+  3.6622933339296494`*^9, {3.662293386727515*^9, 3.6622934055874043`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Matrixize", "[", 
+    RowBox[{"ComposeMaps", "[", 
+     RowBox[{"t2", ",", "t1"}], "]"}], "]"}], "[", 
+   RowBox[{"[", "2", "]"}], "]"}], "//", "SingularValueList"}]], "Input",
+ CellChangeTimes->{{3.662293411064724*^9, 3.662293423735879*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "5.6995598664361875`", ",", "2.051125839476113`", ",", 
+   "1.8417323278936444`", ",", "1.0819971020553276`", ",", 
+   "0.6627923656679156`", ",", "0.5968662669079199`", ",", 
+   "0.3893830868122174`", ",", "0.2147969056305355`"}], "}"}]], "Output",
+ CellChangeTimes->{{3.662293417520509*^9, 3.662293424060772*^9}, 
+   3.662293976174303*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"basisElement", "[", 
+    RowBox[{"sys_", ",", "num_", ",", "type_"}], "]"}], ":=", 
+   RowBox[{"MultiMap", "@@", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"IndexDict", "[", 
+       RowBox[{"VecSpace", "[", 
+        RowBox[{"AtomicSpace", "[", 
+         RowBox[{"sys", ",", "type"}], "]"}], "]"}], "]"}], ",", 
+      RowBox[{"SparseArray", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"num", "+", "1"}], "\[Rule]", "1"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"Dimension", "[", "sys", "]"}], "}"}]}], "]"}]}], "}"}]}]}], 
+  ";", 
+  RowBox[{
+   RowBox[{"basisKet", "[", 
+    RowBox[{"sys_", ",", "num_"}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"basisElement", "[", 
+    RowBox[{"sys", ",", "num", ",", "\"\<ket\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"basisBra", "[", 
+    RowBox[{"sys_", ",", "num_"}], "]"}], ":=", 
+   RowBox[{"basisElement", "[", 
+    RowBox[{"sys", ",", "num", ",", "\"\<bra\>\""}], "]"}]}], ";"}]}], "Input",\
+
+ CellChangeTimes->{{3.66220111921696*^9, 3.662201182031851*^9}, {
+  3.662201269539467*^9, 3.662201309035111*^9}, {3.6622013427522297`*^9, 
+  3.662201414358947*^9}, {3.6622090320445642`*^9, 3.662209033252091*^9}, {
+  3.662265800448331*^9, 3.662265812996097*^9}, {3.6622658443718653`*^9, 
+  3.66226588147587*^9}, {3.662265951474318*^9, 3.6622659765837812`*^9}, {
+  3.662266048354597*^9, 3.662266066262542*^9}, {3.662266170275037*^9, 
+  3.662266172357874*^9}, {3.6622943261219673`*^9, 3.662294329544879*^9}, {
+  3.662294367370594*^9, 3.662294409887745*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"basisElement", "[", 
+  RowBox[{"a", ",", "1", ",", "\"\<ket\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.662294415808429*^9, 3.662294423494542*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", 
+    RowBox[{"VecSpace", "[", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+     "]"}], "]"}], ",", 
+   TagBox[
+    TemplateBox[{RowBox[{
+        StyleBox[
+         TagBox["SparseArray", "SummaryHead"], "NonInterpretableSummary"], 
+        StyleBox["[", "NonInterpretableSummary"], 
+        DynamicModuleBox[{Typeset`open$$ = False}, 
+         PanelBox[
+          PaneSelectorBox[{False -> GridBox[{{
+                PaneBox[
+                 ButtonBox[
+                  DynamicBox[
+                   FEPrivate`FrontEndResource[
+                   "FEBitmaps", "SquarePlusIconMedium"]], 
+                  ButtonFunction :> (Typeset`open$$ = True), Appearance -> 
+                  None, Evaluator -> Automatic, Method -> "Preemptive"], 
+                 Alignment -> {Center, Center}, ImageSize -> 
+                 Dynamic[{
+                   Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                GraphicsBox[
+                 
+                 RasterBox[{{{0.235431, 0.32765, 0.833291}, {0.772061, 
+                  0.92462, 0.998703}}}, {{0, 0}, {2, 1}}, {0, 1}], 
+                 AspectRatio -> 1, Axes -> False, Frame -> False, 
+                 FrameLabel -> {None, None}, FrameStyle -> Directive[
+                   Opacity[0.5], 
+                   Thickness[Tiny], 
+                   RGBColor[0.368417, 0.506779, 0.709798]], 
+                 FrameTicks -> {{None, None}, {None, None}}, GridLinesStyle -> 
+                 Directive[
+                   GrayLevel[0.5, 0.4]], ImageSize -> 
+                 Dynamic[{
+                   Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}], 
+                 Method -> {
+                  "AxisPadding" -> Scaled[0.02], "DefaultBoundaryStyle" -> 
+                   Automatic, "DefaultPlotStyle" -> Automatic, 
+                   "DomainPadding" -> Scaled[0.02], "RangePadding" -> 
+                   Scaled[0.05]}], 
+                GridBox[{{
+                   RowBox[{
+                    TagBox[
+                    "\"Specified elements: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["1", "SummaryItem"]}]}, {
+                   RowBox[{
+                    TagBox["\"Dimensions: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "2", "}"}], "SummaryItem"]}]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 GridBoxSpacings -> {
+                  "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                 BaseStyle -> {
+                  ShowStringCharacters -> False, NumberMarks -> False, 
+                   PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+              GridBoxAlignment -> {"Rows" -> {{Top}}}, AutoDelete -> False, 
+              GridBoxItemSize -> {
+               "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+              BaselinePosition -> {1, 1}], True -> GridBox[{{
+                PaneBox[
+                 ButtonBox[
+                  DynamicBox[
+                   FEPrivate`FrontEndResource[
+                   "FEBitmaps", "SquareMinusIconMedium"]], 
+                  ButtonFunction :> (Typeset`open$$ = False), Appearance -> 
+                  None, Evaluator -> Automatic, Method -> "Preemptive"], 
+                 Alignment -> {Center, Center}, ImageSize -> 
+                 Dynamic[{
+                   Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                GraphicsBox[
+                 
+                 RasterBox[{{{0.235431, 0.32765, 0.833291}, {0.772061, 
+                  0.92462, 0.998703}}}, {{0, 0}, {2, 1}}, {0, 1}], 
+                 AspectRatio -> 1, Axes -> False, Frame -> False, 
+                 FrameLabel -> {None, None}, FrameStyle -> Directive[
+                   Opacity[0.5], 
+                   Thickness[Tiny], 
+                   RGBColor[0.368417, 0.506779, 0.709798]], 
+                 FrameTicks -> {{None, None}, {None, None}}, GridLinesStyle -> 
+                 Directive[
+                   GrayLevel[0.5, 0.4]], ImageSize -> 
+                 Dynamic[{
+                   Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}], 
+                 Method -> {
+                  "AxisPadding" -> Scaled[0.02], "DefaultBoundaryStyle" -> 
+                   Automatic, "DefaultPlotStyle" -> Automatic, 
+                   "DomainPadding" -> Scaled[0.02], "RangePadding" -> 
+                   Scaled[0.05]}], 
+                GridBox[{{
+                   RowBox[{
+                    TagBox[
+                    "\"Specified elements: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["1", "SummaryItem"]}]}, {
+                   RowBox[{
+                    TagBox["\"Dimensions: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "2", "}"}], "SummaryItem"]}]}, {
+                   RowBox[{
+                    TagBox["\"Default: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["0", "SummaryItem"]}]}, {
+                   RowBox[{
+                    TagBox["\"Density: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["0.5`", "SummaryItem"]}]}, {
+                   RowBox[{
+                    TagBox["\"Elements:\"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["\"\"", "SummaryItem"]}]}, {
+                   TagBox[
+                    TagBox[
+                    GridBox[{{
+                    RowBox[{
+                    RowBox[{"{", "2", "}"}], "\[Rule]", 
+                    StyleBox[
+                    PaneBox[
+                    "1", ContentPadding -> False, FrameMargins -> 0, 
+                    StripOnInput -> True, BaselinePosition -> Baseline, 
+                    ImageSize -> {{1, 300}, Automatic}], LineBreakWithin -> 
+                    False]}]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+                    DefaultBaseStyle -> "Column", 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                    "Column"], "SummaryItem"]}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+                 False, GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                 GridBoxSpacings -> {
+                  "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                 BaseStyle -> {
+                  ShowStringCharacters -> False, NumberMarks -> False, 
+                   PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+              GridBoxAlignment -> {"Rows" -> {{Top}}}, AutoDelete -> False, 
+              GridBoxItemSize -> {
+               "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+              BaselinePosition -> {1, 1}]}, 
+           Dynamic[Typeset`open$$], ImageSize -> Automatic], BaselinePosition -> 
+          Baseline], DynamicModuleValues :> {}], 
+        StyleBox["]", "NonInterpretableSummary"]}]},
+     "CopyTag",
+     DisplayFunction->(#& ),
+     InterpretationFunction->("SparseArray[<1>, {2}]"& )],
+    False,
+    Editable->False,
+    SelectWithContents->True,
+    Selectable->False]}], "]"}]], "Output",
+ CellChangeTimes->{3.662294424027063*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["testket"], "Input",
+ CellChangeTimes->{{3.6622944309280167`*^9, 3.662294433472107*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", 
+    RowBox[{"VecSpace", "[", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+     "]"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.5492836228094538`", ",", "0.2597667621238411`"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.662294433840447*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ComposeMaps", "[", 
+  RowBox[{
+   RowBox[{"basisBra", "[", 
+    RowBox[{"a", ",", "0"}], "]"}], ",", "testket"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6622944365404053`*^9, 3.662294456877819*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", "]"}], ",", "0.5492836228094538`"}], 
+  "]"}]], "Output",
+ CellChangeTimes->{{3.662294452449256*^9, 3.662294457548443*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"SystemMapping", "[", "t2", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"SystemMapping", "[", "t1", "]"}]}], "Input",
+ CellChangeTimes->{{3.662293437756051*^9, 3.6622934482238827`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "\<\"b\"\>", "}"}], ",", 
+   RowBox[{"{", "\<\"d\"\>", "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662293442569584*^9, 3.662293448512362*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "\<\"a\"\>", "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\<\"b\"\>", ",", "\<\"a\"\>"}], "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662293442569584*^9, 3.6622934485234747`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Canonicalize", "[", "t1", "]"}]], "Input",
+ CellChangeTimes->{{3.6622930330765543`*^9, 3.6622930443994083`*^9}, {
+  3.66229308716187*^9, 3.662293090514852*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", 
+    RowBox[{
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+      "]"}], ",", 
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+      "]"}], ",", 
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+      "]"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "0.39835136704584473`", ",", "0.3306686456563852`", ",", 
+         "0.8745138475735867`", ",", "0.7893264230344497`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+        "0.9693473192245197`", ",", "0.9986403264194381`", ",", 
+         "0.0025954468653786034`", ",", "0.9982054881179574`"}], "}"}]}], 
+      "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "0.4321519155912239`", ",", "0.4671014571440244`", ",", 
+         "0.9246720446187333`", ",", "0.7296303560476205`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+        "0.23996890711166752`", ",", "0.4206962325520236`", ",", 
+         "0.305538611672749`", ",", "0.4773641671790507`"}], "}"}]}], "}"}]}],
+     "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662293035022613*^9, 3.662293044881469*^9}, {
+  3.66229308366061*^9, 3.662293090799088*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"KetIndices", "[", 
+  RowBox[{"MultiMap", "[", 
+   RowBox[{
+    RowBox[{"IndexDict", "[", "]"}], ",", "0.29597124389250995`"}], "]"}], 
+  "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"KetIndices", "[", 
+  RowBox[{"MultiMap", "[", 
+   RowBox[{
+    RowBox[{"IndexDict", "[", "]"}], ",", "0.29597124389250995`"}], "]"}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.66229300738666*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"testket", "[", 
+   RowBox[{"[", "2", "]"}], "]"}], "//", "Norm"}]], "Input",
+ CellChangeTimes->{{3.662294247490786*^9, 3.662294250748992*^9}}],
+
+Cell[BoxData["0.6076111165794965`"], "Output",
+ CellChangeTimes->{3.662294251071289*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{"testket", "[", 
+    RowBox[{"[", "2", "]"}], "]"}], "}"}], "//", 
+  "SingularValueList"}]], "Input",
+ CellChangeTimes->{{3.662293010013259*^9, 3.662293013291687*^9}, {
+  3.662294228912176*^9, 3.662294239984455*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", "0.6076111165794965`", "}"}]], "Output",
+ CellChangeTimes->{{3.662294232040297*^9, 3.6622942403288116`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"makeCanonical", "[", "t1", "]"}]], "Input",
+ CellChangeTimes->{{3.6622899942493887`*^9, 3.662290007458552*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Flatten", "::", "normal"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Nonatomic expression expected at position \
+\[NoBreak]\\!\\(1\\)\[NoBreak] in \
+\[NoBreak]\\!\\(Flatten[False]\\)\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\
+\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/normal\\\", ButtonNote -> \
+\\\"Flatten::normal\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.662291842359221*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Transpose", "::", "list"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"List expected at position \[NoBreak]\\!\\(2\\)\[NoBreak] \
+in \[NoBreak]\\!\\(Transpose[\\(\\(\\(\\(MultiMap[\\(\\(\\(\\(IndexDict[\\(\\(\
+\\(\\(VecSpace[\\(\\(AtomicSpace[\\(\\(\\(\\(System[\\(\\(\\\"a\\\", 2\\)\\)]\
+\\)\\), \\\"ket\\\"\\)\\)]\\)\\)]\\)\\), \\(\\(VecSpace[\\(\\(AtomicSpace[\\(\
+\\(\\(\\(System[\\(\\(\\\"b\\\", 4\\)\\)]\\)\\), \\\"bra\\\"\\)\\)]\\)\\)]\\)\
+\\), \\(\\(VecSpace[\\(\\(AtomicSpace[\\(\\(\\(\\(System[\\(\\(\\\"a\\\", \
+2\\)\\)]\\)\\), \\\"bra\\\"\\)\\)]\\)\\)]\\)\\)\\)\\)]\\)\\), \
+\\(\\({\\(\\({0.15964959435891468`, 0.34878198140671124`}\\)\\), \
+\\(\\({0.09714313896155269`, 0.10902843750792868`}\\)\\), \\(\\(\
+\[LeftSkeleton] 5 \[RightSkeleton]\\)\\), \\(\\({0.6528189756191378`, \
+0.26932802693719604`}\\)\\)}\\)\\)\\)\\)]\\)\\), \
+\\(\\(Flatten[False]\\)\\)\\)\\)]\\)\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\
+\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/list\\\", ButtonNote -> \
+\\\"Transpose::list\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.662291842395636*^9}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"TypeSort", "[", 
+    RowBox[{
+     RowBox[{"IndexDict", "[", 
+      RowBox[{
+       RowBox[{"VecSpace", "[", 
+        RowBox[{"AtomicSpace", "[", 
+         RowBox[{
+          RowBox[{"System", "[", 
+           RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], 
+         "]"}], "]"}], ",", 
+       RowBox[{"VecSpace", "[", 
+        RowBox[{"AtomicSpace", "[", 
+         RowBox[{
+          RowBox[{"System", "[", 
+           RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], 
+         "]"}], "]"}], ",", 
+       RowBox[{"VecSpace", "[", 
+        RowBox[{"AtomicSpace", "[", 
+         RowBox[{
+          RowBox[{"System", "[", 
+           RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], 
+         "]"}], "]"}]}], "]"}], "\[Equal]", 
+     RowBox[{"IndexDict", "[", "]"}]}], "]"}], ",", 
+   RowBox[{"Transpose", "[", 
+    RowBox[{
+     RowBox[{"MultiMap", "[", 
+      RowBox[{
+       RowBox[{"IndexDict", "[", 
+        RowBox[{
+         RowBox[{"VecSpace", "[", 
+          RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+            RowBox[{"System", "[", 
+             RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], 
+           "]"}], "]"}], ",", 
+         RowBox[{"VecSpace", "[", 
+          RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+            RowBox[{"System", "[", 
+             RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], 
+           "]"}], "]"}], ",", 
+         RowBox[{"VecSpace", "[", 
+          RowBox[{"AtomicSpace", "[", 
+           RowBox[{
+            RowBox[{"System", "[", 
+             RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], 
+           "]"}], "]"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0.15964959435891468`", ",", "0.34878198140671124`"}], 
+          "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0.09714313896155269`", ",", "0.10902843750792868`"}], 
+          "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0.10256796133294088`", ",", "0.6486922615079826`"}], "}"}],
+          ",", 
+         RowBox[{"{", 
+          RowBox[{"0.802404258700109`", ",", "0.1870379045975732`"}], "}"}], 
+         ",", 
+         RowBox[{"{", 
+          RowBox[{"0.39594937365016714`", ",", "0.8440398271460301`"}], "}"}],
+          ",", 
+         RowBox[{"{", 
+          RowBox[{"0.177321554073393`", ",", "0.5284425829183526`"}], "}"}], 
+         ",", 
+         RowBox[{"{", 
+          RowBox[{"0.4314524635788253`", ",", "0.6225748055038844`"}], "}"}], 
+         ",", 
+         RowBox[{"{", 
+          RowBox[{"0.6528189756191378`", ",", "0.26932802693719604`"}], 
+          "}"}]}], "}"}]}], "]"}], ",", 
+     RowBox[{"Flatten", "[", "False", "]"}]}], "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.6622899988240967`*^9, 3.6622900077677*^9}, 
+   3.662291842403026*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"VecSpace", "@@", 
+  RowBox[{"Atoms", "[", "td1", "]"}]}]], "Input",
+ CellChangeTimes->{{3.662291309495764*^9, 3.662291324248331*^9}}],
+
+Cell[BoxData[
+ RowBox[{"VecSpace", "[", 
+  RowBox[{
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{
+     RowBox[{"System", "[", 
+      RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+   ",", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{
+     RowBox[{"System", "[", 
+      RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+   ",", 
+   RowBox[{"AtomicSpace", "[", 
+    RowBox[{
+     RowBox[{"System", "[", 
+      RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{{3.662291311360462*^9, 3.662291324680222*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"List", "@@", 
+  RowBox[{"Dimension", "/@", 
+   RowBox[{"IndexDict", "[", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.662290933707017*^9, 3.66229093654867*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", "}"}]], "Output",
+ CellChangeTimes->{3.662290937349059*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["testket"], "Input",
+ CellChangeTimes->{{3.6622917508743677`*^9, 3.66229175170045*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", 
+    RowBox[{"VecSpace", "[", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+     "]"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.1806525497134046`", ",", "0.905645722791361`"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.66229175200989*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Atomize", "[", 
+  RowBox[{"IndexDict", "[", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.662290959685238*^9, 3.662290964023961*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", "]"}]], "Output",
+ CellChangeTimes->{3.66229096444415*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"makeCanonical", "[", 
+  RowBox[{"MultiMap", "[", 
+   RowBox[{
+    RowBox[{"IndexDict", "[", "]"}], ",", "0.3479437041322474`"}], "]"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.662288710394362*^9, 3.662288720961688*^9}, {
+   3.662290755557705*^9, 3.662290762699357*^9}, {3.662290813347913*^9, 
+   3.662290814817157*^9}, 3.662290927014534*^9, {3.6622911627826023`*^9, 
+   3.6622911653296347`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Transpose", "::", "list"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"List expected at position \[NoBreak]\\!\\(2\\)\[NoBreak] \
+in \[NoBreak]\\!\\(Transpose[\\(\\(0.3479437041322474`, \
+\\(\\(IndexDict[]\\)\\)\\)\\)]\\)\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\
+\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/list\\\", ButtonNote -> \
+\\\"Transpose::list\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.662291165782426*^9, 3.6622918994985943`*^9}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", "]"}], ",", 
+   RowBox[{"Transpose", "[", 
+    RowBox[{"0.3479437041322474`", ",", 
+     RowBox[{"IndexDict", "[", "]"}]}], "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.662290763543538*^9, 3.6622908155105133`*^9, 
+  3.6622910575574627`*^9, 3.662291165788443*^9, 3.6622918995068502`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TypeSort", "[", 
+  RowBox[{"IndexDict", "[", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.662291188084099*^9, 3.662291194439928*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", "]"}]], "Output",
+ CellChangeTimes->{3.662291194748991*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SystemMapping", "[", 
+  RowBox[{"MultiMap", "[", 
+   RowBox[{
+    RowBox[{"IndexDict", "[", "]"}], ",", "0.3479437041322474`"}], "]"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.662291073457246*^9, 3.6622911080621967`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "}"}], ",", 
+   RowBox[{"{", "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.6622910804657907`*^9, 3.662291108447995*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["td1"], "Input",
+ CellChangeTimes->{{3.662290262226583*^9, 3.6622902626642227`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+     ",", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}]}],
+     "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662288713665547*^9, 3.662288716667676*^9}, 
+   3.662290262948311*^9, 3.662291892647032*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dimension", "[", 
+  RowBox[{"VecSpace", "[", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.662290278206353*^9, 3.6622902876888313`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Part", "::", "take"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot take positions \[NoBreak]\\!\\(2\\)\[NoBreak] \
+through \[NoBreak]\\!\\(-1\\)\[NoBreak] in \[NoBreak]\\!\\({}\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/Part/take\\\", \
+ButtonNote -> \\\"Part::take\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.6622902879945593`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", "}"}]], "Output",
+ CellChangeTimes->{{3.662290280271706*^9, 3.66229028800073*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomicQ", "[", "t1", "]"}]], "Input",
+ CellChangeTimes->{{3.6622885317198563`*^9, 3.662288536278944*^9}}],
+
+Cell[BoxData["False"], "Output",
+ CellChangeTimes->{3.662288536581756*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomicQ", "[", 
+  RowBox[{"Atomize", "[", "t1", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.662288538264481*^9, 3.662288543860488*^9}}],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.662288544271441*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dimension", "/@", 
+  RowBox[{"Atoms", "[", "td1", "]"}]}]], "Input",
+ CellChangeTimes->{{3.662288462579537*^9, 3.662288473700831*^9}, {
+  3.662288505780724*^9, 3.662288508374339*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"2", ",", "4", ",", "2"}], "}"}]], "Output",
+ CellChangeTimes->{{3.6622884659851427`*^9, 3.662288473998145*^9}, 
+   3.662288508606636*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["td1"], "Input",
+ CellChangeTimes->{{3.662288352230113*^9, 3.662288352687957*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+     ",", 
+     RowBox[{"AtomicSpace", "[", 
+      RowBox[{
+       RowBox[{"System", "[", 
+        RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}]}],
+     "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.66228835302213*^9}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", 
+    RowBox[{
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+      "]"}], ",", 
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"d\"\>", ",", "7"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+      "]"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "0.5343795073619866`", ",", "0.28799484418399257`", ",", 
+       "0.6453101737279017`", ",", "0.5373601596948936`", ",", 
+       "0.48117595978629013`", ",", "0.39282018855034617`", ",", 
+       "0.5413487629384046`"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "0.049416052408961075`", ",", "0.082431796908631`", ",", 
+       "0.8872338069595231`", ",", "0.16437812680920727`", ",", 
+       "0.4731087682148636`", ",", "0.2771070733859573`", ",", 
+       "0.6745857028065809`"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "0.1348650892720047`", ",", "0.5289142846351615`", ",", 
+       "0.9844229250004417`", ",", "0.18778186922631224`", ",", 
+       "0.138050363421093`", ",", "0.8012526354973992`", ",", 
+       "0.5957852495244889`"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "0.7052811088917128`", ",", "0.13825626189717988`", ",", 
+       "0.35478615885442855`", ",", "0.4395439325540933`", ",", 
+       "0.989133376934983`", ",", "0.6850079649465743`", ",", 
+       "0.813877592174818`"}], "}"}]}], "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.6622887526890593`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomicQ", "[", "td2", "]"}]], "Input",
+ CellChangeTimes->{{3.662288754426053*^9, 3.662288758642049*^9}}],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.662288758994343*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"AtomicQ", "[", "t2", "]"}]], "Input",
+ CellChangeTimes->{{3.662288760843411*^9, 3.6622887654604063`*^9}}],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.6622887657119093`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ComposeAtomicTensors", "[", 
+  RowBox[{
+   RowBox[{"Atomize", "[", "t1", "]"}], ",", "t2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.662288768995166*^9, 3.662288795280796*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MultiMap", "[", 
+  RowBox[{
+   RowBox[{"IndexDict", "[", 
+    RowBox[{
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+      "]"}], ",", 
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+      "]"}], ",", 
+     RowBox[{"VecSpace", "[", 
+      RowBox[{"AtomicSpace", "[", 
+       RowBox[{
+        RowBox[{"System", "[", 
+         RowBox[{"\<\"d\"\>", ",", "7"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+      "]"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "0.6698673046472131`", ",", "0.21917301678653298`", ",", 
+         "0.5748643617715494`", ",", "0.47370986560382766`", ",", 
+         "0.9306231960221918`", ",", "0.7214687923474569`", ",", 
+         "0.8661248075366618`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+        "0.41116993890050635`", ",", "0.47839658737393054`", ",", 
+         "1.0267522699229283`", ",", "0.4093674530960072`", ",", 
+         "0.4939654510683741`", ",", "0.8151099934891077`", ",", 
+         "0.8010689596383528`"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "0.7389585284881949`", ",", "0.4471059948945507`", ",", 
+         "1.069178669556269`", ",", "0.6098767734399286`", ",", 
+         "0.9797009091958848`", ",", "0.9975625860129301`", ",", 
+         "1.1223330384633101`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+        "0.751066709613477`", ",", "0.6531645842904447`", ",", 
+         "1.721950379305651`", ",", "0.7757075390281163`", ",", 
+         "1.0084905123458805`", ",", "1.1613226089881188`", ",", 
+         "1.4035206594007816`"}], "}"}]}], "}"}]}], "}"}]}], "]"}]], "Output",\
+
+ CellChangeTimes->{{3.662288776903743*^9, 3.662288795675673*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dimension", "/@", 
+  RowBox[{
+   RowBox[{"ComposeAtomicTensors", "[", 
+    RowBox[{"t2", ",", 
+     RowBox[{"Atomize", "[", "t1", "]"}]}], "]"}], "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.662288819400425*^9, 3.662288846752304*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{"4", ",", "7", ",", "2", ",", "4", ",", "2"}], "]"}]], "Output",
+ CellChangeTimes->{{3.662288822068783*^9, 3.662288847099358*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dimensions", "[", 
+  RowBox[{
+   RowBox[{"ComposeAtomicTensors", "[", 
+    RowBox[{"t2", ",", 
+     RowBox[{"Atomize", "[", "t1", "]"}]}], "]"}], "[", 
+   RowBox[{"[", "2", "]"}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.662288855857635*^9, 3.662288865190621*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"4", ",", "7", ",", "2", ",", "4", ",", "2"}], "}"}]], "Output",
+ CellChangeTimes->{3.662288865617394*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"makeAtomic", "[", "t1", "]"}], "[", 
+   RowBox[{"[", "1", "]"}], "]"}], "//", "AtomicQ"}]], "Input",
+ CellChangeTimes->{{3.662288388429307*^9, 3.662288405381138*^9}}],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{{3.662288395625368*^9, 3.662288405752717*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ComposeAtomicTensors", "[", 
+   RowBox[{"t2", ",", 
+    RowBox[{"Atomize", "[", "t1", "]"}]}], "]"}], "[", 
+  RowBox[{"[", "1", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6622882062143297`*^9, 3.662288206772327*^9}, {
+  3.6622888732369204`*^9, 3.662288885956771*^9}}],
+
+Cell[BoxData[
+ RowBox[{"IndexDict", "[", 
+  RowBox[{
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"d\"\>", ",", "7"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"ket\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"b\"\>", ",", "4"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}], ",", 
+   RowBox[{"VecSpace", "[", 
+    RowBox[{"AtomicSpace", "[", 
+     RowBox[{
+      RowBox[{"System", "[", 
+       RowBox[{"\<\"a\"\>", ",", "2"}], "]"}], ",", "\<\"bra\"\>"}], "]"}], 
+    "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662288878415844*^9, 3.662288886325203*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"List", "@@", 
+  RowBox[{"Dimension", "/@", 
+   RowBox[{"Atomize", "[", "td1", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.662288275026432*^9, 3.662288300488019*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"2", ",", "4", ",", "2"}], "}"}]], "Output",
+ CellChangeTimes->{{3.662288279829467*^9, 3.66228830129633*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{43, Automatic}, {-59, Automatic}},
+FrontEndVersion->"10.2 for Mac OS X x86 (32-bit, 64-bit Kernel) (July 6, \
+2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 810, 15, 182, "Text"],
+Cell[CellGroupData[{
+Cell[1393, 39, 324, 7, 46, "Input"],
+Cell[1720, 48, 380, 7, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2137, 60, 98, 1, 35, "Subsubsection"],
+Cell[2238, 63, 461, 7, 87, "Text"],
+Cell[2702, 72, 822, 18, 46, "Input"],
+Cell[3527, 92, 1429, 38, 97, "Input"],
+Cell[4959, 132, 1313, 32, 63, "Input"],
+Cell[6275, 166, 350, 6, 49, "Text"],
+Cell[6628, 174, 626, 18, 63, "Input"],
+Cell[CellGroupData[{
+Cell[7279, 196, 294, 8, 28, "Input"],
+Cell[7576, 206, 121, 2, 28, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7746, 214, 97, 1, 35, "Subsubsection"],
+Cell[7846, 217, 328, 6, 49, "Text"],
+Cell[8177, 225, 800, 20, 80, "Input"],
+Cell[8980, 247, 396, 11, 46, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9413, 263, 104, 1, 35, "Subsubsection"],
+Cell[9520, 266, 480, 8, 49, "Text"],
+Cell[10003, 276, 1247, 34, 114, "Input"],
+Cell[11253, 312, 672, 18, 63, "Input"],
+Cell[CellGroupData[{
+Cell[11950, 334, 126, 2, 28, "Input"],
+Cell[12079, 338, 102, 1, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12218, 344, 126, 2, 28, "Input"],
+Cell[12347, 348, 100, 1, 28, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12496, 355, 103, 1, 35, "Subsubsection"],
+Cell[12602, 358, 311, 6, 30, "Text"],
+Cell[CellGroupData[{
+Cell[12938, 368, 525, 11, 63, "Input"],
+Cell[13466, 381, 9735, 262, 243, "Output"]
+}, Open  ]],
+Cell[23216, 646, 1167, 34, 80, "Input"],
+Cell[CellGroupData[{
+Cell[24408, 684, 230, 4, 28, "Input"],
+Cell[24641, 690, 253, 5, 28, "Output"]
+}, Open  ]],
+Cell[24909, 698, 119, 2, 28, "Input"],
+Cell[CellGroupData[{
+Cell[25053, 704, 132, 2, 28, "Input"],
+Cell[25188, 708, 131, 3, 28, "Output"]
+}, Open  ]],
+Cell[25334, 714, 115, 1, 30, "Text"],
+Cell[CellGroupData[{
+Cell[25474, 719, 253, 7, 28, "Input"],
+Cell[25730, 728, 408, 13, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[26175, 746, 387, 8, 28, "Input"],
+Cell[26565, 756, 395, 7, 28, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27009, 769, 104, 1, 35, "Subsubsection"],
+Cell[27116, 772, 209, 4, 30, "Text"],
+Cell[CellGroupData[{
+Cell[27350, 780, 230, 5, 28, "Input"],
+Cell[27583, 787, 794, 22, 46, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[28414, 814, 454, 11, 28, "Input"],
+Cell[28871, 827, 579, 16, 46, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[29487, 848, 125, 2, 28, "Input"],
+Cell[29615, 852, 16664, 441, 225, "Output"]
+}, Open  ]],
+Cell[46294, 1296, 1316, 36, 80, "Input"],
+Cell[CellGroupData[{
+Cell[47635, 1336, 231, 6, 28, "Input"],
+Cell[47869, 1344, 742, 22, 46, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[48648, 1371, 215, 4, 28, "Input"],
+Cell[48866, 1377, 196, 3, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[49099, 1385, 149, 3, 28, "Input"],
+Cell[49251, 1390, 187, 4, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[49475, 1399, 62, 1, 28, "Input"],
+Cell[49540, 1402, 732, 21, 46, "Output"]
+}, Open  ]],
+Cell[50287, 1426, 738, 22, 46, "Input"],
+Cell[CellGroupData[{
+Cell[51050, 1452, 174, 3, 28, "Input"],
+Cell[51227, 1457, 484, 14, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[51748, 1476, 152, 3, 28, "Input"],
+Cell[51903, 1481, 155, 3, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[52095, 1489, 99, 1, 28, "Input"],
+Cell[52197, 1492, 696, 21, 46, "Output"]
+}, Open  ]],
+Cell[52908, 1516, 1154, 30, 63, "Input"],
+Cell[CellGroupData[{
+Cell[54087, 1550, 134, 2, 28, "Input"],
+Cell[54224, 1554, 270, 7, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[54531, 1566, 179, 3, 28, "Input"],
+Cell[54713, 1571, 295, 7, 28, "Output"]
+}, Open  ]],
+Cell[55023, 1581, 120, 1, 30, "Text"],
+Cell[55146, 1584, 1696, 46, 80, "Input"],
+Cell[56845, 1632, 375, 7, 49, "Text"],
+Cell[57223, 1641, 922, 24, 46, "Input"],
+Cell[58148, 1667, 1427, 41, 80, "Input"],
+Cell[59578, 1710, 1548, 41, 114, "Input"],
+Cell[CellGroupData[{
+Cell[61151, 1755, 286, 7, 28, "Input"],
+Cell[61440, 1764, 389, 8, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[61866, 1777, 284, 7, 28, "Input"],
+Cell[62153, 1786, 378, 10, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[62568, 1801, 130, 2, 28, "Input"],
+Cell[62701, 1805, 123, 2, 28, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[62873, 1813, 99, 1, 35, "Subsubsection"],
+Cell[62975, 1816, 426, 7, 68, "Text"],
+Cell[63404, 1825, 1768, 45, 114, "Input"],
+Cell[65175, 1872, 396, 11, 28, "Input"],
+Cell[65574, 1885, 1701, 48, 97, "Input"],
+Cell[67278, 1935, 365, 9, 28, "Input"],
+Cell[67646, 1946, 261, 6, 28, "Input"],
+Cell[67910, 1954, 1968, 60, 131, "Input"],
+Cell[CellGroupData[{
+Cell[69903, 2018, 184, 3, 28, "Input"],
+Cell[70090, 2023, 269, 7, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[70396, 2035, 180, 3, 28, "Input"],
+Cell[70579, 2040, 523, 14, 28, "Output"]
+}, Open  ]],
+Cell[71117, 2057, 971, 26, 46, "Input"],
+Cell[CellGroupData[{
+Cell[72113, 2087, 195, 4, 28, "Input"],
+Cell[72311, 2093, 246, 5, 28, "Output"]
+}, Open  ]],
+Cell[72572, 2101, 182, 2, 30, "Text"],
+Cell[72757, 2105, 4406, 111, 301, "Input"],
+Cell[CellGroupData[{
+Cell[77188, 2220, 235, 4, 28, "Input"],
+Cell[77426, 2226, 376, 8, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[77839, 2239, 241, 5, 28, "Input"],
+Cell[78083, 2246, 330, 9, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[78450, 2260, 289, 7, 28, "Input"],
+Cell[78742, 2269, 383, 8, 28, "Output"]
+}, Open  ]],
+Cell[79140, 2280, 1640, 40, 114, "Input"],
+Cell[CellGroupData[{
+Cell[80805, 2324, 174, 3, 28, "Input"],
+Cell[80982, 2329, 8059, 165, 97, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[89078, 2499, 101, 1, 28, "Input"],
+Cell[89182, 2502, 448, 13, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[89667, 2520, 222, 5, 28, "Input"],
+Cell[89892, 2527, 204, 5, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[90133, 2537, 205, 3, 46, "Input"],
+Cell[90341, 2542, 214, 5, 28, "Output"],
+Cell[90558, 2549, 249, 6, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[90844, 2560, 184, 3, 28, "Input"],
+Cell[91031, 2565, 1720, 48, 80, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[92788, 2618, 177, 5, 28, "Input"],
+Cell[92968, 2625, 219, 6, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[93224, 2636, 177, 4, 28, "Input"],
+Cell[93404, 2642, 88, 1, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[93529, 2648, 267, 7, 28, "Input"],
+Cell[93799, 2657, 136, 2, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[93972, 2664, 135, 2, 28, "Input"],
+Cell[94110, 2668, 510, 11, 24, "Message"],
+Cell[94623, 2681, 1203, 20, 58, "Message"],
+Cell[95829, 2703, 2910, 78, 148, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[98776, 2786, 157, 3, 28, "Input"],
+Cell[98936, 2791, 607, 18, 46, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[99580, 2814, 182, 4, 28, "Input"],
+Cell[99765, 2820, 87, 2, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[99889, 2827, 100, 1, 28, "Input"],
+Cell[99992, 2830, 446, 13, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[100475, 2848, 157, 3, 28, "Input"],
+Cell[100635, 2853, 99, 2, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[100771, 2860, 421, 9, 28, "Input"],
+Cell[101195, 2871, 569, 11, 24, "Message"],
+Cell[101767, 2884, 370, 8, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[102174, 2897, 158, 3, 28, "Input"],
+Cell[102335, 2902, 100, 2, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[102472, 2909, 247, 6, 28, "Input"],
+Cell[102722, 2917, 190, 5, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[102949, 2927, 97, 1, 28, "Input"],
+Cell[103049, 2930, 768, 22, 46, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[103854, 2957, 160, 3, 28, "Input"],
+Cell[104017, 2962, 503, 10, 24, "Message"],
+Cell[104523, 2974, 110, 2, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[104670, 2981, 129, 2, 28, "Input"],
+Cell[104802, 2985, 74, 1, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[104913, 2991, 161, 3, 28, "Input"],
+Cell[105077, 2996, 73, 1, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[105187, 3002, 207, 4, 28, "Input"],
+Cell[105397, 3008, 177, 4, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[105611, 3017, 95, 1, 28, "Input"],
+Cell[105709, 3020, 695, 21, 46, "Output"],
+Cell[106407, 3043, 1709, 43, 114, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[108153, 3091, 128, 2, 28, "Input"],
+Cell[108284, 3095, 73, 1, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[108394, 3101, 129, 2, 28, "Input"],
+Cell[108526, 3105, 75, 1, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[108638, 3111, 199, 4, 28, "Input"],
+Cell[108840, 3117, 2075, 54, 114, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[110952, 3176, 288, 7, 28, "Input"],
+Cell[111243, 3185, 182, 3, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[111462, 3193, 293, 7, 28, "Input"],
+Cell[111758, 3202, 145, 3, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[111940, 3210, 213, 5, 28, "Input"],
+Cell[112156, 3217, 97, 1, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[112290, 3223, 305, 7, 28, "Input"],
+Cell[112598, 3232, 1132, 33, 63, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[113767, 3270, 188, 4, 28, "Input"],
+Cell[113958, 3276, 148, 3, 28, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
