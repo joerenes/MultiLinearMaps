@@ -164,6 +164,7 @@ MultiMap@@{atomdict,ArrayReshape[t[[2]],List@@Dimension/@atomdict]}]];
 
 
 ComposableQ[L_MultiMap,R_MultiMap]:=ComposableQ[L[[1]],R[[1]]];
+SystemMappingEqualQ[t1_MultiMap,t2_MultiMap]:=MappingEqualQ[t1[[1]],t2[[1]]]; 
 
 
 ComposeAtomicTensors[L_MultiMap,R_MultiMap]:=If[ComposableQ[L[[1]],R[[1]]],MultiMap@@{ComposeMaps[L[[1]],R[[1]]],Activate[TensorContract[Inactive[TensorProduct][L[[2]],R[[2]]],(#+{0,Length[L[[1]]]})&/@CompositionIndices[L[[1]],R[[1]]]]]}]
@@ -181,14 +182,15 @@ Times[MultiMap[x_,y_],z_?NumericQ]^:=MultiMap[x,z y];
 NonCommutativeMultiply[MultiMap[x1_,x2_],MultiMap[y1_,y2_]]^:=ComposeMaps[MultiMap[x1,x2],MultiMap[y1,y2]];
 
 
+genPerm[list1_,list2_]:=Flatten[Position[list1,#]&/@list2];
+SortMap[x_IndexDict/;AtomicQ[x],f_]:=genPerm[List@@(f[x]),List@@x]
+
+
 Canonicalize[t_MultiMap]:=
 If[Length[t[[1]]]==0,t,MultiMap@@{TypeSort[#[[1]]],Transpose[#[[2]],SortMap[#[[1]],TypeSort]]}&[Atomize[t]]];
-AddMaps[t1_MultiMap,t2_MultiMap]:=If[MappingEqualQ[t1,t2],Module[{ct1=Canonicalize[t1]},MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]]];
+AddMaps[t1_MultiMap,t2_MultiMap]:=If[SystemMappingEqualQ[t1,t2],Module[{ct1=Canonicalize[t1]},MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]]];
 Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]]
 
-
-
-MappingEqualQ[t1_MultiMap,t2_MultiMap]:=MappingEqualQ[t1[[1]],t2[[1]]]&&t1[[2]]==t2[[2]]; 
 
 
 Matrixize[t_MultiMap]:=
