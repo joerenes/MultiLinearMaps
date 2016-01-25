@@ -131,7 +131,9 @@ ContractableSystemsQ[x_IndexDict,sysnames_List]:=ContractableSystemsQ[SystemMapp
 
 
 NameSort[x_IndexDict/;AtomicQ[x]]:=IndexDict@@(VecSpace[#]&/@SortBy[Level[x,{2}],{Name,Type[#]=="bra"&}])
-TypeSort[x_IndexDict/;AtomicQ[x]]:=IndexDict@@(VecSpace[#]&/@SortBy[Level[x,{2}],{Type[#]=="bra"&,Name}])
+TypeSort[x_IndexDict/;AtomicQ[x]]:=IndexDict@@(VecSpace[#]&/@SortBy[Level[x,{2}],{Type[#]=="bra"&,Name}]);
+OwnSort[x_IndexDict/;AtomicQ[x],names_List]:=IndexDict@@(VecSpace[#]&/@SortBy[Level[x,{2}],{Type[#]=="bra"&,Position[names,Name[#]][[1,1]]&}])
+(* this last one sorts by type and then by name according to a given list of names *)
 
 
 KetIndices[x_IndexDict]:=Flatten[Position[Atoms[x],z_/;Type[z]=="ket"]];
@@ -186,16 +188,19 @@ genPerm[list1_,list2_]:=Flatten[Position[list1,#]&/@list2];
 SortMap[x_IndexDict/;AtomicQ[x],f_]:=genPerm[List@@(f[x]),List@@x]
 
 
-Canonicalize[t_MultiMap]:=
-If[Length[t[[1]]]==0,t,MultiMap@@{TypeSort[#[[1]]],Transpose[#[[2]],SortMap[#[[1]],TypeSort]]}&[Atomize[t]]];
+Canonicalize[t_MultiMap,sortlist_List:{}]:=
+If[Length[t[[1]]]==0,t,
+	Module[{sortingf},
+		If[sortlist=={},sortingf=TypeSort,sortingf=OwnSort[#,sortlist]&];
+		MultiMap@@{sortingf[#[[1]]],Transpose[#[[2]],SortMap[#[[1]],sortingf]]}&[Atomize[t]]]];
 AddMaps[t1_MultiMap,t2_MultiMap]:=If[SystemMappingEqualQ[t1,t2],Module[{ct1=Canonicalize[t1]},MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]]];
 Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]]
 
 
 
-Matrixize[t_MultiMap]:=
+Matrixize[t_MultiMap,sortlist_:{}]:=
 Module[{ct,keti,brai},
-ct=Canonicalize[t];
+ct=Canonicalize[t,sortlist];
 keti=KetIndices[ct[[1]]];
 brai=BraIndices[ct[[1]]];
 Which[
@@ -211,9 +216,10 @@ MultiMap@@({IndexDict@@(VecSpace@@#&/@SplitBy[Atoms[ct[[1]]],Type]),Flatten[ct[[
 (*Constructors*)
 
 
-basisElement[sys_System,num_,type_]:=MultiMap@@{IndexDict[VecSpace[AtomicSpace[sys,type]]],SparseArray[{num+1->1},{Dimension[sys]}]};
-basisKet[sys_System,num_]:=basisElement[sys,num,"ket"];
-basisBra[sys_System,num_]:=basisElement[sys,num,"bra"];
+basisElement[sys_System,num_Integer,type_]:=MultiMap@@{IndexDict[VecSpace[AtomicSpace[sys,type]]],SparseArray[{num+1->1},{Dimension[sys]}]};
+basisKet[sys_System,num_Integer]:=basisElement[sys,num,"ket"];
+basisBra[sys_System,num_Integer]:=basisElement[sys,num,"bra"];
+basisProj[sys_System,num_Integer]:=basisKet[sys,num]**basisBra[sys,num]
 
 
 OmegaKet[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"]]],SparseArray@Flatten[IdentityMatrix[Dimension@sys1]]];
