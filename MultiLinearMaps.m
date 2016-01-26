@@ -66,7 +66,7 @@ NonCommutativeMultiply[MapDict[oL_,iL_],MapDict[oR_,iR_]]^:=ComposeMaps[MapDict[
 
 
 ValidMappingQ[x_MapDict]:=And@@(DuplicateFreeQ/@x);
-ComposableQ[L_MapDict,R_MapDict]:=ValidMappingQ[ComposeMaps[L,R]];
+ComposableQ[L_MapDict,R_MapDict]:=ValidMappingQ[rawComposeMaps[L,R]];
 MappingEqualQ[x_MapDict,y_MapDict]:=Equal@@(Sort/@#&/@{x,y});
 
 
@@ -141,6 +141,7 @@ BraIndices[x_IndexDict]:=Flatten[Position[Atoms[x],z_/;Type[z]=="bra"]]
 
 
 CompositionIndices[L_IndexDict,R_IndexDict]:=Flatten[{Position[Atoms@L,z_/;Type[z]=="bra"&&Name[z]==#],Position[Atoms@R,z_/;Type[z]=="ket"&&Name[z]==#]}]&/@(ContractableSystems@@(SystemMapping[#]&/@{L,R}));
+(* return the index pairs of the tensor that need to be contracted in order to compose the two maps *)
 
 
 ComposeMaps[L_IndexDict/;AtomicQ[L],R_IndexDict/;AtomicQ[R]]:=With[{ci=CompositionIndices[L,R]},
@@ -169,7 +170,7 @@ ComposableQ[L_MultiMap,R_MultiMap]:=ComposableQ[L[[1]],R[[1]]];
 SystemMappingEqualQ[t1_MultiMap,t2_MultiMap]:=MappingEqualQ[t1[[1]],t2[[1]]]; 
 
 
-ComposeAtomicTensors[L_MultiMap,R_MultiMap]:=If[ComposableQ[L[[1]],R[[1]]],MultiMap@@{ComposeMaps[L[[1]],R[[1]]],Activate[TensorContract[Inactive[TensorProduct][L[[2]],R[[2]]],(#+{0,Length[L[[1]]]})&/@CompositionIndices[L[[1]],R[[1]]]]]}]
+ComposeAtomicTensors[L_MultiMap,R_MultiMap]:=If[ComposableQ[L[[1]],R[[1]]],MultiMap@@{ComposeMaps[L[[1]],R[[1]]],Activate[TensorContract[Inactive[TensorProduct][L[[2]],R[[2]]],(#+{0,Length[L[[1]]]})&/@CompositionIndices[L[[1]],R[[1]]]]]},Message[ComposeMaps::inputs]]
 
 
 ComposeMaps[L_MultiMap,R_MultiMap]:=ComposeAtomicTensors[Atomize[L],Atomize[R]];
@@ -220,9 +221,9 @@ ToMatrix[t_MultiMap,sortlist_:{}]:=Matrixize[t,sortlist][[2]];
 
 
 BasisElement[sys_System,num_Integer,type_]:=MultiMap@@{IndexDict[VecSpace[AtomicSpace[sys,type]]],SparseArray[{num+1->1},{Dimension[sys]}]};
-BasisKet[sys_System,num_Integer]:=basisElement[sys,num,"ket"];
-BasisBra[sys_System,num_Integer]:=basisElement[sys,num,"bra"];
-BasisProj[sys_System,num_Integer]:=basisKet[sys,num]**basisBra[sys,num]
+BasisKet[sys_System,num_Integer]:=BasisElement[sys,num,"ket"];
+BasisBra[sys_System,num_Integer]:=BasisElement[sys,num,"bra"];
+BasisProj[sys_System,num_Integer]:=BasisKet[sys,num]**BasisBra[sys,num]
 
 
 OmegaKet[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"]]],SparseArray@Flatten[IdentityMatrix[Dimension@sys1]]];
