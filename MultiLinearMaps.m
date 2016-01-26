@@ -14,10 +14,10 @@ Unprotect[SystemMapping];
 Unprotect[Matrixize,Canonicalize];
 Unprotect[AddMaps,ComposeMaps];
 Unprotect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
-Unprotect[basisElement,basisKet,basisBra];
+Unprotect[BasisElement,BasisKet,BasisBra,BasisProj];
 Unprotect[OmegaKet,OmegaBra,OmegaOp];
-Unprotect[fromMatrix];
-Unprotect[Swap];
+Unprotect[ToMatrix,FromMatrix];
+Unprotect[SwapOp];
 
 
 ContractableSystems::usage="ContractableSystem[L,R] returns the system names that are contractable in the composition L \[EmptySmallCircle] R. Input MapDicts.";
@@ -212,14 +212,17 @@ True,
 MultiMap@@({IndexDict@@(VecSpace@@#&/@SplitBy[Atoms[ct[[1]]],Type]),Flatten[ct[[2]],{keti,brai}]})]]
 
 
+ToMatrix[t_MultiMap,sortlist_:{}]:=Matrixize[t,sortlist][[2]];
+
+
 (* ::Subsubsection:: *)
 (*Constructors*)
 
 
-basisElement[sys_System,num_Integer,type_]:=MultiMap@@{IndexDict[VecSpace[AtomicSpace[sys,type]]],SparseArray[{num+1->1},{Dimension[sys]}]};
-basisKet[sys_System,num_Integer]:=basisElement[sys,num,"ket"];
-basisBra[sys_System,num_Integer]:=basisElement[sys,num,"bra"];
-basisProj[sys_System,num_Integer]:=basisKet[sys,num]**basisBra[sys,num]
+BasisElement[sys_System,num_Integer,type_]:=MultiMap@@{IndexDict[VecSpace[AtomicSpace[sys,type]]],SparseArray[{num+1->1},{Dimension[sys]}]};
+BasisKet[sys_System,num_Integer]:=basisElement[sys,num,"ket"];
+BasisBra[sys_System,num_Integer]:=basisElement[sys,num,"bra"];
+BasisProj[sys_System,num_Integer]:=basisKet[sys,num]**basisBra[sys,num]
 
 
 OmegaKet[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"]]],SparseArray@Flatten[IdentityMatrix[Dimension@sys1]]];
@@ -227,15 +230,13 @@ OmegaBra[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,
 OmegaOp[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"],AtomicSpace[sys1,"bra"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SparseArray[IdentityMatrix[(Dimension@sys1)^2]]]
 
 
-Swap[sys1_System,sys2_System]:=PartialTranspose[OmegaOp[sys1,sys2],{Name[sys1]}];
+(* Swap[sys1_System,sys2_System]:=PartialTranspose[OmegaOp[sys1,sys2],{Name[sys1]}]; *)
+SwapOp[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"bra"],AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SparseArray[IdentityMatrix[(Dimension@sys1)^2]]]
 Swap::usage="Swap[sys1,sys2] returns the swap operator (a MultiMap) of the two systems. Input System objects.";
 
 
-fromMatrix[systems_List,matrix_]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@systems),VecSpace@@(AtomicSpace[#,"bra"]&/@systems)],SparseArray@matrix];
-fromMatrix[sysout_List,sysin_List,matrix_]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@sysout),VecSpace@@(AtomicSpace[#,"bra"]&/@sysin)],SparseArray@matrix]
-
-
-
+FromMatrix[systems_List,matrix_]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@systems),VecSpace@@(AtomicSpace[#,"bra"]&/@systems)],SparseArray@matrix];
+FromMatrix[sysout_List,sysin_List,matrix_]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@sysout),VecSpace@@(AtomicSpace[#,"bra"]&/@sysin)],SparseArray@matrix]
 
 
 (* ::Subsubsection:: *)
@@ -282,8 +283,14 @@ ReplacePart[x[[1]],{k->"bra",b->"ket"}]],Conjugate[x[[2]]]];
 (*Partial Trace*)
 
 
-PartialTrace[x_MultiMap/;AtomicQ[x],sysnames_List]:=
-If[ContractableSystemsQ[x[[1]],sysnames],MultiMap[ContractMap[x[[1]],sysnames],TensorContract[x[[2]],ContractionIndices[x[[1]],sysnames]]]]
+PartialTrace[x_MultiMap,sysnames_List]:=
+If[ContractableSystemsQ[x[[1]],sysnames],
+Module[{xx=x},
+If[!AtomicQ[x],xx=Atomize[x]];
+MultiMap[ContractMap[xx[[1]],sysnames],TensorContract[xx[[2]],ContractionIndices[xx[[1]],sysnames]]]]]
+
+
+PartialTrace[x_MultiMap]:=PartialTrace[x,ContractableSystems[SystemMapping[x[[1]]]]];
 
 
 (* ::Subsubsection:: *)
@@ -295,10 +302,10 @@ End[]
 Protect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
 Protect[SystemMapping,Matrixize,Canonicalize,AddMaps,ComposeMaps];
 Protect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
-Protect[basisElement,basisKet,basisBra];
+Protect[BasisElement,BasisKet,BasisBra,BasisProj];
 Protect[OmegaKet,OmegaBra,OmegaOp];
-Protect[fromMatrix];
-Protect[Swap];
+Protect[FromMatrix,ToMatrix];
+Protect[SwapOp];
 
 
 EndPackage[]
