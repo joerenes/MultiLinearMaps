@@ -1,0 +1,148 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4315,        138]
+NotebookOptionsPosition[      3738,        114]
+NotebookOutlinePosition[      4091,        130]
+CellTagsIndexPosition[      4048,        127]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Modify as appropriate", "Text",
+ CellChangeTimes->{{3.662918411423643*^9, 3.662918417457778*^9}}],
+
+Cell[BoxData[
+ RowBox[{"<<", 
+  "\"\</Users/joerenes/current/code/MultiLinearMaps/MultiLinearMaps.m\>\""}]],\
+ "Input"],
+
+Cell["\<\
+To define a system, just use \[OpenCurlyDoubleQuote]System\
+\[CloseCurlyDoubleQuote]. The first entry is its name (should probably be a \
+string, definitely distinct from all other system names), the second its \
+dimension.\
+\>", "Text",
+ CellChangeTimes->{{3.662918420600917*^9, 3.6629184754518957`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"A", "=", 
+   RowBox[{"System", "[", 
+    RowBox[{"\"\<A\>\"", ",", "2"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"B1", "=", 
+   RowBox[{"System", "[", 
+    RowBox[{"\"\<B1\>\"", ",", "2"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"B2", "=", 
+   RowBox[{"System", "[", 
+    RowBox[{"\"\<B2\>\"", ",", "2"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.662918222161261*^9, 3.66291824148462*^9}, {
+  3.6629185191576433`*^9, 3.6629185442110567`*^9}}],
+
+Cell["\<\
+Show that teleportation works. The canonical (unnormalized) maximally \
+entangled state Omega of B1 and B2 is created, and then a measurement of A \
+and B1 is made, projecting onto Omega. The whole teleportation protocol can \
+be boiled down to the fact that this composition of maps is just the identity \
+from A to B2:\
+\>", "Text",
+ CellChangeTimes->{{3.662918478898526*^9, 3.6629185166342783`*^9}, {
+  3.6629185474407053`*^9, 3.662918661510725*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"tp", "=", 
+   RowBox[{
+    RowBox[{"OmegaBra", "[", 
+     RowBox[{"A", ",", "B1"}], "]"}], "**", 
+    RowBox[{"OmegaKet", "[", 
+     RowBox[{"B2", ",", "B1"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"tp", "//", "SystemMapping"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ToMatrix", "[", "tp", "]"}], "//", "MatrixForm"}]}], "Input",
+ CellChangeTimes->{{3.6629183016379642`*^9, 3.6629183716399097`*^9}, {
+  3.66291857062005*^9, 3.662918577121393*^9}}],
+
+Cell[BoxData[
+ RowBox[{"MapDict", "[", 
+  RowBox[{
+   RowBox[{"{", "\<\"B2\"\>", "}"}], ",", 
+   RowBox[{"{", "\<\"A\"\>", "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.662918313632407*^9, 3.6629183722223043`*^9}, 
+   3.662918578744155*^9}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"1", "0"},
+     {"0", "1"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[
+   SparseArray[
+    Automatic, {2, 2}, 0, {1, {{0, 1, 2}, {{1}, {2}}}, {1, 1}}]]]]], "Output",\
+
+ CellChangeTimes->{{3.662918313632407*^9, 3.6629183722223043`*^9}, 
+   3.662918578753224*^9}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6629183453014927`*^9, 3.662918345728236*^9}}]
+},
+WindowSize->{808, 655},
+WindowMargins->{{28, Automatic}, {36, Automatic}},
+FrontEndVersion->"10.2 for Mac OS X x86 (32-bit, 64-bit Kernel) (July 6, \
+2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 103, 1, 30, "Text"],
+Cell[664, 23, 119, 3, 28, "Input"],
+Cell[786, 28, 315, 6, 49, "Text"],
+Cell[1104, 36, 528, 14, 63, "Input"],
+Cell[1635, 52, 463, 8, 68, "Text"],
+Cell[CellGroupData[{
+Cell[2123, 64, 502, 12, 63, "Input"],
+Cell[2628, 78, 243, 6, 28, "Output"],
+Cell[2874, 86, 751, 22, 58, "Output"]
+}, Open  ]],
+Cell[3640, 111, 94, 1, 28, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
