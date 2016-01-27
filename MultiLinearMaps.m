@@ -24,15 +24,15 @@ Unprotect[ToMatrix,FromMatrix];
 
 
 ComposeMaps::usage="ComposeMaps[L,R] returns a MultiMap object describing the composition L \[EmptySmallCircle] R. Also accessible by the infix notation L ** R";
-PartialTranspose::usage="PartialTranspose[M,syslist] returns the partial transpose of M with respect to the systems in syslist."
-PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out, are."
-MapTranspose::usage="MapTranspose[M] returns the transpose of the map."
-Adjoint::usage="Adjoint[M] returns the adjoint of M."
-SystemMapping::usage="SystemMapping[M] returns a list of two lists, \.7fdescribing which systems M maps to which others: the first sublist records the output systems, the second the input systems."
-AddMaps::usage="AddMaps[M1,M2] returns the sum of the two maps. Also accessible infix as M1 + M2."
-ToMatrix::usage="ToMatrix[M,sortinglist] returns the matrix representation of M, with tensor subsystems ordered according to sortinglist."
-FromMatrix::usage="FromMatrix[out,in,m] returns a Multimap object which maps the systems in the list in to those in out according to the matrix m. If only one list of systems is given, the map takes these systems to themselves."
-BasisBra::usage="BasisBra[sys,k] returns the kth basis bra of system sys."
+PartialTranspose::usage="PartialTranspose[M,syslist] returns the partial transpose of M with respect to the systems in syslist.";
+PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are.";
+MapTranspose::usage="MapTranspose[M] returns the transpose of the map.";
+Adjoint::usage="Adjoint[M] returns the adjoint of M.";
+SystemMapping::usage="SystemMapping[M] returns a list of two lists, \.7fdescribing which systems M maps to which others: the first sublist records the output systems, the second the input systems.";
+AddMaps::usage="AddMaps[M1,M2] returns the sum of the two maps. Also accessible infix as M1 + M2.";
+ToMatrix::usage="ToMatrix[M,sortinglist] returns the matrix representation of M, with tensor subsystems ordered according to sortinglist.";
+FromMatrix::usage="FromMatrix[out,in,m] returns a Multimap object which maps the systems in the list in to those in out according to the matrix m. If only one list of systems is given, the map takes these systems to themselves.";
+BasisBra::usage="BasisBra[sys,k] returns the kth basis bra of system sys.";
 
 
 (*ValidMappingQ::usage="";
