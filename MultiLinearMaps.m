@@ -8,28 +8,29 @@ BeginPackage["MultiLinearMaps`"];
 
 
 Unprotect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
+ClearAll[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap]
 (* Unprotect[Name,Dimension,Type]; 
 Unprotect[AtomNames,AtomicQ,AtomDimensions,Atoms,Atomize]; *)
-Unprotect[SystemMapping];
-Unprotect[Matrixize,Canonicalize];
-Unprotect[AddMaps,ComposeMaps];
+(* Unprotect[Matrixize,Canonicalize];  do these really need to be exposed? *)
+Unprotect[SystemMapping,AddMaps,ComposeMaps];
+ClearAll[SystemMapping,AddMaps,ComposeMaps]
 Unprotect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
 Unprotect[BasisElement,BasisKet,BasisBra,BasisProj];
-Unprotect[OmegaKet,OmegaBra,OmegaOp];
+Unprotect[OmegaKet,OmegaBra,OmegaOp,SwapOp];
 Unprotect[ToMatrix,FromMatrix];
-Unprotect[SwapOp];
 
 
-ContractableSystems::usage="ContractableSystem[L,R] returns the system names that are contractable in the composition L \[EmptySmallCircle] R. Input MapDicts.";
+(*ContractableSystems::usage="ContractableSystem[L,R] returns the system names that are contractable in the composition L \[EmptySmallCircle] R. Input MapDicts."; *)
 
 
 ComposeMaps::usage="Returns an object describing the composition L \[EmptySmallCircle] R. For MapDict inputs, a MapDict. For MultiMap inputs, a MultiMap.";
 
 
-ValidMappingQ::usage="";
+(*ValidMappingQ::usage="";
 ComposableQ::usage="";
 MappingEqualQ::usage="";
 ContractableSystemsQ::usage="";
+*)
 
 
 (* Name::usage="Name[x] returns the name of x, a String";
@@ -45,10 +46,10 @@ Atomize::usage=""; *)
 
 
 ComposeMaps::inputs = "Input maps are not composable in this order.";
+PartialTranspose::inputs = "Invalid systems for PartialTranspose.";
 
 
 Begin["`Private`"];
-
 
 
 (* ::Subsubsection:: *)
@@ -256,11 +257,18 @@ KetAddresses[x_IndexDict,sysnames_List]:=Position[x,z_/;MemberQ[sysnames,Name[z]
 BraAddresses[x_IndexDict,sysnames_List]:=Position[x,z_/;MemberQ[sysnames,Name[z]]&&Type[z]=="bra",{2}]
 
 
-PartialTranspose[x_IndexDict,sysnames_List]:=If[ContractableSystemsQ[x,sysnames],Module[{k=Join[#,{2}]&/@KetAddresses[x,sysnames],b=Join[#,{2}]&/@BraAddresses[x,sysnames]},
-ReplacePart[x,{k->"bra",b->"ket"}]]]
+PartialTranspose[x_IndexDict,systems_List]:=
+Module[{sysnames=Name/@systems},
+	If[ContractableSystemsQ[x,sysnames],
+		Module[{k=Join[#,{2}]&/@KetAddresses[x,sysnames],b=Join[#,{2}]&/@BraAddresses[x,sysnames]},
+			ReplacePart[x,{k->"bra",b->"ket"}]],
+		Message[PartialTranspose::inputs];x
+	]
+]
 
 
-PartialTranspose[x_MultiMap,sysnames_List]:=MultiMap[PartialTranspose[x[[1]],sysnames],x[[2]]]
+PartialTranspose[x_MultiMap,systems_List]:=MultiMap[PartialTranspose[x[[1]],systems],x[[2]]];
+PartialTranspose[x_MultiMap,s_System]:=MultiMap[PartialTranspose[x[[1]],{s}],x[[2]]]
 
 
 (* ::Text:: *)
@@ -284,14 +292,23 @@ ReplacePart[x[[1]],{k->"bra",b->"ket"}]],Conjugate[x[[2]]]];
 (*Partial Trace*)
 
 
-PartialTrace[x_MultiMap,sysnames_List]:=
-If[ContractableSystemsQ[x[[1]],sysnames],
-Module[{xx=x},
-If[!AtomicQ[x],xx=Atomize[x]];
-MultiMap[ContractMap[xx[[1]],sysnames],TensorContract[xx[[2]],ContractionIndices[xx[[1]],sysnames]]]]]
-
-
-PartialTrace[x_MultiMap]:=PartialTrace[x,ContractableSystems[SystemMapping[x[[1]]]]];
+PartialTrace[x_MultiMap,systems_List:{}]:=
+	Module[{sysnames},
+		If[systems=={},
+			sysnames=ContractableSystems[SystemMapping[x[[1]]]],
+			sysnames=Name/@systems
+		];
+		If[ContractableSystemsQ[x[[1]],sysnames],
+			Module[{f=MultiMap[ContractMap[#[[1]],sysnames],TensorContract[#[[2]],ContractionIndices[#[[1]],sysnames]]]&},
+				If[AtomicQ[x],
+					f[x],
+					f[Atomize[x]]
+				]
+			],
+			Message[PartialTrace::inputs];x
+		]
+	];
+PartialTrace[x_MultiMap,s_System]:=PartialTrace[x,{s}];
 
 
 (* ::Subsubsection:: *)
@@ -301,12 +318,12 @@ PartialTrace[x_MultiMap]:=PartialTrace[x,ContractableSystems[SystemMapping[x[[1]
 End[]
 
 Protect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
-Protect[SystemMapping,Matrixize,Canonicalize,AddMaps,ComposeMaps];
+Protect[SystemMapping,AddMaps,ComposeMaps];
 Protect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
 Protect[BasisElement,BasisKet,BasisBra,BasisProj];
-Protect[OmegaKet,OmegaBra,OmegaOp];
+Protect[OmegaKet,OmegaBra,OmegaOp,SwapOp];
 Protect[FromMatrix,ToMatrix];
-Protect[SwapOp];
+
 
 
 EndPackage[]
