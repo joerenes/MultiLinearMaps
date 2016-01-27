@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      4315,        138]
-NotebookOptionsPosition[      3738,        114]
-NotebookOutlinePosition[      4091,        130]
-CellTagsIndexPosition[      4048,        127]
+NotebookDataLength[     13458,        434]
+NotebookOptionsPosition[     11195,        361]
+NotebookOutlinePosition[     12174,        391]
+CellTagsIndexPosition[     11950,        384]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -109,8 +109,255 @@ Cell[BoxData[
    3.662918578753224*^9}]
 }, Open  ]],
 
-Cell[BoxData[""], "Input",
- CellChangeTimes->{{3.6629183453014927`*^9, 3.662918345728236*^9}}]
+Cell["Other constructors: BasisKet, BasisBra, FromMatrix.", "Text",
+ CellChangeTimes->{{3.662918811104002*^9, 3.6629188464089537`*^9}, {
+  3.662919001715172*^9, 3.662919016246175*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ToMatrix", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BasisKet", "[", 
+      RowBox[{"A", ",", "0"}], "]"}], "**", 
+     RowBox[{"BasisKet", "[", 
+      RowBox[{"B1", ",", "0"}], "]"}]}], "+", 
+    RowBox[{
+     RowBox[{"BasisKet", "[", 
+      RowBox[{"A", ",", "1"}], "]"}], "**", 
+     RowBox[{"BasisKet", "[", 
+      RowBox[{"B1", ",", "1"}], "]"}]}]}], "]"}], "//", 
+  "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.6629183453014927`*^9, 3.662918345728236*^9}, {
+  3.662918800327512*^9, 3.662918805447383*^9}, {3.6629188495779533`*^9, 
+  3.662918865509605*^9}, {3.6629189172965403`*^9, 3.662918935052783*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", 
+   TagBox[GridBox[{
+      {"1"},
+      {"0"},
+      {"0"},
+      {"1"}
+     },
+     GridBoxAlignment->{
+      "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}},
+        "RowsIndexed" -> {}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.5599999999999999]}, 
+         Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+         Offset[0.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}, "RowsIndexed" -> {}}],
+    Column], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[
+    SparseArray[
+    Automatic, {4}, 0, {1, {{0, 2}, {{1}, {4}}}, {1, 1}}]]]]], "Output",
+ CellChangeTimes->{
+  3.662918806270406*^9, 3.66291885562272*^9, {3.662918927967387*^9, 
+   3.662918935411498*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ToMatrix", "[", 
+   RowBox[{
+    RowBox[{"FromMatrix", "[", 
+     RowBox[{
+      RowBox[{"{", "A", "}"}], ",", 
+      RowBox[{"HadamardMatrix", "[", "2", "]"}]}], "]"}], "**", 
+    RowBox[{"BasisKet", "[", 
+     RowBox[{"A", ",", "0"}], "]"}]}], "]"}], "//", "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.6629189442340517`*^9, 3.66291897926939*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", 
+   TagBox[GridBox[{
+      {
+       FractionBox["1", 
+        SqrtBox["2"]]},
+      {
+       FractionBox["1", 
+        SqrtBox["2"]]}
+     },
+     GridBoxAlignment->{
+      "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}},
+        "RowsIndexed" -> {}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.5599999999999999]}, 
+         Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+         Offset[0.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}, "RowsIndexed" -> {}}],
+    Column], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[
+    SparseArray[
+    Automatic, {2}, 0, {
+     1, {{0, 2}, {{1}, {2}}}, {
+      2^Rational[-1, 2], 2^Rational[-1, 2]}}]]]]], "Output",
+ CellChangeTimes->{{3.662918958233379*^9, 3.6629189796222153`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"OmegaKet", "[", 
+   RowBox[{"A", ",", "B1"}], "]"}], "**", 
+  RowBox[{"BasisKet", "[", 
+   RowBox[{"B1", ",", "0"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.662919121144606*^9, 3.6629191290917883`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"ComposeMaps", "::", "inputs"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Input maps are not composable in this order.\"\>"}]], \
+"Message", "MSG",
+ CellChangeTimes->{3.6629191294969463`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ToMatrix", "[", 
+   RowBox[{
+    RowBox[{"OmegaOp", "[", 
+     RowBox[{"A", ",", "B1"}], "]"}], "**", 
+    RowBox[{"BasisKet", "[", 
+     RowBox[{"B2", ",", "0"}], "]"}]}], "]"}], "//", "MatrixForm"}]], "Input",\
+
+ CellChangeTimes->{{3.662919104028995*^9, 3.6629191472264147`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"1", "0", "0", "1"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"},
+     {"1", "0", "0", "1"},
+     {"0", "0", "0", "0"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[
+   SparseArray[
+    Automatic, {8, 4}, 0, {
+     1, {{0, 2, 2, 2, 2, 2, 2, 4, 4}, {{1}, {4}, {1}, {4}}}, {1, 1, 1, 
+      1}}]]]]], "Output",
+ CellChangeTimes->{{3.6629191153225317`*^9, 3.662919147626295*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ToMatrix", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"OmegaOp", "[", 
+      RowBox[{"A", ",", "B1"}], "]"}], "**", 
+     RowBox[{"BasisKet", "[", 
+      RowBox[{"B2", ",", "0"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"B2", ",", "B1", ",", "A"}], "}"}]}], "]"}], "//", 
+  "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.662919154015174*^9, 3.6629191839495296`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"1", "0", "0", "1"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"},
+     {"1", "0", "0", "1"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"},
+     {"0", "0", "0", "0"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[
+   SparseArray[
+    Automatic, {8, 4}, 0, {
+     1, {{0, 2, 2, 2, 4, 4, 4, 4, 4}, {{1}, {4}, {1}, {4}}}, {1, 1, 1, 
+      1}}]]]]], "Output",
+ CellChangeTimes->{{3.66291915983223*^9, 3.662919184266403*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "PartialTrace"}]], "Input",
+ CellChangeTimes->{{3.66291903444952*^9, 3.6629190367782*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"PartialTrace[M,syslist] returns the partial trace of M with \
+respect to the systems in syslist. If no systems are explicitly given, all \
+systems that can be traced out, are.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.6629190377730293`*^9},
+ CellTags->"Info-fb0ff775-b0bf-4015-9774-d55ceba6db8b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "PartialTranspose"}]], "Input",
+ CellChangeTimes->{{3.6629190786830387`*^9, 3.662919081577956*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"PartialTranspose[M,syslist] returns the partial transpose of M \
+with respect to the systems in syslist.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.662919082217314*^9},
+ CellTags->"Info-2878fdab-8881-41e1-842c-4d06d3ca6b4f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "Adjoint"}]], "Input",
+ CellChangeTimes->{{3.662919083781934*^9, 3.662919087557119*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"Adjoint[M] returns the adjoint of M.\"\>", "MSG"]], "Print", \
+"PrintUsage",
+ CellChangeTimes->{3.662919088090188*^9},
+ CellTags->"Info-577acaba-c07d-4d74-bbd7-a9ee35f47df6"]
+}, Open  ]]
 },
 WindowSize->{808, 655},
 WindowMargins->{{28, Automatic}, {36, Automatic}},
@@ -122,10 +369,24 @@ StyleDefinitions->"Default.nb"
 
 (* Internal cache information *)
 (*CellTagsOutline
-CellTagsIndex->{}
+CellTagsIndex->{
+ "Info-fb0ff775-b0bf-4015-9774-d55ceba6db8b"->{
+  Cell[10042, 327, 342, 5, 60, "Print",
+   CellTags->"Info-fb0ff775-b0bf-4015-9774-d55ceba6db8b"]},
+ "Info-2878fdab-8881-41e1-842c-4d06d3ca6b4f"->{
+  Cell[10551, 341, 269, 4, 40, "Print",
+   CellTags->"Info-2878fdab-8881-41e1-842c-4d06d3ca6b4f"]},
+ "Info-577acaba-c07d-4d74-bbd7-a9ee35f47df6"->{
+  Cell[10976, 354, 203, 4, 40, "Print",
+   CellTags->"Info-577acaba-c07d-4d74-bbd7-a9ee35f47df6"]}
+ }
 *)
 (*CellTagsIndex
-CellTagsIndex->{}
+CellTagsIndex->{
+ {"Info-fb0ff775-b0bf-4015-9774-d55ceba6db8b", 11531, 372},
+ {"Info-2878fdab-8881-41e1-842c-4d06d3ca6b4f", 11679, 375},
+ {"Info-577acaba-c07d-4d74-bbd7-a9ee35f47df6", 11827, 378}
+ }
 *)
 (*NotebookFileOutline
 Notebook[{
@@ -139,10 +400,44 @@ Cell[2123, 64, 502, 12, 63, "Input"],
 Cell[2628, 78, 243, 6, 28, "Output"],
 Cell[2874, 86, 751, 22, 58, "Output"]
 }, Open  ]],
-Cell[3640, 111, 94, 1, 28, "Input"]
+Cell[3640, 111, 184, 2, 30, "Text"],
+Cell[CellGroupData[{
+Cell[3849, 117, 651, 17, 46, "Input"],
+Cell[4503, 136, 834, 26, 92, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5374, 167, 386, 10, 28, "Input"],
+Cell[5763, 179, 893, 28, 78, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6693, 212, 238, 6, 28, "Input"],
+Cell[6934, 220, 244, 7, 21, "Message"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7215, 232, 316, 9, 28, "Input"],
+Cell[7534, 243, 952, 28, 160, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8523, 276, 409, 12, 28, "Input"],
+Cell[8935, 290, 949, 28, 160, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9921, 323, 118, 2, 28, "Input"],
+Cell[10042, 327, 342, 5, 60, "Print",
+ CellTags->"Info-fb0ff775-b0bf-4015-9774-d55ceba6db8b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10421, 337, 127, 2, 28, "Input"],
+Cell[10551, 341, 269, 4, 40, "Print",
+ CellTags->"Info-2878fdab-8881-41e1-842c-4d06d3ca6b4f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10857, 350, 116, 2, 28, "Input"],
+Cell[10976, 354, 203, 4, 40, "Print",
+ CellTags->"Info-577acaba-c07d-4d74-bbd7-a9ee35f47df6"]
+}, Open  ]]
 }
 ]
 *)
 
 (* End of internal cache information *)
-
