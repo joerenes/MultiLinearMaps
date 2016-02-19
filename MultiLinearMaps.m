@@ -18,21 +18,31 @@ Unprotect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
 Unprotect[BasisElement,BasisKet,BasisBra,BasisProj];
 Unprotect[OmegaKet,OmegaBra,OmegaOp,SwapOp];
 Unprotect[ToMatrix,FromMatrix];
+Unprotect[AddMaps2,IdentityOp];
+ClearAll[AddMaps2];
 
 
 (*ContractableSystems::usage="ContractableSystem[L,R] returns the system names that are contractable in the composition L \[EmptySmallCircle] R. Input MapDicts."; *)
 
 
-ComposeMaps::usage="ComposeMaps[L,R] returns a MultiMap object describing the composition L \[EmptySmallCircle] R. Also accessible by the infix notation L ** R";
+ComposeMaps::usage="ComposeMaps[L,R] returns the composition L \[EmptySmallCircle] R. Accessible by the infix notation L ** R";
 PartialTranspose::usage="PartialTranspose[M,syslist] returns the partial transpose of M with respect to the systems in syslist.";
-PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are.";
+PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are. A single system need not be input as a singleton list.";
 MapTranspose::usage="MapTranspose[M] returns the transpose of the map.";
 Adjoint::usage="Adjoint[M] returns the adjoint of M.";
 SystemMapping::usage="SystemMapping[M] returns a list of two lists, \.7fdescribing which systems M maps to which others: the first sublist records the output systems, the second the input systems.";
-AddMaps::usage="AddMaps[M1,M2] returns the sum of the two maps. Also accessible infix as M1 + M2.";
+AddMaps::usage="AddMaps[M1,M2] returns the sum of the two maps. Accessible infix as M1 + M2.";
 ToMatrix::usage="ToMatrix[M,sortinglist] returns the matrix representation of M, with tensor subsystems ordered according to sortinglist.";
-FromMatrix::usage="FromMatrix[out,in,m] returns a Multimap object which maps the systems in the list in to those in out according to the matrix m. If only one list of systems is given, the map takes these systems to themselves.";
+FromMatrix::usage="FromMatrix[out,in,m] returns a MultiMap object which maps the systems in the list in to those in out according to the matrix m. If only one list of systems is given, the map takes these systems to themselves.";
 BasisBra::usage="BasisBra[sys,k] returns the kth basis bra of system sys.";
+BasisKet::usage="BasisKet[sys,k] returns the kth basis ket of system sys.";
+BasisProj::usage="BasisProj[sys,k] returns the projector onth the kth basis element of system sys.";
+IdentityOp::usage="IdentityOp[syslist] returns the identity operator on the systems in syslist.";
+OmegaOp::usage="OmegaOp[sys1,sys2] returns the projector onto the canonical maximally entangled state of systems sys1 and sys2 (no error handling of dimensions yet)";
+OmegaKet::usage="OmegaKet[sys1,sys2] returns the ket corresponding to the unnormalized maximally entangled state of systems sys1 and sys2 (no error handling of dimensions yet)";
+OmegaBra::usage="OmegaKet[sys1,sys2] returns the bra corresponding to the unnormalized maximally entangled state of systems sys1 and sys2 (no error handling of dimensions yet)";
+SwapOp::usage="SwapOp[sys1,sys2] returns the operator which swaps systems sys1 and sys2 (no error handling of dimensions yet)";
+AddMaps2::usage="";
 
 
 (*ValidMappingQ::usage="";
@@ -56,6 +66,7 @@ Atomize::usage=""; *)
 
 ComposeMaps::inputs = "Input maps are not composable in this order.";
 PartialTranspose::inputs = "Invalid systems for PartialTranspose.";
+AddMaps::inputs = "Input maps can not be added together."
 
 
 Begin["`Private`"];
@@ -196,31 +207,48 @@ NonCommutativeMultiply[MultiMap[x1_,x2_],MultiMap[y1_,y2_]]^:=ComposeMaps[MultiM
 
 
 genPerm[list1_,list2_]:=Flatten[Position[list1,#]&/@list2];
-SortMap[x_IndexDict/;AtomicQ[x],f_]:=genPerm[List@@(f[x]),List@@x]
+SortMap[x_IndexDict/;AtomicQ[x],f_]:=genPerm[List@@(f[x]),List@@x];
 
 
 Canonicalize[t_MultiMap,sortlist_List:{}]:=
 If[Length[t[[1]]]==0,t,
 	Module[{sortingf},
 		If[sortlist=={},sortingf=TypeSort,sortingf=OwnSort[#,sortlist]&];
-		MultiMap@@{sortingf[#[[1]]],Transpose[#[[2]],SortMap[#[[1]],sortingf]]}&[Atomize[t]]]];
-AddMaps[t1_MultiMap,t2_MultiMap]:=If[SystemMappingEqualQ[t1,t2],Module[{ct1=Canonicalize[t1]},MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]]];
+		MultiMap@@{sortingf[#[[1]]],Transpose[#[[2]],SortMap[#[[1]],sortingf]]}&[Atomize[t]]
+	]
+];
+AddMaps[t1_MultiMap,t2_MultiMap]:=If[SystemMappingEqualQ[t1,t2],
+	Module[{ct1=Canonicalize[t1]},
+		MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]
+	]
+];
 Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]]
-
+AddMaps2[t1_MultiMap,t2_MultiMap]:=Module[{biglist,one,two},
+	biglist=Map[Sort,MapThread[{Complement[#1,#2],Complement[#2,#1]}&,{{Kets[#],Bras[#]}&[t1[[1]]],{Kets[#],Bras[#]}&[t2[[1]]]}],{2}];
+	If[Map[Name,biglist[[1]],{2}]==Map[Name,biglist[[2]],{2}],
+		one=Canonicalize[t1**IdentityOp[#[[1]]&/@(biglist[[1]][[2]])]];
+		two=Canonicalize[t2**IdentityOp[#[[1]]&/@(biglist[[1]][[1]])]];
+		MultiMap[one[[1]],one[[2]]+two[[2]]],
+		Message[AddMaps::inputs]
+	]
+]
 
 
 Matrixize[t_MultiMap,sortlist_:{}]:=
 Module[{ct,keti,brai},
-ct=Canonicalize[t,sortlist];
-keti=KetIndices[ct[[1]]];
-brai=BraIndices[ct[[1]]];
-Which[
-keti=={}&&brai=={},
-MultiMap[IndexDict[],ct[[2]]],
-keti=={}||brai=={},
-MultiMap[IndexDict[VecSpace@@Atoms[ct[[1]]]],Flatten[ct[[2]]]],
-True,
-MultiMap@@({IndexDict@@(VecSpace@@#&/@SplitBy[Atoms[ct[[1]]],Type]),Flatten[ct[[2]],{keti,brai}]})]]
+	ct=Canonicalize[t,sortlist];
+	keti=KetIndices[ct[[1]]];
+	brai=BraIndices[ct[[1]]];
+	Which[
+		keti=={}&&brai=={},
+		MultiMap[IndexDict[],ct[[2]]],
+		keti=={}||brai=={},
+		MultiMap[IndexDict[VecSpace@@Atoms[ct[[1]]]],Flatten[ct[[2]]]],
+		True,
+		MultiMap@@({IndexDict@@(VecSpace@@#&/@SplitBy[Atoms[ct[[1]]],Type]),Flatten[ct[[2]],{keti,brai}]})
+	]
+]
+(* here we need conditional logic to handle scalars, vectors, and operators differently *)
 
 
 ToMatrix[t_MultiMap,sortlist_:{}]:=Matrixize[t,sortlist][[2]];
@@ -236,6 +264,12 @@ BasisBra[sys_System,num_Integer]:=BasisElement[sys,num,"bra"];
 BasisProj[sys_System,num_Integer]:=BasisKet[sys,num]**BasisBra[sys,num]
 
 
+SpId[d_]:=SparseArray[{{i_,i_}->1},{d,d}];
+
+
+IdentityOp[systems_List]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@systems),VecSpace@@(AtomicSpace[#,"bra"]&/@systems)],SpId[Times@@(Dimension/@systems)]];
+
+
 OmegaKet[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"]]],SparseArray@Flatten[IdentityMatrix[Dimension@sys1]]];
 OmegaBra[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"bra"]],VecSpace[AtomicSpace[sys2,"bra"]]],SparseArray@Flatten[IdentityMatrix[Dimension@sys1]]];
 OmegaOp[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"],AtomicSpace[sys1,"bra"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SparseArray[IdentityMatrix[(Dimension@sys1)^2]]]
@@ -243,7 +277,7 @@ OmegaOp[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"
 
 (* Swap[sys1_System,sys2_System]:=PartialTranspose[OmegaOp[sys1,sys2],{Name[sys1]}]; *)
 SwapOp[sys1_System,sys2_System]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"bra"],AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SparseArray[IdentityMatrix[(Dimension@sys1)^2]]]
-Swap::usage="Swap[sys1,sys2] returns the swap operator (a MultiMap) of the two systems. Input System objects.";
+SwapOp::usage="SwapOp[sys1,sys2] returns the swap operator of the two systems. Input System objects.";
 
 
 FromMatrix[systems_List,matrix_]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@systems),VecSpace@@(AtomicSpace[#,"bra"]&/@systems)],SparseArray@matrix];
@@ -289,12 +323,12 @@ BraAddresses[x_IndexDict]:=Position[x,z_/;Type[z]=="bra",{2}]
 
 
 MapTranspose[x_MultiMap]:=MultiMap[Module[{k=Join[#,{2}]&/@KetAddresses[x[[1]]],b=Join[#,{2}]&/@BraAddresses[x[[1]]]},
-ReplacePart[x[[1]],{k->"bra",b->"ket"}]],x[[2]]];
+	ReplacePart[x[[1]],{k->"bra",b->"ket"}]],x[[2]]];
 Transpose[MultiMap[x_,y_]]^:=MapTranspose[MultiMap[x,y]]
 
 
 Adjoint[x_MultiMap]:=MultiMap[Module[{k=Join[#,{2}]&/@KetAddresses[x[[1]]],b=Join[#,{2}]&/@BraAddresses[x[[1]]]},
-ReplacePart[x[[1]],{k->"bra",b->"ket"}]],Conjugate[x[[2]]]];
+	ReplacePart[x[[1]],{k->"bra",b->"ket"}]],Conjugate[x[[2]]]];
 
 
 (* ::Text:: *)
@@ -332,6 +366,7 @@ Protect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
 Protect[BasisElement,BasisKet,BasisBra,BasisProj];
 Protect[OmegaKet,OmegaBra,OmegaOp,SwapOp];
 Protect[FromMatrix,ToMatrix];
+Protect[AddMaps2,IdentityOp];
 
 
 
