@@ -222,7 +222,7 @@ AddMaps[t1_MultiMap,t2_MultiMap]:=If[SystemMappingEqualQ[t1,t2],
 		MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]
 	]
 ];
-Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]]
+Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]];
 AddMaps2[t1_MultiMap,t2_MultiMap]:=Module[{biglist,one,two},
 	biglist=Map[Sort,MapThread[{Complement[#1,#2],Complement[#2,#1]}&,{{Kets[#],Bras[#]}&[t1[[1]]],{Kets[#],Bras[#]}&[t2[[1]]]}],{2}];
 	If[Map[Name,biglist[[1]],{2}]==Map[Name,biglist[[2]],{2}],
@@ -232,6 +232,7 @@ AddMaps2[t1_MultiMap,t2_MultiMap]:=Module[{biglist,one,two},
 		Message[AddMaps::inputs]
 	]
 ]
+(* should extract the function which checks for mapping compatibility, as in AddMaps *)
 
 
 Matrixize[t_MultiMap,sortlist_:{}]:=

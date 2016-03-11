@@ -10,8 +10,8 @@ Each map is represented by an array/tensor of coefficients, so the calculation i
 
 ToDo:
 -----
-# automatically include identity operators where needed when adding maps (serious annoyance)
-# overload Eigenvalues, Tr, etc. (minor annoyance)
++ automatically include identity operators where needed when adding maps (serious annoyance)
++ overload Eigenvalues, Tr, etc. (minor annoyance)
 
 Related
 -------
