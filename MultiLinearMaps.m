@@ -8,18 +8,13 @@ BeginPackage["MultiLinearMaps`"];
 
 
 Unprotect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
-ClearAll[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap]
-(* Unprotect[Name,Dimension,Type]; 
-Unprotect[AtomNames,AtomicQ,AtomDimensions,Atoms,Atomize]; *)
-(* Unprotect[Matrixize,Canonicalize];  do these really need to be exposed? *)
-Unprotect[SystemMapping,AddMaps,ComposeMaps];
-ClearAll[SystemMapping,AddMaps,ComposeMaps]
-Unprotect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
-Unprotect[BasisElement,BasisKet,BasisBra,BasisProj];
-Unprotect[OmegaKet,OmegaBra,OmegaOp,SwapOp];
-Unprotect[ToMatrix,FromMatrix];
-Unprotect[AddMaps2,IdentityOp];
-ClearAll[AddMaps2];
+ClearAll[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
+Unprotect[ValidMapQ,MapEqualQ,ComposableQ,AtomicQ,ContractableQ];
+ClearAll[ValidMapQ,MapEqualQ,ComposableQ,AtomicQ,ContractableQ];
+Unprotect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix,LazyAdd];
+ClearAll[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix,LazyAdd];
+Unprotect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
+ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 
 
 (*ContractableSystems::usage="ContractableSystem[L,R] returns the system names that are contractable in the composition L \[EmptySmallCircle] R. Input MapDicts."; *)
@@ -151,11 +146,9 @@ chkArgs[x_MapDict]:=If[
 ContractableSystems[x_MapDict]/;chkArgs[x]:=Intersection[x[[1]],x[[2]]];
 ContractableQ[x_MapDict,sysnames_List]:=And@@(SubsetQ[#,sysnames]&/@x);
 ContractableQ[x_MapDict,sysname_]:=ContractableQ[x,{sysname}];
-(* ContractableSystemQ[x_MapDict,sysname_]:=And@@(MemberQ[#,sysname]&/@x);
-ContractableSystemsQ[x_MapDict,sysnames_List]:=And@@(SubsetQ[#,sysnames]&/@x); *)
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*System / AtomicSpace / VecSpace*)
 
 
@@ -185,14 +178,7 @@ AtomicQ[x_VecSpace]:=Length[x]==1;
 Dimension[x_VecSpace]:=Times@@(Level[x,{3}][[2;;;;2]]); 
 
 
-(* AtomNames[x_VecSpace]:=Level[x,{3}][[;;;;2]]; (* not used? *)
-(* AtomDimensions[x_VecSpace]:=Level[x,{3}][[2;;;;2]]; *)
-
-
-
-
-
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*IndexDict / MultiMap*)
 
 
@@ -203,7 +189,6 @@ Dimension[x_VecSpace]:=Times@@(Level[x,{3}][[2;;;;2]]);
 AtomicQ[x_IndexDict]:=And@@AtomicQ/@x;
 Atoms[x_IndexDict]:=Level[x,{2}];
 DimensionList[x_IndexDict]:=List@@(Dimension/@x);
-(* AtomNames[x_IndexDict]:=Level[x,{4}][[1;;All;;2]]  not used? *)
 
 
 Kets[x_IndexDict]:=Select[Atoms[x],#[[2]]=="ket"&];
@@ -214,14 +199,9 @@ BraIndices[x_IndexDict]:=Flatten[Position[Atoms[x],z_/;Type[z]=="bra"]];
 KetAddress[x_IndexDict,sysname_]:=Position[x,z_/;Name[z]==sysname&&Type[z]=="ket",{2}];
 BraAddress[x_IndexDict,sysname_]:=Position[x,z_/;Name[z]==sysname&&Type[z]=="bra",{2}]
 KetAddresses[x_IndexDict,sysnames_List]:=Position[x,z_/;MemberQ[sysnames,Name[z]]&&Type[z]=="ket",{2}];
-BraAddresses[x_IndexDict,sysnames_List]:=Position[x,z_/;MemberQ[sysnames,Name[z]]&&Type[z]=="bra",{2}]
-
-
-(*ValidMapQ[x_IndexDict]:=ValidMapQ[SystemMap[x]];
-MapEqualQ[x_IndexDict,y_IndexDict]:=MapEqualQ[SystemMap[x],SystemMap[y]];
-ComposableQ[L_IndexDict,R_IndexDict]:=ComposableQ[SystemMap@L,SystemMap@R];
-ContractableQ[x_IndexDict,sysnames_List]:=ContractableQ[SystemMap[x],sysnames];
-ContractableQ[x_IndexDict,sysname_]:=ContractableQ[SystemMap[x],{sysname}];*)
+BraAddresses[x_IndexDict,sysnames_List]:=Position[x,z_/;MemberQ[sysnames,Name[z]]&&Type[z]=="bra",{2}];
+KetAddresses[x_IndexDict]:=Position[x,z_/;Type[z]=="ket",{2}];
+BraAddresses[x_IndexDict]:=Position[x,z_/;Type[z]=="bra",{2}]
 
 
 (* ::Text:: *)
@@ -240,7 +220,7 @@ AtomicQ[t_MultiMap]:=And[AtomicQ[t[[1]]],List@@Dimension/@Atoms[t[[1]]]==Dimensi
 Times[MultiMap[x_,y_],z_?NumericQ]^:=MultiMap[x,z y];
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Constructors*)
 
 
@@ -287,10 +267,8 @@ And[
 MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@sysout),VecSpace@@(AtomicSpace[#,"bra"]&/@sysin)],SparseArray@matrix]
 FromMatrix[systems_List,matrix_]:=FromMatrix[systems,systems,matrix];
 
-(*MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@systems),VecSpace@@(AtomicSpace[#,"bra"]&/@systems)],SparseArray@matrix]*)
 
-
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Composition*)
 
 
@@ -313,15 +291,12 @@ Atomize[t_MultiMap]:=If[
 (*For manipulating the IndexDict, assume it is atomic.*)
 
 
-(* CompositionIndices1[L_IndexDict,R_IndexDict]:=Flatten[{Position[Atoms@L,z_/;Type[z]=="bra"&&Name[z]==#],Position[Atoms@R,z_/;Type[z]=="ket"&&Name[z]==#]}]&/@(ContractableSystems@@(SystemMapping[#]&/@{L,R}));
-(* return the index pairs, one each from left and right, \.7f\.7f\.7fthat need to be contracted in order to compose the two maps *)
-
-
 CompositionSystems[L_IndexDict,R_IndexDict]:=CompositionSystems[SystemMap@L,SystemMap@R];
 CompositionIndices[L_IndexDict,R_IndexDict]:=With[
 	{inner=CompositionSystems[L,R]},
 	Flatten[{Position[Atoms@L,z_/;Type[z]=="bra"&&Name[z]==#],Position[Atoms@R,z_/;Type[z]=="ket"&&Name[z]==#]}]&/@(inner)
 ];
+(* return the index pairs, one each from left and right, \.7f\.7f\.7fthat need to be contracted in order to compose the two maps *)
 ComposeMaps[L_IndexDict,R_IndexDict]:=With[
 	{ci=CompositionIndices[L,R]},
 	If[
@@ -341,7 +316,7 @@ ComposeMaps[L_MultiMap,R_MultiMap,x__MultiMap]:=ComposeMaps[ComposeMaps[L,R],Com
 NonCommutativeMultiply[MultiMap[x1_,x2_],MultiMap[y1_,y2_]]^:=ComposeMaps[MultiMap[x1,x2],MultiMap[y1,y2]];
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Contraction (partial trace)*)
 
 
@@ -356,17 +331,6 @@ With[
 ];
 
 
-ContractMap1[x_IndexDict,sysnames_List]:=If[
-	ContractableSystemsQ[x,sysnames],
-	With[
-		{r=Select[Atoms[x],!MemberQ[sysnames,Name[#]]&]},
-		If[
-			r=={},
-			IndexDict[],
-			IndexDict[Sequence@@(VecSpace[#]&/@r)]
-		]
-	]
-];
 ContractMap[x_IndexDict,sysnames_List]:=With[
 	{r=Select[Atoms[x],!MemberQ[sysnames,Name[#]]&]},
 	If[
@@ -394,25 +358,6 @@ PartialTrace[x_MultiMap,systems_List:{}]/;If[
 	MultiMap[ContractMap[#[[1]],sysnames],TensorContract[#[[2]],ContractionIndices[#[[1]],sysnames]]]&[Atomize[x]]
 ];
 PartialTrace[x_MultiMap,s_System]:=PartialTrace[x,{s}];
-
-
-PartialTrace1[x_MultiMap,systems_List:{}]:=
-	Module[{sysnames},
-		If[systems=={},
-			sysnames=ContractableSystems[SystemMap[x]],
-			sysnames=Name/@systems
-		];
-		If[ContractableSystemsQ[x[[1]],sysnames],
-			Module[{f=MultiMap[ContractMap[#[[1]],sysnames],TensorContract[#[[2]],ContractionIndices[#[[1]],sysnames]]]&},
-				If[AtomicQ[x],
-					f[x],
-					f[Atomize[x]]
-				]
-			],
-			Message[PartialTrace::inputs];x
-		]
-	];
-PartialTrace1[x_MultiMap,s_System]:=PartialTrace1[x,{s}];
 
 
 (* ::Subsubsection:: *)
@@ -468,21 +413,6 @@ With[
 	MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]
 ];
 Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]];
-(*
-CompatibleMaps[l1_IndexList,l2_IndexList]:=
-With[
-	{Map[Sort,MapThread[{Complement[#1,#2],Complement[#2,#1]}&,{{Kets[#],Bras[#]}&[l1],{Kets[#],Bras[#]}&[l2]}],{2}]},
-	If[
-	
-AddMaps2[t1_MultiMap,t2_MultiMap]:=Module[{biglist,one,two},
-	biglist=Map[Sort,MapThread[{Complement[#1,#2],Complement[#2,#1]}&,{{Kets[#],Bras[#]}&[t1[[1]]],{Kets[#],Bras[#]}&[t2[[1]]]}],{2}];
-	If[Map[Name,biglist[[1]],{2}]==Map[Name,biglist[[2]],{2}],
-		one=Canonicalize[t1**IdentityOp[#[[1]]&/@(biglist[[1]][[2]])]];
-		two=Canonicalize[t2**IdentityOp[#[[1]]&/@(biglist[[1]][[1]])]];
-		MultiMap[one[[1]],one[[2]]+two[[2]]],
-		Message[AddMaps::inputs]
-	]
-]*)
 
 
 MapDifferences[m1_MapDict,m2_MapDict]:=
@@ -492,12 +422,12 @@ With[
 ];
 CompatibleQ[m1_MapDict,m2_MapDict]:=And@@(#[[1]]==#[[2]]&/@MapDifferences[m1,m2]);
 SystemsByName[x_IndexDict,namelist_List]:=Select[Union[#[[1]]&/@Level[x,{2}]],MemberQ[namelist,Name[#]]&];
-AddMaps::incomp="Incompatible maps";
-AddMaps2[t1_MultiMap,t2_MultiMap]/;
+LazyAdd::incomp="Cannot add incompatible maps";
+LazyAdd[t1_MultiMap,t2_MultiMap]/;
 If[
 	CompatibleQ[SystemMap@t1,SystemMap@t2],
 	True,
-	Message[AddMaps::incomp]
+	Message[LazyAdd::incomp]
 ]:=Module[
 	{e1,e2,diffs=#[[1]]&/@MapDifferences[SystemMap[t1],SystemMap[t2]]},
 	e1=Canonicalize[t1**IdentityOp[SystemsByName[t2[[1]],diffs[[1]]]]];
@@ -552,23 +482,10 @@ If[
 	MultiMap[PartialTranspose[x[[1]],systems],x[[2]]
 ];
 PartialTranspose[x_MultiMap,s_System]:=PartialTranspose[x,{s}];
-(* PartialTranspose[x_IndexDict,systems_List]:=
-Module[{sysnames=Name/@systems},
-	If[ContractableSystemsQ[x,sysnames],
-		Module[{k=Join[#,{2}]&/@KetAddresses[x,sysnames],b=Join[#,{2}]&/@BraAddresses[x,sysnames]},
-			ReplacePart[x,{k->"bra",b->"ket"}]],
-		Message[PartialTranspose::inputs];x
-	]
-]
-*)
 
 
 (* ::Text:: *)
 (*Transpose, Adjoint*)
-
-
-KetAddresses[x_IndexDict]:=Position[x,z_/;Type[z]=="ket",{2}];
-BraAddresses[x_IndexDict]:=Position[x,z_/;Type[z]=="bra",{2}]
 
 
 MapTranspose[x_MultiMap]:=MultiMap[Module[{k=Join[#,{2}]&/@KetAddresses[x[[1]]],b=Join[#,{2}]&/@BraAddresses[x[[1]]]},
@@ -588,13 +505,12 @@ MultiMap[Module[{k=Join[#,{2}]&/@KetAddresses[x[[1]]],b=Join[#,{2}]&/@BraAddress
 End[]
 
 Protect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
-Protect[SystemMapping,AddMaps,ComposeMaps];
-Protect[PartialTrace,MapTranspose,Adjoint,PartialTranspose];
-Protect[BasisElement,BasisKet,BasisBra,BasisProj];
-Protect[OmegaKet,OmegaBra,OmegaOp,SwapOp];
-Protect[FromMatrix,ToMatrix];
-Protect[AddMaps2,IdentityOp];
+Protect[ValidMapQ,MapEqualQ,ComposableQ,AtomicQ,ContractableQ];
+Protect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix,LazyAdd];
+Protect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 
+<<Notation`;
+InfixNotation[ParsedBoxWrapper[SubscriptBox["+", "L"]],LazyAdd]
 
 
 EndPackage[]
