@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    137455,       3669]
-NotebookOptionsPosition[    133864,       3576]
-NotebookOutlinePosition[    134221,       3592]
-CellTagsIndexPosition[    134178,       3589]
+NotebookDataLength[    129119,       3406]
+NotebookOptionsPosition[    125870,       3321]
+NotebookOutlinePosition[    126227,       3337]
+CellTagsIndexPosition[    126184,       3334]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -66,26 +66,39 @@ Cell[BoxData[{
   3.705830602594996*^9}},ExpressionUUID->"47915eb9-c48a-4701-aaac-\
 2b744ee2e7f0"],
 
-Cell["EqualQ", "Text",
+Cell["EqualQ / ValidMapQ", "Text",
  CellChangeTimes->{{3.705903101610862*^9, 3.705903109078348*^9}, {
-  3.705904118812023*^9, 
-  3.705904119680955*^9}},ExpressionUUID->"49070c75-4f93-44b6-adad-\
+  3.705904118812023*^9, 3.705904119680955*^9}, {3.705997459750352*^9, 
+  3.705997460325944*^9}},ExpressionUUID->"49070c75-4f93-44b6-adad-\
 e132167ffbe9"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"VerificationTest", "[", 
-  RowBox[{
-   RowBox[{"md1", "\[Equal]", "md4"}], ",", "True"}], "]"}]], "Input",
- CellChangeTimes->{{3.705903558689122*^9, 
-  3.7059035723844843`*^9}},ExpressionUUID->"06317d9a-1335-459d-8d44-\
+ RowBox[{"TestReport", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"VerificationTest", "[", 
+     RowBox[{
+      RowBox[{"ValidMapQ", "/@", 
+       RowBox[{"{", 
+        RowBox[{"md1", ",", "md2", ",", "md3", ",", "md4"}], "}"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"True", ",", "True", ",", "False", ",", "True"}], "}"}]}], 
+     "]"}], ",", 
+    RowBox[{"VerificationTest", "[", 
+     RowBox[{
+      RowBox[{"md1", "\[Equal]", "md4"}], ",", "True"}], "]"}]}], "}"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.705903558689122*^9, 3.7059035723844843`*^9}, {
+  3.705997448106696*^9, 
+  3.705997454221402*^9}},ExpressionUUID->"06317d9a-1335-459d-8d44-\
 01b595b42160"],
 
 Cell[BoxData[
  InterpretationBox[
   RowBox[{
-   TagBox["TestResultObject",
+   TagBox["TestReportObject",
     "SummaryHead"], "[", 
    DynamicModuleBox[{Typeset`open$$ = False}, 
     PanelBox[
@@ -135,18 +148,26 @@ Cell[BoxData[
           PlotRange->{{0, 1}, {0, 1}}], GridBox[{
            {
             RowBox[{
-             TagBox["\<\"Outcome: \"\>",
+             TagBox["\<\"Title: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["\<\"Success\"\>",
-              "SummaryItem"]}]},
+             TagBox["Automatic",
+              "SummaryItem"]}], "\[SpanFromLeft]"},
            {
             RowBox[{
-             TagBox["\<\"Test ID: \"\>",
+             TagBox["\<\"Success rate: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["None",
+             TagBox[
+              TemplateBox[{"100","\"%\""},
+               "RowDefault"],
+              "SummaryItem"]}], 
+            RowBox[{
+             TagBox["\<\"Tests run: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["2",
               "SummaryItem"]}]}
           },
           AutoDelete->False,
+          
           BaseStyle->{
            ShowStringCharacters -> False, NumberMarks -> False, 
             PrintPrecision -> 3, ShowSyntaxStyles -> False},
@@ -205,81 +226,53 @@ Cell[BoxData[
           PlotRange->{{0, 1}, {0, 1}}], GridBox[{
            {
             RowBox[{
-             TagBox["\<\"Outcome: \"\>",
+             TagBox["\<\"Title: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["\<\"Success\"\>",
-              "SummaryItem"]}]},
+             TagBox["Automatic",
+              "SummaryItem"]}], "\[SpanFromLeft]"},
            {
             RowBox[{
-             TagBox["\<\"Test ID: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["None",
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Input: \"\>",
+             TagBox["\<\"Success rate: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
-              PaneBox[
-               TagBox[
-                RowBox[{"md1", "\[Equal]", "md4"}],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
+              TemplateBox[{"100","\"%\""},
+               "RowDefault"],
+              "SummaryItem"]}], 
+            RowBox[{
+             TagBox["\<\"Tests run: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["2",
               "SummaryItem"]}]},
            {
             RowBox[{
-             TagBox["\<\"Expected output: \"\>",
+             TagBox["\<\"Succeeded: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox["True",
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]},
+             TagBox["2",
+              "SummaryItem"]}], "\[SpanFromLeft]"},
            {
             RowBox[{
-             TagBox["\<\"Actual output: \"\>",
+             TagBox["\<\"Failed: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox["True",
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]},
+             TagBox["0",
+              "SummaryItem"]}], "\[SpanFromLeft]"},
            {
             RowBox[{
-             TagBox["\<\"Time Taken: \"\>",
+             TagBox["\<\"Failed with wrong results: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox[
-                
-                TemplateBox[{
-                 "0.00024`2.5307262395435974","\"s\"","seconds","\"Seconds\""},
-                 "Quantity"],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]}
+             TagBox["0",
+              "SummaryItem"]}], "\[SpanFromLeft]"},
+           {
+            RowBox[{
+             TagBox["\<\"Failed with messages: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["0",
+              "SummaryItem"]}], "\[SpanFromLeft]"},
+           {
+            RowBox[{
+             TagBox["\<\"Failed with errors: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["0",
+              "SummaryItem"]}], "\[SpanFromLeft]"}
           },
           AutoDelete->False,
           
@@ -301,292 +294,44 @@ Cell[BoxData[
       ImageSize->Automatic],
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
-  TestResultObject[
+  TestReportObject[
    Association[
-   "TestIndex" -> 8, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
-    HoldForm[$CellContext`md1 == $CellContext`md4], "ExpectedOutput" -> 
-    HoldForm[True], "ActualOutput" -> HoldForm[True], 
-    "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-    Quantity[0.00024`2.5307262395435974, "Seconds"], "CPUTimeUsed" -> 
-    Quantity[0.00021200000000121122`, "Seconds"], "MemoryUsed" -> 
-    Quantity[176, "Bytes"]]],
-  Editable->False,
-  SelectWithContents->True,
-  Selectable->False]], "Output",
- CellChangeTimes->{3.7059035729572163`*^9, 3.705904576427343*^9, 
-  3.705988755594778*^9, 3.705988852490561*^9, 
-  3.705989491194488*^9},ExpressionUUID->"c5bbcb2d-d0fa-48f4-9013-\
-79ea0a85c15f"]
-}, Open  ]],
-
-Cell["ValidMapQ", "Text",
- CellChangeTimes->{{3.705904121598095*^9, 3.705904123542338*^9}, 
-   3.705904193878676*^9},ExpressionUUID->"5d36bab6-d533-480e-8fbd-\
-bdc69453c296"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"VerificationTest", "[", 
-  RowBox[{
-   RowBox[{"ValidMapQ", "/@", 
-    RowBox[{"{", 
-     RowBox[{"md1", ",", "md2", ",", "md3", ",", "md4"}], "}"}]}], ",", 
-   RowBox[{"{", 
-    RowBox[{"True", ",", "True", ",", "False", ",", "True"}], "}"}]}], 
-  "]"}]], "Input",
- CellChangeTimes->{{3.705903588588745*^9, 
-  3.7059035985697613`*^9}},ExpressionUUID->"4f72bf54-39f2-400b-bdb8-\
-3ffd3b86b269"],
-
-Cell[BoxData[
- InterpretationBox[
-  RowBox[{
-   TagBox["TestResultObject",
-    "SummaryHead"], "[", 
-   DynamicModuleBox[{Typeset`open$$ = False}, 
-    PanelBox[
-     PaneSelectorBox[{False->GridBox[{
-        {
-         PaneBox[
-          ButtonBox[
-           
-           DynamicBox[FEPrivate`FrontEndResource[
-            "FEBitmaps", "SquarePlusIconMedium"],
-            ImageSizeCache->{12., {0., 12.}}],
-           Appearance->None,
-           ButtonFunction:>(Typeset`open$$ = True),
-           Evaluator->Automatic,
-           Method->"Preemptive"],
-          Alignment->{Center, Center},
-          
-          ImageSize->
-           Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}]], 
-         GraphicsBox[{InsetBox[
-            PaneBox[
-             
-             DynamicBox[FEPrivate`FrontEndResource[
-              "MUnitExpressions", "SuccessIcon"],
-              ImageSizeCache->{16., {4., 8.}}],
-             Alignment->Center,
-             
-             ImageSize->
-              Dynamic[{
-               Automatic, 3.5 CurrentValue["FontCapHeight"]/
-                AbsoluteCurrentValue[Magnification]}]]]},
-          AspectRatio->1,
-          Axes->False,
-          Background->GrayLevel[0.93],
-          Frame->True,
-          FrameStyle->Directive[
-            Thickness[Tiny], 
-            GrayLevel[0.55]],
-          FrameTicks->None,
-          
-          ImageSize->
-           Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}],
-          PlotRange->{{0, 1}, {0, 1}}], GridBox[{
-           {
-            RowBox[{
-             TagBox["\<\"Outcome: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["\<\"Success\"\>",
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Test ID: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["None",
-              "SummaryItem"]}]}
-          },
-          AutoDelete->False,
-          BaseStyle->{
-           ShowStringCharacters -> False, NumberMarks -> False, 
-            PrintPrecision -> 3, ShowSyntaxStyles -> False},
-          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
-          
-          GridBoxItemSize->{
-           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
-          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
-       },
-       AutoDelete->False,
-       BaselinePosition->{1, 1},
-       GridBoxAlignment->{"Rows" -> {{Top}}},
-       GridBoxItemSize->{
-        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], True->
-      GridBox[{
-        {
-         PaneBox[
-          ButtonBox[
-           
-           DynamicBox[FEPrivate`FrontEndResource[
-            "FEBitmaps", "SquareMinusIconMedium"]],
-           Appearance->None,
-           ButtonFunction:>(Typeset`open$$ = False),
-           Evaluator->Automatic,
-           Method->"Preemptive"],
-          Alignment->{Center, Center},
-          
-          ImageSize->
-           Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}]], 
-         GraphicsBox[{InsetBox[
-            PaneBox[
-             
-             DynamicBox[FEPrivate`FrontEndResource[
-              "MUnitExpressions", "SuccessIcon"]],
-             Alignment->Center,
-             
-             ImageSize->
-              Dynamic[{
-               Automatic, 3.5 CurrentValue["FontCapHeight"]/
-                AbsoluteCurrentValue[Magnification]}]]]},
-          AspectRatio->1,
-          Axes->False,
-          Background->GrayLevel[0.93],
-          Frame->True,
-          FrameStyle->Directive[
-            Thickness[Tiny], 
-            GrayLevel[0.55]],
-          FrameTicks->None,
-          
-          ImageSize->
-           Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}],
-          PlotRange->{{0, 1}, {0, 1}}], GridBox[{
-           {
-            RowBox[{
-             TagBox["\<\"Outcome: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["\<\"Success\"\>",
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Test ID: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["None",
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Input: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox[
-                RowBox[{"ValidMapQ", "/@", 
-                 RowBox[{"{", 
-                  RowBox[{"md1", ",", "md2", ",", "md3", ",", "md4"}], "}"}]}],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Expected output: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox[
-                RowBox[{"{", 
-                 RowBox[{"True", ",", "True", ",", "False", ",", "True"}], 
-                 "}"}],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Actual output: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox[
-                RowBox[{"{", 
-                 RowBox[{"True", ",", "True", ",", "False", ",", "True"}], 
-                 "}"}],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Time Taken: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox[
-                
-                TemplateBox[{
-                 "0.000128`2.2577249674798603","\"s\"","seconds",
-                  "\"Seconds\""},
-                 "Quantity"],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]}
-          },
-          AutoDelete->False,
-          
-          BaseStyle->{
-           ShowStringCharacters -> False, NumberMarks -> False, 
-            PrintPrecision -> 3, ShowSyntaxStyles -> False},
-          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
-          
-          GridBoxItemSize->{
-           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
-          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
-       },
-       AutoDelete->False,
-       BaselinePosition->{1, 1},
-       GridBoxAlignment->{"Rows" -> {{Top}}},
-       GridBoxItemSize->{
-        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]}, Dynamic[
-      Typeset`open$$],
-      ImageSize->Automatic],
-     BaselinePosition->Baseline],
-    DynamicModuleValues:>{}], "]"}],
-  TestResultObject[
-   Association[
-   "TestIndex" -> 9, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
-    HoldForm[
-      Map[
-      MultiLinearMaps`ValidMapQ, {$CellContext`md1, $CellContext`md2, \
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.59, "Seconds"], 
+    "TestsSucceededCount" -> 2, "TestsFailedCount" -> 0, 
+    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
+    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
+    Association[1 -> TestResultObject[
+        Association[
+        "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
+         HoldForm[
+           Map[
+           MultiLinearMaps`ValidMapQ, {$CellContext`md1, $CellContext`md2, \
 $CellContext`md3, $CellContext`md4}]], "ExpectedOutput" -> 
-    HoldForm[{True, True, False, True}], "ActualOutput" -> 
-    HoldForm[{True, True, False, True}], "ExpectedMessages" -> {}, 
-    "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-    Quantity[0.000128`2.2577249674798603, "Seconds"], "CPUTimeUsed" -> 
-    Quantity[0.0001289999999993796, "Seconds"], "MemoryUsed" -> 
-    Quantity[248, "Bytes"]]],
+         HoldForm[{True, True, False, True}], "ActualOutput" -> 
+         HoldForm[{True, True, False, True}], "ExpectedMessages" -> {}, 
+         "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
+         Quantity[0.000116`2.2149729870589083, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00011600000000022703`, "Seconds"], "MemoryUsed" -> 
+         Quantity[120, "Bytes"]]], 2 -> TestResultObject[
+        Association[
+        "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
+         HoldForm[$CellContext`md1 == $CellContext`md4], "ExpectedOutput" -> 
+         HoldForm[True], "ActualOutput" -> HoldForm[True], 
+         "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
+         Quantity[0.000094`2.1236428514316925, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00009200000000042508, "Seconds"], "MemoryUsed" -> 
+         Quantity[48, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
+    "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
+    "TestsFailedWithMessagesIndices" -> {}, 
+    "TestsFailedWithErrorsIndices" -> {}]],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.705903599106448*^9, 3.7059045770274963`*^9, 
-  3.7059887599700947`*^9, 3.705988853859887*^9, 
-  3.705989492521175*^9},ExpressionUUID->"a17826e4-51ba-4abb-8f41-\
-f5dd706204ed"]
+ CellChangeTimes->{
+  3.7059035729572163`*^9, 3.705904576427343*^9, 3.705988755594778*^9, 
+   3.705988852490561*^9, 3.705989491194488*^9, {3.705997439129435*^9, 
+   3.705997465573739*^9}},ExpressionUUID->"1008c327-5066-42d4-bbcc-\
+3e9b44c6ddb7"]
 }, Open  ]],
 
 Cell["Composition", "Text",
@@ -869,11 +614,11 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.65, "Seconds"], 
-    "TestsSucceededCount" -> 5, "TestsFailedCount" -> 0, 
-    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
-    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
-    Association[1 -> TestResultObject[
+   "Title" -> Automatic, "TimeElapsed" -> 
+    Quantity[0.5700000000000001, "Seconds"], "TestsSucceededCount" -> 5, 
+    "TestsFailedCount" -> 0, "TestsFailedWrongResultsCount" -> 0, 
+    "TestsFailedWithMessagesCount" -> 0, "TestsFailedWithErrorsCount" -> 0, 
+    "Aborted" -> False, "TestResults" -> Association[1 -> TestResultObject[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[{
@@ -882,9 +627,9 @@ Cell[BoxData[
           "ExpectedOutput" -> HoldForm[{False, True}], "ActualOutput" -> 
          HoldForm[{False, True}], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.0002140000000000001`2.4809287711811803, "Seconds"], 
-         "CPUTimeUsed" -> Quantity[0.0002099999999991553, "Seconds"], 
-         "MemoryUsed" -> Quantity[104, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.000269`2.5802672778343996, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00026500000000062585`, "Seconds"], "MemoryUsed" -> 
+         Quantity[104, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -894,8 +639,8 @@ Cell[BoxData[
          HoldForm[
            MultiLinearMaps`MapDict[{"a", "b"}, {"b", "c"}]], 
          "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000142`2.30280334221505, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00014000000000180535`, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000172`2.3860434447395407, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00017099999999992122`, "Seconds"], "MemoryUsed" -> 
          Quantity[216, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
@@ -910,9 +655,9 @@ Cell[BoxData[
             Message[
              MessageName[MultiLinearMaps`ComposeMaps, "inputs"]]]}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000391`2.742691755227857, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0003889999999984184, "Seconds"], "MemoryUsed" -> 
-         Quantity[280, "Bytes"]]], 4 -> TestResultObject[
+         Quantity[0.000683`2.9849357015135243, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00062400000000018, "Seconds"], "MemoryUsed" -> 
+         Quantity[6112, "Bytes"]]], 4 -> TestResultObject[
         Association[
         "TestIndex" -> 4, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -932,9 +677,10 @@ Cell[BoxData[
             Message[
              MessageName[MultiLinearMaps`MapDict, "multiplearg"], 
              MultiLinearMaps`MapDict[{"a"}, {"a", "c", "a"}], 1]]}, 
-         "AbsoluteTimeUsed" -> Quantity[0.00071`3.001773346551069, "Seconds"],
-          "CPUTimeUsed" -> Quantity[0.0006739999999965107, "Seconds"], 
-         "MemoryUsed" -> Quantity[352, "Bytes"]]], 5 -> TestResultObject[
+         "AbsoluteTimeUsed" -> 
+         Quantity[0.000484`2.8353603594764043, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00048099999999973164`, "Seconds"], "MemoryUsed" -> 
+         Quantity[2952, "Bytes"]]], 5 -> TestResultObject[
         Association[
         "TestIndex" -> 5, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -942,10 +688,11 @@ Cell[BoxData[
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000137`2.287235564988401, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00013799999999974943`, "Seconds"], "MemoryUsed" -> 
-         Quantity[48, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2, 3, 4, 5},
-     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
+         Quantity[0.000174`2.3910642461145897, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00017499999999959215`, "Seconds"], "MemoryUsed" -> 
+         Quantity[2808, "Bytes"]]]], 
+    "TestsSucceededIndices" -> {1, 2, 3, 4, 5}, "TestsFailedIndices" -> {}, 
+    "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
     "TestsFailedWithErrorsIndices" -> {}]],
   Editable->False,
@@ -955,9 +702,9 @@ Cell[BoxData[
   3.705903640104487*^9, {3.7059041349494553`*^9, 3.705904146783963*^9}, {
    3.705904223146541*^9, 3.705904262685512*^9}, 3.705904366588766*^9, 
    3.7059045789131937`*^9, {3.705988871667696*^9, 3.705988890750002*^9}, 
-   3.70598949826656*^9, 
-   3.705990745150095*^9},ExpressionUUID->"22560dcd-6259-4fef-8945-\
-61cc39445e34"]
+   3.70598949826656*^9, 3.705990745150095*^9, 
+   3.705997467017301*^9},ExpressionUUID->"40be7b91-4933-4d8a-999a-\
+7efae9804f2e"]
 }, Open  ]],
 
 Cell["Contraction", "Text",
@@ -1611,11 +1358,11 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.66, "Seconds"], 
-    "TestsSucceededCount" -> 3, "TestsFailedCount" -> 0, 
-    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
-    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
-    Association[1 -> TestResultObject[
+   "Title" -> Automatic, "TimeElapsed" -> 
+    Quantity[0.5700000000000001, "Seconds"], "TestsSucceededCount" -> 3, 
+    "TestsFailedCount" -> 0, "TestsFailedWrongResultsCount" -> 0, 
+    "TestsFailedWithMessagesCount" -> 0, "TestsFailedWithErrorsCount" -> 0, 
+    "Aborted" -> False, "TestResults" -> Association[1 -> TestResultObject[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`FromMatrix[{$CellContext`a, $CellContext`b}, 
@@ -1623,10 +1370,9 @@ Cell[BoxData[
            MultiLinearMaps`IdentityOp[{$CellContext`a, $CellContext`b}]], 
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
-         "AbsoluteTimeUsed" -> 
-         Quantity[0.000692`2.9906210922887477, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0006889999999977192, "Seconds"], "MemoryUsed" -> 
-         Quantity[112, "Bytes"]]], 2 -> TestResultObject[
+         "AbsoluteTimeUsed" -> Quantity[0.000937`3.12225458871977, "Seconds"],
+          "CPUTimeUsed" -> Quantity[0.0009240000000012571, "Seconds"], 
+         "MemoryUsed" -> Quantity[704, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -1663,9 +1409,9 @@ Cell[BoxData[
              1, {{0, 1, 2, 3, 4, 5, 6}, {{1}, {2}, {3}, {4}, {5}, {6}}}, {1, 
               1, 1, 1, 1, 1}}]]], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000174`2.3910642461145915, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0001390000000007774, "Seconds"], "MemoryUsed" -> 
-         Quantity[1600, "Bytes"]]], 3 -> TestResultObject[
+         Quantity[0.000413`2.7664650494883927, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00038300000000024426`, "Seconds"], "MemoryUsed" -> 
+         Quantity[1824, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -1692,8 +1438,8 @@ Cell[BoxData[
             Message[
              MessageName[MultiLinearMaps`FromMatrix, "dim"]]]}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000673`2.9785300620559685, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0006340000000015777, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000502`2.851218714977011, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0005030000000001422, "Seconds"], "MemoryUsed" -> 
          Quantity[720, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2, 3}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
@@ -1704,8 +1450,9 @@ Cell[BoxData[
  CellChangeTimes->{
   3.705915796671344*^9, 3.705919185458151*^9, 3.705923782646758*^9, 
    3.7059300746997547`*^9, 3.7059896144362803`*^9, {3.70599078555427*^9, 
-   3.7059908047838793`*^9}},ExpressionUUID->"e7743f45-891d-4cd7-8170-\
-962297dc147e"]
+   3.7059908047838793`*^9}, 
+   3.705997470881496*^9},ExpressionUUID->"77a3166a-919a-4680-80cc-\
+e4807adc4d47"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2000,11 +1747,11 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.65, "Seconds"], 
-    "TestsSucceededCount" -> 6, "TestsFailedCount" -> 0, 
-    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
-    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
-    Association[1 -> TestResultObject[
+   "Title" -> Automatic, "TimeElapsed" -> 
+    Quantity[0.5700000000000001, "Seconds"], "TestsSucceededCount" -> 6, 
+    "TestsFailedCount" -> 0, "TestsFailedWrongResultsCount" -> 0, 
+    "TestsFailedWithMessagesCount" -> 0, "TestsFailedWithErrorsCount" -> 0, 
+    "Aborted" -> False, "TestResults" -> Association[1 -> TestResultObject[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[(1/2) NonCommutativeMultiply[
@@ -2013,10 +1760,9 @@ Cell[BoxData[
            MultiLinearMaps`OmegaOp[$CellContext`a, $CellContext`c]], 
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
-         "AbsoluteTimeUsed" -> 
-         Quantity[0.001783`3.4016663410073464, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0017839999999971212`, "Seconds"], "MemoryUsed" -> 
-         Quantity[144, "Bytes"]]], 2 -> TestResultObject[
+         "AbsoluteTimeUsed" -> Quantity[0.010539`4.17331440234368, "Seconds"],
+          "CPUTimeUsed" -> Quantity[0.008736000000000743, "Seconds"], 
+         "MemoryUsed" -> Quantity[874312, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`AddMaps[
@@ -2026,9 +1772,9 @@ Cell[BoxData[
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.001096`3.1903255519803446, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.001090999999998843, "Seconds"], "MemoryUsed" -> 
-         Quantity[144, "Bytes"]]], 3 -> TestResultObject[
+         Quantity[0.001201`3.2300580052348997, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0011870000000007153`, "Seconds"], "MemoryUsed" -> 
+         Quantity[864, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`PartialTranspose[
@@ -2040,9 +1786,9 @@ $CellContext`c] == MultiLinearMaps`PartialTranspose[
 $CellContext`a]], "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> 
          HoldForm[True], "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.002586`3.5631435183763647, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0021839999999997417`, "Seconds"], "MemoryUsed" -> 
-         Quantity[336, "Bytes"]]], 4 -> TestResultObject[
+         Quantity[0.000992`3.147026669986168, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.000992000000000104, "Seconds"], "MemoryUsed" -> 
+         Quantity[384, "Bytes"]]], 4 -> TestResultObject[
         Association[
         "TestIndex" -> 4, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`PartialTrace[
@@ -2052,8 +1798,8 @@ $CellContext`c] == MultiLinearMaps`IdentityOp[$CellContext`a]],
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.00118`3.2223970051381174, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.001130000000003406, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000805`3.0563108781998625, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0008019999999993033, "Seconds"], "MemoryUsed" -> 
          Quantity[80, "Bytes"]]], 5 -> TestResultObject[
         Association[
         "TestIndex" -> 5, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
@@ -2063,9 +1809,9 @@ $CellContext`c] == MultiLinearMaps`IdentityOp[$CellContext`a]],
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000712`3.002994991468846, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0006899999999987472, "Seconds"], "MemoryUsed" -> 
-         Quantity[112, "Bytes"]]], 6 -> TestResultObject[
+         Quantity[0.001016`3.1574087057798943, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.000958999999999044, "Seconds"], "MemoryUsed" -> 
+         Quantity[992, "Bytes"]]], 6 -> TestResultObject[
         Association[
         "TestIndex" -> 6, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[$CellContext`rand = 
@@ -2078,9 +1824,9 @@ $CellContext`rand]] ==
               ConjugateTranspose[$CellContext`rand]]], "ExpectedOutput" -> 
          HoldForm[True], "ActualOutput" -> HoldForm[True], 
          "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.001381`3.290708676410625, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0013519999999971333`, "Seconds"], "MemoryUsed" -> 
-         Quantity[2872, "Bytes"]]]], 
+         Quantity[0.000939`3.1231805900981024, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0009370000000004097, "Seconds"], "MemoryUsed" -> 
+         Quantity[4008, "Bytes"]]]], 
     "TestsSucceededIndices" -> {1, 2, 3, 4, 5, 6}, "TestsFailedIndices" -> {},
      "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
@@ -2088,9 +1834,9 @@ $CellContext`rand]] ==
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{
-  3.705990858607225*^9},ExpressionUUID->"aa79c392-ccb0-4855-99e9-\
-60ab79d4e8ff"]
+ CellChangeTimes->{3.705990858607225*^9, 
+  3.705997474176518*^9},ExpressionUUID->"8f48cb1f-46c9-4912-b951-\
+7fc15ecdc801"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2412,7 +2158,7 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.67, "Seconds"], 
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.6, "Seconds"], 
     "TestsSucceededCount" -> 3, "TestsFailedCount" -> 0, 
     "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
     "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
@@ -2430,9 +2176,9 @@ $CellContext`rand], $CellContext`a]] == Part[$CellContext`rand,
               Span[4, 6]]], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.001024`3.160814954471802, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0009939999999986071, "Seconds"], "MemoryUsed" -> 
-         Quantity[80, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.003441`3.6871996704529217, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.002123000000000097, "Seconds"], "MemoryUsed" -> 
+         Quantity[9856, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
@@ -2448,9 +2194,9 @@ $CellContext`rand], $CellContext`b]] == Part[$CellContext`rand,
               Span[5, 6]]], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.00112`3.199733020502173, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00109600000000043, "Seconds"], "MemoryUsed" -> 
-         Quantity[80, "Bytes"]]], 3 -> TestResultObject[
+         Quantity[0.001023`3.1603906315441543, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0010110000000009833`, "Seconds"], "MemoryUsed" -> 
+         Quantity[352, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
@@ -2476,8 +2222,8 @@ $CellContext`rand], $CellContext`b]] == {{
                 Span[4, 6]]]}}], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.001432`3.3064580158038286, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0012609999999995125`, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.00093`3.1189979463859294, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0009269999999999001, "Seconds"], "MemoryUsed" -> 
          Quantity[80, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2, 3}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
@@ -2487,9 +2233,9 @@ $CellContext`rand], $CellContext`b]] == {{
   Selectable->False]], "Output",
  CellChangeTimes->{{3.705986481670673*^9, 3.705986550416431*^9}, {
    3.705986585874484*^9, 3.705986630089837*^9}, 3.705986736168215*^9, 
-   3.705989700473382*^9, 3.705990879534278*^9, 
-   3.7059909207498817`*^9},ExpressionUUID->"b85e077f-ee79-45f8-8ec7-\
-1ef3f764521c"]
+   3.705989700473382*^9, 3.705990879534278*^9, 3.7059909207498817`*^9, 
+   3.7059974767548733`*^9},ExpressionUUID->"4f1fb577-b37a-4cab-a84b-\
+9e70f148a220"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2745,7 +2491,7 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.63, "Seconds"], 
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.59, "Seconds"], 
     "TestsSucceededCount" -> 2, "TestsFailedCount" -> 0, 
     "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
     "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
@@ -2761,9 +2507,9 @@ Cell[BoxData[
 {$CellContext`b}, $CellContext`rand]], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.001391`3.2938421278240404, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0013839999999980535`, "Seconds"], "MemoryUsed" -> 
-         Quantity[96, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.001427`3.3049389709466386, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0013979999999991222`, "Seconds"], "MemoryUsed" -> 
+         Quantity[240, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
@@ -2774,8 +2520,8 @@ Cell[BoxData[
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000838`3.0737590164622683, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0008139999999983161, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000585`2.917670863914172, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0005839999999999179, "Seconds"], "MemoryUsed" -> 
          Quantity[200, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
@@ -2785,9 +2531,9 @@ Cell[BoxData[
   Selectable->False]], "Output",
  CellChangeTimes->{{3.7059878377954893`*^9, 3.7059878676476793`*^9}, 
    3.705989703590701*^9, 3.705990922578483*^9, {3.7059909622595997`*^9, 
-   3.70599096511406*^9}, 
-   3.705991000299768*^9},ExpressionUUID->"78765c8f-c914-43a9-a347-\
-4623dc8c9e79"]
+   3.70599096511406*^9}, 3.705991000299768*^9, 
+   3.70599748107813*^9},ExpressionUUID->"cb05e22f-63b0-4d44-8d6e-\
+0dfd60ac363c"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -3048,7 +2794,7 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.65, "Seconds"], 
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.58, "Seconds"], 
     "TestsSucceededCount" -> 2, "TestsFailedCount" -> 0, 
     "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
     "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
@@ -3063,9 +2809,9 @@ Cell[BoxData[
                PauliMatrix[3]]]] == $CellContext`yz], "ExpectedOutput" -> 
          HoldForm[True], "ActualOutput" -> HoldForm[True], 
          "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.001787`3.402639550337634, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.001788000000001233, "Seconds"], "MemoryUsed" -> 
-         Quantity[176, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.002038`3.4597191775023974, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0020330000000008397`, "Seconds"], "MemoryUsed" -> 
+         Quantity[408, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`LazyAdd[
@@ -3077,9 +2823,9 @@ Cell[BoxData[
 $CellContext`yz]], "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> 
          HoldForm[True], "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.002113`3.475414494884303, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.002092000000001093, "Seconds"], "MemoryUsed" -> 
-         Quantity[80, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
+         Quantity[0.002039`3.4599322236101315, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0020230000000012183`, "Seconds"], "MemoryUsed" -> 
+         Quantity[304, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
     "TestsFailedWithErrorsIndices" -> {}]],
@@ -3087,8 +2833,9 @@ $CellContext`yz]], "ExpectedOutput" -> HoldForm[True], "ActualOutput" ->
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{{3.70598996257866*^9, 3.705989967292156*^9}, 
-   3.705990931765614*^9},ExpressionUUID->"78c54f02-7f96-402e-ac46-\
-3ef4ab541bdc"]
+   3.705990931765614*^9, 
+   3.705997484173489*^9},ExpressionUUID->"681acf36-17d0-4b4e-8858-\
+1f3f75476f64"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -3469,8 +3216,7 @@ Cell[BoxData[
                TagBox[
                 
                 TemplateBox[{
-                 "0.000679`2.9823847721124936","\"s\"","seconds",
-                  "\"Seconds\""},
+                 "0.000638`2.955335676553154","\"s\"","seconds","\"Seconds\""},
                  "Quantity"],
                 Short[#, 
                  Rational[2, 3]]& ],
@@ -3502,7 +3248,7 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestResultObject[
    Association[
-   "TestIndex" -> 34, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
+   "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
     HoldForm[
       NonCommutativeMultiply[
        MultiLinearMaps`FromMatrix[{$CellContext`a, $CellContext`b}, \
@@ -3562,15 +3308,14 @@ Cell[BoxData[
       HoldForm[
        Message[
         MessageName[MultiLinearMaps`ComposeMaps, "inputs"]]]}, 
-    "AbsoluteTimeUsed" -> Quantity[0.000679`2.9823847721124936, "Seconds"], 
-    "CPUTimeUsed" -> Quantity[0.0006459999999997024, "Seconds"], "MemoryUsed" -> 
+    "AbsoluteTimeUsed" -> Quantity[0.000638`2.955335676553154, "Seconds"], 
+    "CPUTimeUsed" -> Quantity[0.000634999999999053, "Seconds"], "MemoryUsed" -> 
     Quantity[3096, "Bytes"]]],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.705990672970839*^9, 
-  3.705990975915063*^9},ExpressionUUID->"ab318a72-003f-4cba-8d9c-\
-1f95e058a32c"]
+ CellChangeTimes->{3.705990672970839*^9, 3.705990975915063*^9, 
+  3.70599748747292*^9},ExpressionUUID->"cbe1f09d-0f83-4999-9b8f-8608b8f50fbc"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -3598,77 +3343,69 @@ Cell[757, 27, 160, 3, 35, "Subsubsection", "ExpressionUUID" -> \
 "77401edd-7ebc-41d8-b15f-428979afda54"],
 Cell[920, 32, 1182, 34, 96, "Input", "ExpressionUUID" -> \
 "47915eb9-c48a-4701-aaac-2b744ee2e7f0"],
-Cell[2105, 68, 197, 4, 30, "Text", "ExpressionUUID" -> \
+Cell[2105, 68, 255, 4, 30, "Text", "ExpressionUUID" -> \
 "49070c75-4f93-44b6-adad-e132167ffbe9"],
 Cell[CellGroupData[{
-Cell[2327, 76, 258, 6, 32, "Input", "ExpressionUUID" -> \
+Cell[2385, 76, 688, 19, 54, "Input", "ExpressionUUID" -> \
 "06317d9a-1335-459d-8d44-01b595b42160"],
-Cell[2588, 84, 8259, 234, 60, "Output", "ExpressionUUID" -> \
-"c5bbcb2d-d0fa-48f4-9013-79ea0a85c15f"]
+Cell[3076, 97, 8987, 236, 60, "Output", "ExpressionUUID" -> \
+"1008c327-5066-42d4-bbcc-3e9b44c6ddb7"]
 }, Open  ]],
-Cell[10862, 321, 174, 3, 30, "Text", "ExpressionUUID" -> \
-"5d36bab6-d533-480e-8fbd-bdc69453c296"],
-Cell[CellGroupData[{
-Cell[11061, 328, 417, 11, 32, "Input", "ExpressionUUID" -> \
-"4f72bf54-39f2-400b-bdb8-3ffd3b86b269"],
-Cell[11481, 341, 8760, 247, 60, "Output", "ExpressionUUID" -> \
-"a17826e4-51ba-4abb-8f41-f5dd706204ed"]
-}, Open  ]],
-Cell[20256, 591, 230, 4, 30, "Text", "ExpressionUUID" -> \
+Cell[12078, 336, 230, 4, 30, "Text", "ExpressionUUID" -> \
 "f1258e54-ea10-4119-a2aa-c3929a6145cf"],
-Cell[20489, 597, 356, 9, 32, "Input", "ExpressionUUID" -> \
+Cell[12311, 342, 356, 9, 32, "Input", "ExpressionUUID" -> \
 "95dfdbde-82a1-43db-93f2-911cb903ef02"],
 Cell[CellGroupData[{
-Cell[20870, 610, 2294, 58, 201, "Input", "ExpressionUUID" -> \
+Cell[12692, 355, 2294, 58, 201, "Input", "ExpressionUUID" -> \
 "958afb7d-2be3-457f-ba6a-7cc869a6dfff"],
-Cell[23167, 670, 11742, 289, 60, "Output", "ExpressionUUID" -> \
-"22560dcd-6259-4fef-8945-61cc39445e34"]
+Cell[14989, 415, 11792, 291, 60, "Output", "ExpressionUUID" -> \
+"40be7b91-4933-4d8a-999a-7efae9804f2e"]
 }, Open  ]],
-Cell[34924, 962, 152, 3, 30, "Text", "ExpressionUUID" -> \
+Cell[26796, 709, 152, 3, 30, "Text", "ExpressionUUID" -> \
 "e23a4f4d-3cea-43ef-bb2f-53ac2197f143"],
 Cell[CellGroupData[{
-Cell[35101, 969, 1516, 36, 117, "Input", "ExpressionUUID" -> \
+Cell[26973, 716, 1516, 36, 117, "Input", "ExpressionUUID" -> \
 "7a6ceca2-5250-4f49-b893-bc4f3745431c"],
-Cell[36620, 1007, 10421, 267, 60, "Output", "ExpressionUUID" -> \
+Cell[28492, 754, 10421, 267, 60, "Output", "ExpressionUUID" -> \
 "e772f1cc-7554-465b-90ea-6d084aa34aa0"]
 }, Open  ]],
-Cell[47056, 1277, 868, 22, 96, "Input", "ExpressionUUID" -> \
+Cell[38928, 1024, 868, 22, 96, "Input", "ExpressionUUID" -> \
 "032b1f03-50ec-4868-87b0-3f0ba3f1f8ec"],
 Cell[CellGroupData[{
-Cell[47949, 1303, 4028, 107, 264, "Input", "ExpressionUUID" -> \
+Cell[39821, 1050, 4028, 107, 264, "Input", "ExpressionUUID" -> \
 "019cb57c-6150-4e20-aaaa-3cc9a3b2a389"],
-Cell[51980, 1412, 11882, 295, 60, "Output", "ExpressionUUID" -> \
-"e7743f45-891d-4cd7-8170-962297dc147e"]
+Cell[43852, 1159, 11911, 295, 60, "Output", "ExpressionUUID" -> \
+"77a3166a-919a-4680-80cc-e4807adc4d47"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[63899, 1712, 3050, 87, 201, "Input", "ExpressionUUID" -> \
+Cell[55800, 1459, 3050, 87, 201, "Input", "ExpressionUUID" -> \
 "ae8ab73a-5ea5-4756-8ef6-d22d752cff9a"],
-Cell[66952, 1801, 12095, 291, 60, "Output", "ExpressionUUID" -> \
-"aa79c392-ccb0-4855-99e9-60ab79d4e8ff"]
+Cell[58853, 1548, 12121, 290, 60, "Output", "ExpressionUUID" -> \
+"8f48cb1f-46c9-4912-b951-7fc15ecdc801"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[79084, 2097, 4023, 114, 201, "Input", "ExpressionUUID" -> \
+Cell[71011, 1843, 4023, 114, 201, "Input", "ExpressionUUID" -> \
 "75113126-e3f0-4be3-a0da-074e6a61bae8"],
-Cell[83110, 2213, 10751, 278, 60, "Output", "ExpressionUUID" -> \
-"b85e077f-ee79-45f8-8ec7-1ef3f764521c"]
+Cell[75037, 1959, 10780, 278, 60, "Output", "ExpressionUUID" -> \
+"4f1fb577-b37a-4cab-a84b-9e70f148a220"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[93898, 2496, 1674, 48, 138, "Input", "ExpressionUUID" -> \
+Cell[85854, 2242, 1674, 48, 138, "Input", "ExpressionUUID" -> \
 "6c8423ae-21be-4840-a52a-bd8a35554987"],
-Cell[95575, 2546, 9319, 243, 60, "Output", "ExpressionUUID" -> \
-"78765c8f-c914-43a9-a347-4623dc8c9e79"]
+Cell[87531, 2292, 9340, 243, 60, "Output", "ExpressionUUID" -> \
+"cb05e22f-63b0-4d44-8d6e-0dfd60ac363c"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[104931, 2794, 1920, 53, 180, "Input", "ExpressionUUID" -> \
+Cell[96908, 2540, 1920, 53, 180, "Input", "ExpressionUUID" -> \
 "546d790d-33a3-452c-8038-de357d4d8771"],
-Cell[106854, 2849, 9232, 241, 60, "Output", "ExpressionUUID" -> \
-"78c54f02-7f96-402e-ac46-3ef4ab541bdc"]
+Cell[98831, 2595, 9265, 242, 60, "Output", "ExpressionUUID" -> \
+"681acf36-17d0-4b4e-8858-1f3f75476f64"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[116123, 3095, 4078, 109, 264, "Input", "ExpressionUUID" -> \
+Cell[108133, 2842, 4078, 109, 264, "Input", "ExpressionUUID" -> \
 "2d8783c7-255c-41d5-9c68-1972214f8689"],
-Cell[120204, 3206, 13632, 366, 60, "Output", "ExpressionUUID" -> \
-"ab318a72-003f-4cba-8d9c-1f95e058a32c"]
+Cell[112214, 2953, 13628, 364, 60, "Output", "ExpressionUUID" -> \
+"cbe1f09d-0f83-4999-9b8f-8608b8f50fbc"]
 }, Open  ]]
 }, Open  ]]
 }

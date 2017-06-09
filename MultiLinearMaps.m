@@ -17,9 +17,6 @@ Unprotect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,
 ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 
 
-(*ContractableSystems::usage="ContractableSystem[L,R] returns the system names that are contractable in the composition L \[EmptySmallCircle] R. Input MapDicts."; *)
-
-
 (* ::Text:: *)
 (*Usage messages*)
 
@@ -27,45 +24,27 @@ ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,O
 ComposeMaps::usage="ComposeMaps[L,R] returns the composition L \[EmptySmallCircle] R. Accessible by the infix notation L ** R";
 PartialTranspose::usage="PartialTranspose[M,syslist] returns the partial transpose of M with respect to the systems in syslist.";
 PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are. A single system need not be input as a singleton list.";
-MapTranspose::usage="MapTranspose[M] returns the transpose of the map.";
+MapTranspose::usage="MapTranspose[M] returns the transpose of M. Available as Transpose.";
 Adjoint::usage="Adjoint[M] returns the adjoint of M.";
-SystemMapping::usage="SystemMapping[M] returns a list of two lists, \.7fdescribing which systems M maps to which others: the first sublist records the output systems, the second the input systems.";
+SystemMap::usage="SystemMapping[M] returns the dictionary of the map, which is a list of (the names of) output systems and a list of input systems, together under the head MapDict.";
 AddMaps::usage="AddMaps[M1,M2] returns the sum of the two maps. Accessible infix as M1 + M2.";
 ToMatrix::usage="ToMatrix[M,sortinglist] returns the matrix representation of M, with tensor subsystems ordered according to sortinglist.";
 FromMatrix::usage="FromMatrix[out,in,m] returns a MultiMap object which maps the systems in the list in to those in out according to the matrix m. If only one list of systems is given, the map takes these systems to themselves.";
-BasisBra::usage="BasisBra[sys,k] returns the kth basis bra of system sys.";
+BasisBra::usage="BasisBra[sys_System,k_Integer] returns the kth basis bra of system sys.";
 BasisKet::usage="BasisKet[sys,k] returns the kth basis ket of system sys.";
 BasisProj::usage="BasisProj[sys,k] returns the projector onth the kth basis element of system sys.";
 IdentityOp::usage="IdentityOp[syslist] returns the identity operator on the systems in syslist.";
-OmegaOp::usage="OmegaOp[sys1,sys2] returns the projector onto the canonical maximally entangled state of systems sys1 and sys2 (no error handling of dimensions yet)";
-OmegaKet::usage="OmegaKet[sys1,sys2] returns the ket corresponding to the unnormalized maximally entangled state of systems sys1 and sys2 (no error handling of dimensions yet)";
-OmegaBra::usage="OmegaKet[sys1,sys2] returns the bra corresponding to the unnormalized maximally entangled state of systems sys1 and sys2 (no error handling of dimensions yet)";
-AddMaps2::usage="";
+OmegaOp::usage="OmegaOp[sys1,sys2] returns the projector onto the canonical maximally entangled state of systems sys1 and sys2.";
+OmegaKet::usage="OmegaKet[sys1,sys2] returns the ket corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
+OmegaBra::usage="OmegaKet[sys1,sys2] returns the bra corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
+LazyAdd::usage="LazyAdd[M1,M2] returns the sum of the two maps, provided they are compatible, i.e. if, by including suitable identity mappings, they can be made to both represent the same kind of map. Available infix as \!\(\*SubscriptBox[\(+\), \(1\)]\).";
 SwapOp::usage="SwapOp[sys1,sys2] returns the swap operator of the two systems. Input System objects.";
-
-
-(*ValidMappingQ::usage="";
-ComposableQ::usage="";
-MappingEqualQ::usage="";
-ContractableSystemsQ::usage="";
-*)
-
-
-(* Name::usage="Name[x] returns the name of x, a String";
-Dimension::usage="Dimension[x] returns the dimension of x, an Integer. If x is a VecSpace object, the dimension of the tensor product space.";
-Type::usage="Type[x] gives the type of x, either \"ket\" or \"bra\""; *)
-
-
-(* AtomNames::usage="";
-AtomicQ::usage="";
-AtomDimensions::usage="";
-Atoms::usage="";
-Atomize::usage=""; *)
-
-
-ComposeMaps::inputs = "Input maps are not composable in this order.";
-PartialTranspose::inputs = "Invalid systems for PartialTranspose.";
-AddMaps::inputs = "Input maps can not be added together.";
+MapDict::usage="MapDict[codomain,domain] represents the codomain and domain of a linear map.";
+System::usage="System[name,dimension] represents a named vector space of given dimension.";
+AtomicSpace::usage="AtomicSpace[system,type] represents the system as either an input (bra) or output (ket) space.";
+VecSpace::usage="VecSpace[atom1,atom2,...] represents the tensor product of a sequence of atomic spaces.";
+IndexDict::usage="IndexDict[vecspace1,vecspace2,...] records which vector spaces are associated to which indices in a tensor.";
+MultiMap::usage="MultiMap[index,tensor] represents a linear map as a tensor (as a SparseArray) and an IndexDict.";
 
 
 Begin["`Private`"];
@@ -224,7 +203,13 @@ Times[MultiMap[x_,y_],z_?NumericQ]^:=MultiMap[x,z y];
 (*Constructors*)
 
 
-BasisElement[sys_System,num_Integer,type_]:=MultiMap@@{IndexDict[VecSpace[AtomicSpace[sys,type]]],SparseArray[{num+1->1},{Dimension[sys]}]};
+BasisElement::dim="Requested element must be an integer between 0 and `1`"; 
+BasisElement[sys_System,num_Integer,type_]/;
+If[
+	num<Dimension[sys]&&num>=0,
+	True,
+	Message[BasisElement::dim,Dimension[sys]-1];False
+]:=MultiMap@@{IndexDict[VecSpace[AtomicSpace[sys,type]]],SparseArray[{num+1->1},{Dimension[sys]}]};
 BasisKet[sys_System,num_Integer]:=BasisElement[sys,num,"ket"];
 BasisBra[sys_System,num_Integer]:=BasisElement[sys,num,"bra"];
 BasisProj[sys_System,num_Integer]:=BasisKet[sys,num]**BasisBra[sys,num]
@@ -237,18 +222,23 @@ IdentityOp[systems_List]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@s
 IdentityOp[sys_System]:=IdentityOp[{sys}];
 
 
-Dimension::inputdim="Input systems do not have the same dimension.";
-chkDim[s1_System,s2_System]:=If[
+dimstr="Input systems do not have the same dimension.";
+OmegaKet::inputdim=dimstr;
+OmegaBra::inputdim=dimstr;
+OmegaOp::inputdim=dimstr;
+SwapOp::inputdim=dimstr;
+
+chkDim[s1_System,s2_System,f_]:=If[
 	Dimension[s1]==Dimension[s2],
 	True,
-	Message[Dimension::inputdim];False
+	Message[f::inputdim];False
 ];
-OmegaKet[sys1_System,sys2_System]/;chkDim[sys1,sys2]:=
+OmegaKet[sys1_System,sys2_System]/;chkDim[sys1,sys2,OmegaKet]:=
 MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"]]],SpId[Dimension@sys1]];
-OmegaBra[sys1_System,sys2_System]/;chkDim[sys1,sys2]:=
+OmegaBra[sys1_System,sys2_System]/;chkDim[sys1,sys2,OmegaBra]:=
 MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"bra"]],VecSpace[AtomicSpace[sys2,"bra"]]],SpId[Dimension@sys1]];
-OmegaOp[sys1_System,sys2_System]/;chkDim[sys1,sys2]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"],AtomicSpace[sys1,"bra"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SpId[(Dimension@sys1)^2]];
-SwapOp[sys1_System,sys2_System]/;chkDim[sys1,sys2]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"bra"],AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SpId[(Dimension@sys1)^2]];
+OmegaOp[sys1_System,sys2_System]/;chkDim[sys1,sys2,OmegaOp]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"ket"],AtomicSpace[sys1,"bra"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SpId[(Dimension@sys1)^2]];
+SwapOp[sys1_System,sys2_System]/;chkDim[sys1,sys2,SwapOp]:=MultiMap[IndexDict[VecSpace[AtomicSpace[sys1,"bra"],AtomicSpace[sys1,"ket"]],VecSpace[AtomicSpace[sys2,"ket"],AtomicSpace[sys2,"bra"]]],SpId[(Dimension@sys1)^2]];
 
 
 
@@ -316,7 +306,7 @@ ComposeMaps[L_MultiMap,R_MultiMap,x__MultiMap]:=ComposeMaps[ComposeMaps[L,R],Com
 NonCommutativeMultiply[MultiMap[x1_,x2_],MultiMap[y1_,y2_]]^:=ComposeMaps[MultiMap[x1,x2],MultiMap[y1,y2]];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*Contraction (partial trace)*)
 
 
@@ -345,13 +335,13 @@ ContractMap[x_IndexDict,sysnames_List]:=With[
 (*Partial Trace*)
 
 
-PartialTrace[x_MultiMap,systems_List:{}]/;If[
-	systems=={}||ContractableQ[x,Name/@systems],
+PartialTrace[x_MultiMap,systems_List:"all"]/;If[
+	StringQ[systems]||ContractableQ[x,Name/@systems],
 	True,
 	Message[PartialTrace::inputs];False
 ]:=With[
 	{sysnames=If[
-		systems=={},
+		StringQ[systems],
 		ContractableSystems[SystemMap[x]],
 		Name/@systems
 	]},
@@ -422,7 +412,7 @@ With[
 ];
 CompatibleQ[m1_MapDict,m2_MapDict]:=And@@(#[[1]]==#[[2]]&/@MapDifferences[m1,m2]);
 SystemsByName[x_IndexDict,namelist_List]:=Select[Union[#[[1]]&/@Level[x,{2}]],MemberQ[namelist,Name[#]]&];
-LazyAdd::incomp="Cannot add incompatible maps";
+LazyAdd::incomp="Maps with incompatible input and output spaces cannot be added.";
 LazyAdd[t1_MultiMap,t2_MultiMap]/;
 If[
 	CompatibleQ[SystemMap@t1,SystemMap@t2],
@@ -473,11 +463,12 @@ With[
 		ReplacePart[x,{k->"bra",b->"ket"}]
 	]
 ];
+PartialTranspose::inputs = "Systems `1` of the mapping `2` cannot be transposed.";
 PartialTranspose[x_MultiMap,systems_List]/;
 If[
 	ContractableQ[x,Name/@systems],
 	True,
-	Message[PartialTranspose::inputs];False
+	Message[PartialTranspose::inputs,Name/@systems,SystemMap@x];False
 ]:=
 	MultiMap[PartialTranspose[x[[1]],systems],x[[2]]
 ];
@@ -509,8 +500,12 @@ Protect[ValidMapQ,MapEqualQ,ComposableQ,AtomicQ,ContractableQ];
 Protect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix,LazyAdd];
 Protect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 
-<<Notation`;
-InfixNotation[ParsedBoxWrapper[SubscriptBox["+", "L"]],LazyAdd]
+
+Notation`AutoLoadNotationPalette = False;
+Needs["Notation`"];
+InfixNotation[ParsedBoxWrapper[SubscriptBox["+", "1"]],LazyAdd];
+Notation`AutoLoadNotationPalette = True;
+
 
 
 EndPackage[]
