@@ -23,7 +23,7 @@ ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,O
 
 ComposeMaps::usage="ComposeMaps[L,R] returns the composition L \[EmptySmallCircle] R. Accessible by the infix notation L ** R";
 PartialTranspose::usage="PartialTranspose[M,syslist] returns the partial transpose of M with respect to the systems in syslist.";
-PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are. A single system need not be input as a singleton list.";
+PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are. An empty list {} will return the input map.";
 MapTranspose::usage="MapTranspose[M] returns the transpose of M. Available as Transpose.";
 Adjoint::usage="Adjoint[M] returns the adjoint of M.";
 SystemMap::usage="SystemMapping[M] returns the dictionary of the map, which is a list of (the names of) output systems and a list of input systems, together under the head MapDict.";
@@ -33,7 +33,7 @@ FromMatrix::usage="FromMatrix[out,in,m] returns a MultiMap object which maps the
 BasisBra::usage="BasisBra[sys_System,k_Integer] returns the kth basis bra of system sys.";
 BasisKet::usage="BasisKet[sys,k] returns the kth basis ket of system sys.";
 BasisProj::usage="BasisProj[sys,k] returns the projector onth the kth basis element of system sys.";
-IdentityOp::usage="IdentityOp[syslist] returns the identity operator on the systems in syslist. IdentityOp[outlist,inlist] gives the identity operator from the inlist to the outlist systems; this transformation is basis dependent and uses the standard basis.";
+IdentityOp::usage="IdentityOp[syslist] returns the identity operator on the systems in syslist.\nIdentityOp[outlist,inlist] gives the identity operator from the inlist to the outlist systems. Note that the latter map is basis dependent and uses the standard basis.";
 OmegaOp::usage="OmegaOp[sys1,sys2] returns the projector onto the canonical maximally entangled state of systems sys1 and sys2.";
 OmegaKet::usage="OmegaKet[sys1,sys2] returns the ket corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
 OmegaBra::usage="OmegaKet[sys1,sys2] returns the bra corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
