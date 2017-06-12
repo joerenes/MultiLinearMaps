@@ -8,9 +8,10 @@ Suppose M1 and M2 are two linear maps, M1 taking the vector space V_A otimes V_B
 
 Each map is represented by an array/tensor of coefficients, so the calculation is just one of tensor contraction (which can be converted to matrix multiplication). However, it is cumbersome to manually keep track of which indices are associated with what systems. Imposing a fixed system-tensor index correspondence also breaks down when, as in the example, systems come and go. MultiLinearMaps is meant to handle precisely this bookkeeping. MultiLinearMaps also works with sparse arrays so that the whole thing doesn't break down at (small number) qubits.
 
+For more on what MultiLinearMaps can do, see the Examples.nb notebook.
+
 ToDo:
 -----
-+ automatically include identity operators where needed when adding maps (serious annoyance)
 + overload Eigenvalues, Tr, etc. (minor annoyance)
 
 Related
