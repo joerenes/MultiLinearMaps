@@ -33,7 +33,7 @@ FromMatrix::usage="FromMatrix[out,in,m] returns a MultiMap object which maps the
 BasisBra::usage="BasisBra[sys_System,k_Integer] returns the kth basis bra of system sys.";
 BasisKet::usage="BasisKet[sys,k] returns the kth basis ket of system sys.";
 BasisProj::usage="BasisProj[sys,k] returns the projector onth the kth basis element of system sys.";
-IdentityOp::usage="IdentityOp[syslist] returns the identity operator on the systems in syslist.";
+IdentityOp::usage="IdentityOp[syslist] returns the identity operator on the systems in syslist. IdentityOp[outlist,inlist] gives the identity operator from the inlist to the outlist systems; this transformation is basis dependent and uses the standard basis.";
 OmegaOp::usage="OmegaOp[sys1,sys2] returns the projector onto the canonical maximally entangled state of systems sys1 and sys2.";
 OmegaKet::usage="OmegaKet[sys1,sys2] returns the ket corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
 OmegaBra::usage="OmegaKet[sys1,sys2] returns the bra corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
@@ -199,7 +199,7 @@ AtomicQ[t_MultiMap]:=And[AtomicQ[t[[1]]],List@@Dimension/@Atoms[t[[1]]]==Dimensi
 Times[MultiMap[x_,y_],z_?NumericQ]^:=MultiMap[x,z y];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*Constructors*)
 
 
@@ -218,6 +218,7 @@ BasisProj[sys_System,num_Integer]:=BasisKet[sys,num]**BasisBra[sys,num]
 SpId[d_]:=SparseArray[{{i_,i_}->1},{d,d}];
 
 
+IdentityOp[out_List,in_List]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@out),VecSpace@@(AtomicSpace[#,"bra"]&/@in)],SpId[Times@@(Dimension/@in)]]
 IdentityOp[systems_List]:=MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@systems),VecSpace@@(AtomicSpace[#,"bra"]&/@systems)],SpId[Times@@(Dimension/@systems)]];
 IdentityOp[sys_System]:=IdentityOp[{sys}];
 
@@ -306,7 +307,7 @@ ComposeMaps[L_MultiMap,R_MultiMap,x__MultiMap]:=ComposeMaps[ComposeMaps[L,R],Com
 NonCommutativeMultiply[MultiMap[x1_,x2_],MultiMap[y1_,y2_]]^:=ComposeMaps[MultiMap[x1,x2],MultiMap[y1,y2]];
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Contraction (partial trace)*)
 
 
@@ -350,7 +351,7 @@ PartialTrace[x_MultiMap,systems_List:"all"]/;If[
 PartialTrace[x_MultiMap,s_System]:=PartialTrace[x,{s}];
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Addition / system ordering*)
 
 
@@ -444,10 +445,23 @@ Module[
 (* here we need conditional logic to handle scalars, vectors, and operators differently *)
 
 
-ToMatrix[t_MultiMap,sortlist_:{}]:=Matrixize[t,sortlist][[2]];
+ToMatrix2[t_MultiMap,sortlist_:{}]:=Matrixize[t,sortlist][[2]];
+ToMatrix[t_MultiMap,sortlist_:{}]:=With[
+	{sm=SystemMap@t,mat=Matrixize[t,sortlist][[2]]},
+	Which[
+		sm[[1]]=={}&&sm[[2]]=={},
+		mat,
+		sm[[1]]=={},
+		{mat},
+		sm[[2]]=={},
+		Transpose[{mat}],
+		True,
+		mat
+	]
+];
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Maps on MultiLinearMaps*)
 
 
