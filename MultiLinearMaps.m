@@ -21,7 +21,7 @@ ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,O
 (*Usage messages*)
 
 
-ComposeMaps::usage="ComposeMaps[L,R] returns the composition L \[EmptySmallCircle] R. Accessible by the infix notation L ** R";
+ComposeMaps::usage="ComposeMaps[M1,M2,...,Method->method] returns the composition M1 \[EmptySmallCircle] M2 \[EmptySmallCircle] \[CenterEllipsis]. Accessible by the infix notation M1 ** M2.\n     Additionally, there are two internal methods of computing the composition, available as \"Dot\" and \"TensorContract\". The former is the default as it appears to be faster.";
 PartialTranspose::usage="PartialTranspose[M,syslist] returns the partial transpose of M with respect to the systems in syslist.";
 PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are. An empty list {} will return the input map.";
 MapTranspose::usage="MapTranspose[M] returns the transpose of M. Available as Transpose.";
@@ -127,7 +127,7 @@ ContractableQ[x_MapDict,sysnames_List]:=And@@(SubsetQ[#,sysnames]&/@x);
 ContractableQ[x_MapDict,sysname_]:=ContractableQ[x,{sysname}];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*System / AtomicSpace / VecSpace*)
 
 
@@ -157,7 +157,7 @@ AtomicQ[x_VecSpace]:=Length[x]==1;
 Dimension[x_VecSpace]:=Times@@(Level[x,{3}][[2;;;;2]]); 
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*IndexDict / MultiMap*)
 
 
@@ -199,7 +199,7 @@ AtomicQ[t_MultiMap]:=And[AtomicQ[t[[1]]],List@@Dimension/@Atoms[t[[1]]]==Dimensi
 Times[MultiMap[x_,y_],z_?NumericQ]^:=MultiMap[x,z y];
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Constructors*)
 
 
@@ -259,7 +259,7 @@ MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@sysout),VecSpace@@(AtomicSp
 FromMatrix[systems_List,matrix_]:=FromMatrix[systems,systems,matrix];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*Composition*)
 
 
@@ -298,16 +298,69 @@ ComposeMaps[L_IndexDict,R_IndexDict]:=With[
 ];
 
 ComposeAtomicTensors[L_MultiMap,R_MultiMap]/;If[
-	ComposableQ[L,R],True,Message[ComposeMaps::inputs];False
-	]:=MultiMap@@{ComposeMaps[L[[1]],R[[1]]],Activate[TensorContract[Inactive[TensorProduct][L[[2]],R[[2]]],(#+{0,Length[L[[1]]]})&/@CompositionIndices[L[[1]],R[[1]]]]]};
-ComposeMaps[L_MultiMap,R_MultiMap]:=ComposeAtomicTensors[Atomize[L],Atomize[R]];
-ComposeMaps[x_MultiMap]:=x;
-ComposeMaps[L_MultiMap,R_MultiMap,x__MultiMap]:=ComposeMaps[ComposeMaps[L,R],ComposeMaps[x]];
+	ComposableQ[L,R],
+	True,
+	Message[ComposeMaps::inputs];False
+]:=MultiMap@@{ComposeMaps[L[[1]],R[[1]]],Activate[TensorContract[Inactive[TensorProduct][L[[2]],R[[2]]],(#+{0,Length[L[[1]]]})&/@CompositionIndices[L[[1]],R[[1]]]]]};
+ComposeMapsTC[L_MultiMap,R_MultiMap]:=ComposeAtomicTensors[Atomize[L],Atomize[R]];
+ComposeMapsTC[x_MultiMap]:=x;
+ComposeMapsTC[L_MultiMap,R_MultiMap,x__MultiMap]:=ComposeMapsTC[ComposeMapsTC[L,R],ComposeMapsTC[x]];
 
+
+CompositionIndicesDot[L_IndexDict,R_IndexDict]:=With[
+	{cilist=CompositionIndices[L,R]},
+	If[
+		cilist=={},
+		{{Range[Length[Atoms@L]],{}},{{},Range[Length[Atoms@R]]}},
+		{{Complement[Range[Length[Atoms@L]],cilist[[;;,1]]],cilist[[;;,1]]},{cilist[[;;,2]],Complement[Range[Length[Atoms@R]],cilist[[;;,2]]]}}
+	]
+];
+
+(*ComposeMapsDot[L_MultiMap,R_MultiMap]/;If[
+	ComposableQ[L,R],True,Message[ComposeMaps::inputs];False
+]:=Module[
+	{ci=CompositionIndicesDot[L[[1]],R[[1]]],id},
+	id=IndexDict[VecSpace@@(Atoms[L[[1]]][[ci[[1,1]]]]),VecSpace@@(Atoms[R[[1]]][[ci[[2,2]]]])];
+	If[
+		ci[[1,2]]\[Equal]{},
+		MultiMap[id,SparseArray[Transpose[{Flatten[Atomize[L][[2]]]}]].SparseArray[{Flatten[Atomize[R][[2]]]}]],
+		MultiMap[id,SparseArray[Flatten[Atomize[L][[2]],ci[[1]]]].SparseArray[Flatten[Atomize[R][[2]],ci[[2]]]]]
+	]
+];*)
+ComposeMapsDot[L_MultiMap,R_MultiMap]/;If[
+	ComposableQ[L,R],
+	True,
+	Message[ComposeMaps::inputs];False
+]:=Module[
+	{ci=CompositionIndicesDot[L[[1]],R[[1]]],id},
+	id=IndexDict[VecSpace@@(Atoms[L[[1]]][[ci[[1,1]]]]),VecSpace@@(Atoms[R[[1]]][[ci[[2,2]]]])];
+	If[
+		ci[[1,2]]=={},
+		MultiMap[id,SparseArray[Transpose[{Flatten[Atomize[L][[2]]]}]].SparseArray[{Flatten[Atomize[R][[2]]]}]],
+		ci=DeleteCases[ci,{},{2}];
+		MultiMap[id,SparseArray[Flatten[Atomize[L][[2]],ci[[1]]]].SparseArray[Flatten[Atomize[R][[2]],ci[[2]]]]]
+	]
+];
+ComposeMapsDot[x_MultiMap]:=x;
+ComposeMapsDot[L_MultiMap,R_MultiMap,x__MultiMap]:=ComposeMapsDot[ComposeMapsDot[L,R],ComposeMapsDot[x]];
+
+
+Options[ComposeMaps]={Method->"Dot"};
+ComposeMaps[x_MultiMap,opts:OptionsPattern[]]:=x;
+ComposeMaps[L_MultiMap,R_MultiMap,opts:OptionsPattern[]]:=If[
+	OptionValue[Method]=="TensorContract",
+	ComposeMapsTC[L,R],
+	ComposeMapsDot[L,R]
+];
+ComposeMaps[L_MultiMap,R_MultiMap,x__MultiMap,opts:OptionsPattern[]]:=If[
+	OptionValue[Method]=="TensorContract",
+	ComposeMapsTC[L,R,x],
+	ComposeMapsDot[L,R,x]
+]
 NonCommutativeMultiply[MultiMap[x1_,x2_],MultiMap[y1_,y2_]]^:=ComposeMaps[MultiMap[x1,x2],MultiMap[y1,y2]];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*Contraction (partial trace)*)
 
 
@@ -349,9 +402,10 @@ PartialTrace[x_MultiMap,systems_List:"all"]/;If[
 	MultiMap[ContractMap[#[[1]],sysnames],TensorContract[#[[2]],ContractionIndices[#[[1]],sysnames]]]&[Atomize[x]]
 ];
 PartialTrace[x_MultiMap,s_System]:=PartialTrace[x,{s}];
+Tr[MultiMap[x1_,x2_]]^:=PartialTrace[MultiMap[x1,x2]];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*Addition / system ordering*)
 
 
