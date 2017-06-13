@@ -20,8 +20,10 @@ The particular version can be found in the variable $MLMVersion. Short version h
 
 v0.3
 : contraction and composition implementation defaults to reshuffling indices and calling Dot, which is usually faster than the earlier implementation using TensorContract. Lazy addition is also the default. 
+
 v0.2
 : overhaul of somewhat stale code. Usage and error message improvements.
+
 v0.1
 : something useable.
 
