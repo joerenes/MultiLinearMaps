@@ -57,7 +57,7 @@ Unprotect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,
 ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 
 
-$MLMVersion=0.2;
+$MLMVersion=0.3;
 
 
 (* ::Text:: *)
