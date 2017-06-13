@@ -1,20 +1,63 @@
 (* ::Package:: *)
 
-(* ::Subsubsection:: *)
+(* ::Title:: *)
+(*MultiLinearMaps*)
+
+
+(* ::Section::Closed:: *)
+(*Copyright and License Information*)
+
+
+(* ::Text:: *)
+(*BSD 3-Clause License*)
+(**)
+(*Copyright (c) 2017, Joseph M. Renes*)
+(*All rights reserved.*)
+(**)
+(*Redistribution and use in source and binary forms, with or without*)
+(*modification, are permitted provided that the following conditions are met:*)
+(**)
+(** Redistributions of source code must retain the above copyright notice, this*)
+(*  list of conditions and the following disclaimer.*)
+(**)
+(** Redistributions in binary form must reproduce the above copyright notice,*)
+(*  this list of conditions and the following disclaimer in the documentation*)
+(*  and/or other materials provided with the distribution.*)
+(**)
+(** Neither the name of the copyright holder nor the names of its*)
+(*  contributors may be used to endorse or promote products derived from*)
+(*  this software without specific prior written permission.*)
+(**)
+(*THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"*)
+(*AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE*)
+(*IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE*)
+(*DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE*)
+(*FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL*)
+(*DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR*)
+(*SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER*)
+(*CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,*)
+(*OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE*)
+(*OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*)
+
+
+(* ::Section:: *)
 (*Prologue*)
 
 
 BeginPackage["MultiLinearMaps`"];
 
 
-Unprotect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
-ClearAll[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
+Unprotect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap,$MLMVersion];
+ClearAll[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap,$MLMVersion];
 Unprotect[ValidMapQ,MapEqualQ,ComposableQ,AtomicQ,ContractableQ];
 ClearAll[ValidMapQ,MapEqualQ,ComposableQ,AtomicQ,ContractableQ];
-Unprotect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix,LazyAdd];
-ClearAll[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix,LazyAdd];
+Unprotect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix];
+ClearAll[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix];
 Unprotect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
+
+
+$MLMVersion=0.2;
 
 
 (* ::Text:: *)
@@ -23,12 +66,13 @@ ClearAll[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,O
 
 ComposeMaps::usage="ComposeMaps[M1,M2,...,Method->method] returns the composition M1 \[EmptySmallCircle] M2 \[EmptySmallCircle] \[CenterEllipsis]. Accessible by the infix notation M1 ** M2.\n     Additionally, there are two internal methods of computing the composition, available as \"Dot\" and \"TensorContract\". The former is the default as it appears to be faster.";
 PartialTranspose::usage="PartialTranspose[M,syslist] returns the partial transpose of M with respect to the systems in syslist.";
-PartialTrace::usage="PartialTrace[M,syslist] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are. An empty list {} will return the input map.";
+PartialTrace::usage="PartialTrace[M,syslist,Method->method] returns the partial trace of M with respect to the systems in syslist. If no systems are explicitly given, all systems that can be traced out are. An empty list {} will return the input map.\n     Additionally, there are two internal methods of computing the partial trace, available as \"Dot\" and \"TensorContract\". The former is the default as it appears to be faster in most cases. ";
 MapTranspose::usage="MapTranspose[M] returns the transpose of M. Available as Transpose.";
 Adjoint::usage="Adjoint[M] returns the adjoint of M.";
 SystemMap::usage="SystemMapping[M] returns the dictionary of the map, which is a list of (the names of) output systems and a list of input systems, together under the head MapDict.";
-AddMaps::usage="AddMaps[M1,M2] returns the sum of the two maps. Accessible infix as M1 + M2.";
+AddMaps::usage="AddMaps[M1,M2,Method->method] returns the sum of the two maps. Accessible infix as M1 + M2.\nAddMaps will moreover add compatible maps, those that can be made to represent the same kind of mapping by including suitable identity operations.\n     This option, which is the default method \"Lazy\", can be turned off by specifying the \"Strict\" method";
 ToMatrix::usage="ToMatrix[M,sortinglist] returns the matrix representation of M, with tensor subsystems ordered according to sortinglist.";
+
 FromMatrix::usage="FromMatrix[out,in,m] returns a MultiMap object which maps the systems in the list in to those in out according to the matrix m. If only one list of systems is given, the map takes these systems to themselves.";
 BasisBra::usage="BasisBra[sys_System,k_Integer] returns the kth basis bra of system sys.";
 BasisKet::usage="BasisKet[sys,k] returns the kth basis ket of system sys.";
@@ -37,8 +81,8 @@ IdentityOp::usage="IdentityOp[syslist] returns the identity operator on the syst
 OmegaOp::usage="OmegaOp[sys1,sys2] returns the projector onto the canonical maximally entangled state of systems sys1 and sys2.";
 OmegaKet::usage="OmegaKet[sys1,sys2] returns the ket corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
 OmegaBra::usage="OmegaKet[sys1,sys2] returns the bra corresponding to the unnormalized maximally entangled state of systems sys1 and sys2.";
-LazyAdd::usage="LazyAdd[M1,M2] returns the sum of the two maps, provided they are compatible, i.e. if, by including suitable identity mappings, they can be made to both represent the same kind of map. Available infix as \!\(\*SubscriptBox[\(+\), \(1\)]\).";
 SwapOp::usage="SwapOp[sys1,sys2] returns the swap operator of the two systems. Input System objects.";
+
 MapDict::usage="MapDict[codomain,domain] represents the codomain and domain of a linear map.";
 System::usage="System[name,dimension] represents a named vector space of given dimension.";
 AtomicSpace::usage="AtomicSpace[system,type] represents the system as either an input (bra) or output (ket) space.";
@@ -60,7 +104,7 @@ Begin["`Private`"];
 (*MultiMap: an IndexDict and a tensor, representing a linear transformation. *)
 
 
-(* ::Subsubsection:: *)
+(* ::Section::Closed:: *)
 (*MapDict *)
 
 
@@ -127,7 +171,7 @@ ContractableQ[x_MapDict,sysnames_List]:=And@@(SubsetQ[#,sysnames]&/@x);
 ContractableQ[x_MapDict,sysname_]:=ContractableQ[x,{sysname}];
 
 
-(* ::Subsubsection:: *)
+(* ::Section::Closed:: *)
 (*System / AtomicSpace / VecSpace*)
 
 
@@ -157,7 +201,7 @@ AtomicQ[x_VecSpace]:=Length[x]==1;
 Dimension[x_VecSpace]:=Times@@(Level[x,{3}][[2;;;;2]]); 
 
 
-(* ::Subsubsection:: *)
+(* ::Section::Closed:: *)
 (*IndexDict / MultiMap*)
 
 
@@ -199,7 +243,7 @@ AtomicQ[t_MultiMap]:=And[AtomicQ[t[[1]]],List@@Dimension/@Atoms[t[[1]]]==Dimensi
 Times[MultiMap[x_,y_],z_?NumericQ]^:=MultiMap[x,z y];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Section::Closed:: *)
 (*Constructors*)
 
 
@@ -259,7 +303,7 @@ MultiMap[IndexDict[VecSpace@@(AtomicSpace[#,"ket"]&/@sysout),VecSpace@@(AtomicSp
 FromMatrix[systems_List,matrix_]:=FromMatrix[systems,systems,matrix];
 
 
-(* ::Subsubsection:: *)
+(* ::Section::Closed:: *)
 (*Composition*)
 
 
@@ -360,7 +404,7 @@ ComposeMaps[L_MultiMap,R_MultiMap,x__MultiMap,opts:OptionsPattern[]]:=If[
 NonCommutativeMultiply[MultiMap[x1_,x2_],MultiMap[y1_,y2_]]^:=ComposeMaps[MultiMap[x1,x2],MultiMap[y1,y2]];
 
 
-(* ::Subsubsection:: *)
+(* ::Section:: *)
 (*Contraction (partial trace)*)
 
 
@@ -389,7 +433,7 @@ ContractMap[x_IndexDict,sysnames_List]:=With[
 (*Partial Trace*)
 
 
-PartialTrace[x_MultiMap,systems_List:"all"]/;If[
+PartialTraceTC[x_MultiMap,systems_:"all"]/;If[
 	StringQ[systems]||ContractableQ[x,Name/@systems],
 	True,
 	Message[PartialTrace::inputs];False
@@ -401,11 +445,51 @@ PartialTrace[x_MultiMap,systems_List:"all"]/;If[
 	]},
 	MultiMap[ContractMap[#[[1]],sysnames],TensorContract[#[[2]],ContractionIndices[#[[1]],sysnames]]]&[Atomize[x]]
 ];
-PartialTrace[x_MultiMap,s_System]:=PartialTrace[x,{s}];
+PartialTraceTC[x_MultiMap,s_System]:=PartialTraceTC[x,{s}];
+
+
+
+ContractionIndicesDot[m_MultiMap,sysnames_List]:=With[
+	{ci=ContractionIndices[m[[1]],sysnames]},
+	{#,Complement[Range[Length[Atoms[m[[1]]]]],#]}&[Flatten@Transpose@ci]
+]
+PartialTraceDot[m_MultiMap,systems_:"all"]/;If[
+	StringQ[systems]||ContractableQ[m,Name/@systems],
+	True,
+	Message[PartialTrace::inputs];False
+]:=Module[
+	{sysnames,cid,dim,id,output},
+	If[
+		StringQ[systems],
+		sysnames=ContractableSystems[SystemMap[m]];
+		dim=Times@@(Dimension[#[[1]]]&/@Select[Tally[#[[1]]&/@Atoms[m[[1]]]],#[[2]]==2&]),
+		sysnames=Name/@systems;dim=Times@@(Dimension/@systems);
+	];
+	cid=ContractionIndicesDot[m,sysnames];
+	output=(Atoms[m[[1]]][[cid[[2]]]]);
+	id=If[output=={},IndexDict[],IndexDict[VecSpace@@output]];
+	MultiMap[id,Flatten[SpId[dim]].Flatten[Atomize[m][[2]],DeleteCases[cid,{},{1}]]]
+];
+
+
+
+Options[PartialTrace]={Method->"Dot"};
+PartialTrace[m_MultiMap,sysnames_List:"all",opts:OptionsPattern[]]:=
+If[
+	OptionValue[Method]=="TensorContract",
+	PartialTraceTC[m,sysnames],
+	PartialTraceDot[m,sysnames]
+];
+PartialTrace[m_MultiMap,sys_System,opts:OptionsPattern[]]:=If[
+	OptionValue[Method]=="TensorContract",
+	PartialTraceTC[m,{sys}],
+	PartialTraceDot[m,{sys}]
+];
+
 Tr[MultiMap[x1_,x2_]]^:=PartialTrace[MultiMap[x1,x2]];
 
 
-(* ::Subsubsection:: *)
+(* ::Section::Closed:: *)
 (*Addition / system ordering*)
 
 
@@ -536,8 +620,8 @@ ToMatrix[t_MultiMap,sortlist_:{}]:=With[
 ];
 
 
-(* ::Subsubsection::Closed:: *)
-(*Maps on MultiLinearMaps*)
+(* ::Section::Closed:: *)
+(*(Partial) Transpose / Adjoint*)
 
 
 (* ::Text:: *)
@@ -578,15 +662,15 @@ MultiMap[Module[{k=Join[#,{2}]&/@KetAddresses[x[[1]]],b=Join[#,{2}]&/@BraAddress
 	ReplacePart[x[[1]],{k->"bra",b->"ket"}]],Conjugate[x[[2]]]];
 
 
-(* ::Subsubsection:: *)
+(* ::Section:: *)
 (*Epilogue*)
 
 
 End[]
 
-Protect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap];
+Protect[MapDict,System,AtomicSpace,VecSpace,IndexDict,MultiMap,$MLMVersion];
 Protect[ValidMapQ,MapEqualQ,ComposableQ,AtomicQ,ContractableQ];
-Protect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix,LazyAdd];
+Protect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialTranspose,ToMatrix];
 Protect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 
 
