@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    129119,       3406]
-NotebookOptionsPosition[    125870,       3321]
-NotebookOutlinePosition[    126227,       3337]
-CellTagsIndexPosition[    126184,       3334]
+NotebookDataLength[    139113,       3689]
+NotebookOptionsPosition[    135619,       3598]
+NotebookOutlinePosition[    135977,       3614]
+CellTagsIndexPosition[    135934,       3611]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -296,7 +296,7 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.59, "Seconds"], 
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.39, "Seconds"], 
     "TestsSucceededCount" -> 2, "TestsFailedCount" -> 0, 
     "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
     "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
@@ -310,17 +310,17 @@ $CellContext`md3, $CellContext`md4}]], "ExpectedOutput" ->
          HoldForm[{True, True, False, True}], "ActualOutput" -> 
          HoldForm[{True, True, False, True}], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000116`2.2149729870589083, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00011600000000022703`, "Seconds"], "MemoryUsed" -> 
-         Quantity[120, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.000195`2.44054960919451, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00019599999999986295`, "Seconds"], "MemoryUsed" -> 
+         Quantity[4408, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[$CellContext`md1 == $CellContext`md4], "ExpectedOutput" -> 
          HoldForm[True], "ActualOutput" -> HoldForm[True], 
          "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000094`2.1236428514316925, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00009200000000042508, "Seconds"], "MemoryUsed" -> 
-         Quantity[48, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
+         Quantity[0.000203`2.458011035745205, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0002030000000003973, "Seconds"], "MemoryUsed" -> 
+         Quantity[120, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
     "TestsFailedWithErrorsIndices" -> {}]],
@@ -330,8 +330,10 @@ $CellContext`md3, $CellContext`md4}]], "ExpectedOutput" ->
  CellChangeTimes->{
   3.7059035729572163`*^9, 3.705904576427343*^9, 3.705988755594778*^9, 
    3.705988852490561*^9, 3.705989491194488*^9, {3.705997439129435*^9, 
-   3.705997465573739*^9}},ExpressionUUID->"1008c327-5066-42d4-bbcc-\
-3e9b44c6ddb7"]
+   3.705997465573739*^9}, 3.7063489779793653`*^9, 3.706349148187482*^9, 
+   3.706349621141535*^9, 
+   3.70634969794357*^9},ExpressionUUID->"ed7e4e74-46db-4df3-ae67-\
+15b83e658def"]
 }, Open  ]],
 
 Cell["Composition", "Text",
@@ -614,11 +616,11 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> 
-    Quantity[0.5700000000000001, "Seconds"], "TestsSucceededCount" -> 5, 
-    "TestsFailedCount" -> 0, "TestsFailedWrongResultsCount" -> 0, 
-    "TestsFailedWithMessagesCount" -> 0, "TestsFailedWithErrorsCount" -> 0, 
-    "Aborted" -> False, "TestResults" -> Association[1 -> TestResultObject[
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.43, "Seconds"], 
+    "TestsSucceededCount" -> 5, "TestsFailedCount" -> 0, 
+    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
+    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
+    Association[1 -> TestResultObject[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[{
@@ -627,8 +629,8 @@ Cell[BoxData[
           "ExpectedOutput" -> HoldForm[{False, True}], "ActualOutput" -> 
          HoldForm[{False, True}], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000269`2.5802672778343996, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00026500000000062585`, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.0002`2.451544993495971, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00019700000000000273`, "Seconds"], "MemoryUsed" -> 
          Quantity[104, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
@@ -639,8 +641,8 @@ Cell[BoxData[
          HoldForm[
            MultiLinearMaps`MapDict[{"a", "b"}, {"b", "c"}]], 
          "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000172`2.3860434447395407, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00017099999999992122`, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000131`2.267786293487756, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00012699999999954414`, "Seconds"], "MemoryUsed" -> 
          Quantity[216, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
@@ -654,10 +656,9 @@ Cell[BoxData[
            HoldForm[
             Message[
              MessageName[MultiLinearMaps`ComposeMaps, "inputs"]]]}, 
-         "AbsoluteTimeUsed" -> 
-         Quantity[0.000683`2.9849357015135243, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00062400000000018, "Seconds"], "MemoryUsed" -> 
-         Quantity[6112, "Bytes"]]], 4 -> TestResultObject[
+         "AbsoluteTimeUsed" -> Quantity[0.000332`2.67165308153603, "Seconds"],
+          "CPUTimeUsed" -> Quantity[0.00033000000000038554`, "Seconds"], 
+         "MemoryUsed" -> Quantity[6112, "Bytes"]]], 4 -> TestResultObject[
         Association[
         "TestIndex" -> 4, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -678,9 +679,9 @@ Cell[BoxData[
              MessageName[MultiLinearMaps`MapDict, "multiplearg"], 
              MultiLinearMaps`MapDict[{"a"}, {"a", "c", "a"}], 1]]}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000484`2.8353603594764043, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00048099999999973164`, "Seconds"], "MemoryUsed" -> 
-         Quantity[2952, "Bytes"]]], 5 -> TestResultObject[
+         Quantity[0.000333`2.6729592313383095, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00033000000000038554`, "Seconds"], "MemoryUsed" -> 
+         Quantity[2880, "Bytes"]]], 5 -> TestResultObject[
         Association[
         "TestIndex" -> 5, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -688,8 +689,8 @@ Cell[BoxData[
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000174`2.3910642461145897, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00017499999999959215`, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000126`2.2508855429495545, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.000124000000000013, "Seconds"], "MemoryUsed" -> 
          Quantity[2808, "Bytes"]]]], 
     "TestsSucceededIndices" -> {1, 2, 3, 4, 5}, "TestsFailedIndices" -> {}, 
     "TestsFailedWrongResultsIndices" -> {}, 
@@ -702,9 +703,10 @@ Cell[BoxData[
   3.705903640104487*^9, {3.7059041349494553`*^9, 3.705904146783963*^9}, {
    3.705904223146541*^9, 3.705904262685512*^9}, 3.705904366588766*^9, 
    3.7059045789131937`*^9, {3.705988871667696*^9, 3.705988890750002*^9}, 
-   3.70598949826656*^9, 3.705990745150095*^9, 
-   3.705997467017301*^9},ExpressionUUID->"40be7b91-4933-4d8a-999a-\
-7efae9804f2e"]
+   3.70598949826656*^9, 3.705990745150095*^9, 3.705997467017301*^9, 
+   3.70634898082539*^9, 3.706349151959386*^9, 3.706349622515579*^9, 
+   3.7063496994317827`*^9},ExpressionUUID->"c5166394-a1dd-4e53-a148-\
+c300ed3b0b2a"]
 }, Open  ]],
 
 Cell["Contraction", "Text",
@@ -775,8 +777,9 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}]], 
+            Automatic, 
+             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification])}]], 
          GraphicsBox[{InsetBox[
             PaneBox[
              
@@ -787,8 +790,9 @@ Cell[BoxData[
              
              ImageSize->
               Dynamic[{
-               Automatic, 3.5 CurrentValue["FontCapHeight"]/
-                AbsoluteCurrentValue[Magnification]}]]]},
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]]]},
           AspectRatio->1,
           Axes->False,
           Background->GrayLevel[0.93],
@@ -800,8 +804,9 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}],
+            Automatic, 
+             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification])}],
           PlotRange->{{0, 1}, {0, 1}}], GridBox[{
            {
             RowBox[{
@@ -854,8 +859,9 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}]], 
+            Automatic, 
+             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification])}]], 
          GraphicsBox[{InsetBox[
             PaneBox[
              
@@ -865,8 +871,9 @@ Cell[BoxData[
              
              ImageSize->
               Dynamic[{
-               Automatic, 3.5 CurrentValue["FontCapHeight"]/
-                AbsoluteCurrentValue[Magnification]}]]]},
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]]]},
           AspectRatio->1,
           Axes->False,
           Background->GrayLevel[0.93],
@@ -878,8 +885,9 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-             Magnification]}],
+            Automatic, 
+             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification])}],
           PlotRange->{{0, 1}, {0, 1}}], GridBox[{
            {
             RowBox[{
@@ -1042,8 +1050,8 @@ Cell[BoxData[{
  CellChangeTimes->{{3.705904726804613*^9, 3.705904737804988*^9}, {
   3.705915904097849*^9, 3.7059159107407722`*^9}, {3.7059168891053123`*^9, 
   3.7059168937684937`*^9}, {3.705924670736883*^9, 3.705924690852463*^9}, {
-  3.7059895981694183`*^9, 
-  3.705989604939238*^9}},ExpressionUUID->"032b1f03-50ec-4868-87b0-\
+  3.7059895981694183`*^9, 3.705989604939238*^9}, {3.70634915391995*^9, 
+  3.706349154649314*^9}},ExpressionUUID->"032b1f03-50ec-4868-87b0-\
 3f0ba3f1f8ec"],
 
 Cell[CellGroupData[{
@@ -1358,11 +1366,11 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> 
-    Quantity[0.5700000000000001, "Seconds"], "TestsSucceededCount" -> 3, 
-    "TestsFailedCount" -> 0, "TestsFailedWrongResultsCount" -> 0, 
-    "TestsFailedWithMessagesCount" -> 0, "TestsFailedWithErrorsCount" -> 0, 
-    "Aborted" -> False, "TestResults" -> Association[1 -> TestResultObject[
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.4, "Seconds"], 
+    "TestsSucceededCount" -> 3, "TestsFailedCount" -> 0, 
+    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
+    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
+    Association[1 -> TestResultObject[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`FromMatrix[{$CellContext`a, $CellContext`b}, 
@@ -1370,9 +1378,10 @@ Cell[BoxData[
            MultiLinearMaps`IdentityOp[{$CellContext`a, $CellContext`b}]], 
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
-         "AbsoluteTimeUsed" -> Quantity[0.000937`3.12225458871977, "Seconds"],
-          "CPUTimeUsed" -> Quantity[0.0009240000000012571, "Seconds"], 
-         "MemoryUsed" -> Quantity[704, "Bytes"]]], 2 -> TestResultObject[
+         "AbsoluteTimeUsed" -> 
+         Quantity[0.000942`3.124565900624869, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0009050000000003777, "Seconds"], "MemoryUsed" -> 
+         Quantity[784, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[
@@ -1409,8 +1418,8 @@ Cell[BoxData[
              1, {{0, 1, 2, 3, 4, 5, 6}, {{1}, {2}, {3}, {4}, {5}, {6}}}, {1, 
               1, 1, 1, 1, 1}}]]], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000413`2.7664650494883927, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.00038300000000024426`, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000121`2.233300368148444, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.00011899999999975819`, "Seconds"], "MemoryUsed" -> 
          Quantity[1824, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
@@ -1438,8 +1447,8 @@ Cell[BoxData[
             Message[
              MessageName[MultiLinearMaps`FromMatrix, "dim"]]]}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000502`2.851218714977011, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0005030000000001422, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000292`2.6158978492804104, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0002900000000001235, "Seconds"], "MemoryUsed" -> 
          Quantity[720, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2, 3}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
@@ -1450,9 +1459,10 @@ Cell[BoxData[
  CellChangeTimes->{
   3.705915796671344*^9, 3.705919185458151*^9, 3.705923782646758*^9, 
    3.7059300746997547`*^9, 3.7059896144362803`*^9, {3.70599078555427*^9, 
-   3.7059908047838793`*^9}, 
-   3.705997470881496*^9},ExpressionUUID->"77a3166a-919a-4680-80cc-\
-e4807adc4d47"]
+   3.7059908047838793`*^9}, 3.705997470881496*^9, 3.7062615069366913`*^9, 
+   3.706348988454466*^9, 3.706349156805846*^9, 3.706349626964324*^9, 
+   3.706349703300989*^9},ExpressionUUID->"9ad27a8e-70a0-46fc-bde3-\
+01a81905ffab"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1747,11 +1757,11 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> 
-    Quantity[0.5700000000000001, "Seconds"], "TestsSucceededCount" -> 6, 
-    "TestsFailedCount" -> 0, "TestsFailedWrongResultsCount" -> 0, 
-    "TestsFailedWithMessagesCount" -> 0, "TestsFailedWithErrorsCount" -> 0, 
-    "Aborted" -> False, "TestResults" -> Association[1 -> TestResultObject[
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.42, "Seconds"], 
+    "TestsSucceededCount" -> 6, "TestsFailedCount" -> 0, 
+    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
+    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
+    Association[1 -> TestResultObject[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[(1/2) NonCommutativeMultiply[
@@ -1760,9 +1770,10 @@ Cell[BoxData[
            MultiLinearMaps`OmegaOp[$CellContext`a, $CellContext`c]], 
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
-         "AbsoluteTimeUsed" -> Quantity[0.010539`4.17331440234368, "Seconds"],
-          "CPUTimeUsed" -> Quantity[0.008736000000000743, "Seconds"], 
-         "MemoryUsed" -> Quantity[874312, "Bytes"]]], 2 -> TestResultObject[
+         "AbsoluteTimeUsed" -> 
+         Quantity[0.001845`3.4165113683270687, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0017119999999999358`, "Seconds"], "MemoryUsed" -> 
+         Quantity[848, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`AddMaps[
@@ -1772,9 +1783,9 @@ Cell[BoxData[
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.001201`3.2300580052348997, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0011870000000007153`, "Seconds"], "MemoryUsed" -> 
-         Quantity[864, "Bytes"]]], 3 -> TestResultObject[
+         Quantity[0.001449`3.3115833833031667, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0014099999999999113`, "Seconds"], "MemoryUsed" -> 
+         Quantity[936, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`PartialTranspose[
@@ -1786,9 +1797,9 @@ $CellContext`c] == MultiLinearMaps`PartialTranspose[
 $CellContext`a]], "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> 
          HoldForm[True], "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000992`3.147026669986168, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.000992000000000104, "Seconds"], "MemoryUsed" -> 
-         Quantity[384, "Bytes"]]], 4 -> TestResultObject[
+         Quantity[0.000951`3.1286955147694036, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0009479999999997268, "Seconds"], "MemoryUsed" -> 
+         Quantity[456, "Bytes"]]], 4 -> TestResultObject[
         Association[
         "TestIndex" -> 4, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`PartialTrace[
@@ -1798,9 +1809,9 @@ $CellContext`c] == MultiLinearMaps`IdentityOp[$CellContext`a]],
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000805`3.0563108781998625, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0008019999999993033, "Seconds"], "MemoryUsed" -> 
-         Quantity[80, "Bytes"]]], 5 -> TestResultObject[
+         Quantity[0.000865`3.087531105296804, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0008619999999996963, "Seconds"], "MemoryUsed" -> 
+         Quantity[168, "Bytes"]]], 5 -> TestResultObject[
         Association[
         "TestIndex" -> 5, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`Adjoint[
@@ -1808,10 +1819,9 @@ $CellContext`c] == MultiLinearMaps`IdentityOp[$CellContext`a]],
            MultiLinearMaps`OmegaOp[$CellContext`a, $CellContext`c]], 
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
-         "AbsoluteTimeUsed" -> 
-         Quantity[0.001016`3.1574087057798943, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.000958999999999044, "Seconds"], "MemoryUsed" -> 
-         Quantity[992, "Bytes"]]], 6 -> TestResultObject[
+         "AbsoluteTimeUsed" -> Quantity[0.00074`3.019746717562968, "Seconds"],
+          "CPUTimeUsed" -> Quantity[0.0007219999999996674, "Seconds"], 
+         "MemoryUsed" -> Quantity[992, "Bytes"]]], 6 -> TestResultObject[
         Association[
         "TestIndex" -> 6, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[$CellContext`rand = 
@@ -1824,9 +1834,9 @@ $CellContext`rand]] ==
               ConjugateTranspose[$CellContext`rand]]], "ExpectedOutput" -> 
          HoldForm[True], "ActualOutput" -> HoldForm[True], 
          "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.000939`3.1231805900981024, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0009370000000004097, "Seconds"], "MemoryUsed" -> 
-         Quantity[4008, "Bytes"]]]], 
+         Quantity[0.000911`3.110033374804988, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0008849999999998026, "Seconds"], "MemoryUsed" -> 
+         Quantity[3688, "Bytes"]]]], 
     "TestsSucceededIndices" -> {1, 2, 3, 4, 5, 6}, "TestsFailedIndices" -> {},
      "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
@@ -1834,9 +1844,9 @@ $CellContext`rand]] ==
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.705990858607225*^9, 
-  3.705997474176518*^9},ExpressionUUID->"8f48cb1f-46c9-4912-b951-\
-7fc15ecdc801"]
+ CellChangeTimes->{3.7063491597576923`*^9, 3.706349629171462*^9, 
+  3.706349705077578*^9},ExpressionUUID->"5ba164a7-c24b-4679-83cd-\
+96d345152171"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2158,11 +2168,11 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.6, "Seconds"], 
-    "TestsSucceededCount" -> 3, "TestsFailedCount" -> 0, 
-    "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
-    "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
-    Association[1 -> TestResultObject[
+   "Title" -> Automatic, "TimeElapsed" -> 
+    Quantity[0.41000000000000003`, "Seconds"], "TestsSucceededCount" -> 3, 
+    "TestsFailedCount" -> 0, "TestsFailedWrongResultsCount" -> 0, 
+    "TestsFailedWithMessagesCount" -> 0, "TestsFailedWithErrorsCount" -> 0, 
+    "Aborted" -> False, "TestResults" -> Association[1 -> TestResultObject[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
@@ -2176,9 +2186,9 @@ $CellContext`rand], $CellContext`a]] == Part[$CellContext`rand,
               Span[4, 6]]], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.003441`3.6871996704529217, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.002123000000000097, "Seconds"], "MemoryUsed" -> 
-         Quantity[9856, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.001391`3.293842127824036, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0013849999999999696`, "Seconds"], "MemoryUsed" -> 
+         Quantity[9744, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
@@ -2194,9 +2204,9 @@ $CellContext`rand], $CellContext`b]] == Part[$CellContext`rand,
               Span[5, 6]]], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.001023`3.1603906315441543, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0010110000000009833`, "Seconds"], "MemoryUsed" -> 
-         Quantity[352, "Bytes"]]], 3 -> TestResultObject[
+         Quantity[0.001007`3.1535444683856095, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0010029999999998651`, "Seconds"], "MemoryUsed" -> 
+         Quantity[288, "Bytes"]]], 3 -> TestResultObject[
         Association[
         "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
@@ -2222,9 +2232,9 @@ $CellContext`rand], $CellContext`b]] == {{
                 Span[4, 6]]]}}], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.00093`3.1189979463859294, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0009269999999999001, "Seconds"], "MemoryUsed" -> 
-         Quantity[80, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2, 3}, 
+         Quantity[0.000959`3.1323336050026533, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0009580000000006805, "Seconds"], "MemoryUsed" -> 
+         Quantity[96, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2, 3}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
     "TestsFailedWithErrorsIndices" -> {}]],
@@ -2234,8 +2244,9 @@ $CellContext`rand], $CellContext`b]] == {{
  CellChangeTimes->{{3.705986481670673*^9, 3.705986550416431*^9}, {
    3.705986585874484*^9, 3.705986630089837*^9}, 3.705986736168215*^9, 
    3.705989700473382*^9, 3.705990879534278*^9, 3.7059909207498817`*^9, 
-   3.7059974767548733`*^9},ExpressionUUID->"4f1fb577-b37a-4cab-a84b-\
-9e70f148a220"]
+   3.7059974767548733`*^9, 3.7063496364669523`*^9, 
+   3.7063497068780107`*^9},ExpressionUUID->"b8949fbe-7a6c-42fd-b5bc-\
+b512b758304b"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2491,7 +2502,7 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.59, "Seconds"], 
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.4, "Seconds"], 
     "TestsSucceededCount" -> 2, "TestsFailedCount" -> 0, 
     "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
     "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
@@ -2507,9 +2518,9 @@ Cell[BoxData[
 {$CellContext`b}, $CellContext`rand]], "ExpectedOutput" -> HoldForm[True], 
          "ActualOutput" -> HoldForm[True], "ExpectedMessages" -> {}, 
          "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.001427`3.3049389709466386, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0013979999999991222`, "Seconds"], "MemoryUsed" -> 
-         Quantity[240, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.001474`3.3190124813550246, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.002029999999999532, "Seconds"], "MemoryUsed" -> 
+         Quantity[520, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
@@ -2520,8 +2531,8 @@ Cell[BoxData[
          "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True],
           "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.000585`2.917670863914172, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0005839999999999179, "Seconds"], "MemoryUsed" -> 
+         Quantity[0.000581`2.914691130222325, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0011609999999997456`, "Seconds"], "MemoryUsed" -> 
          Quantity[200, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
@@ -2531,9 +2542,10 @@ Cell[BoxData[
   Selectable->False]], "Output",
  CellChangeTimes->{{3.7059878377954893`*^9, 3.7059878676476793`*^9}, 
    3.705989703590701*^9, 3.705990922578483*^9, {3.7059909622595997`*^9, 
-   3.70599096511406*^9}, 3.705991000299768*^9, 
-   3.70599748107813*^9},ExpressionUUID->"cb05e22f-63b0-4d44-8d6e-\
-0dfd60ac363c"]
+   3.70599096511406*^9}, 3.705991000299768*^9, 3.70599748107813*^9, 
+   3.706261511302085*^9, 3.706349639257496*^9, 
+   3.70634970823376*^9},ExpressionUUID->"42fc7677-8687-4f1e-98fd-\
+1913e0c41541"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2559,7 +2571,7 @@ Cell[BoxData[{
       RowBox[{
        RowBox[{
         RowBox[{"ToMatrix", "[", 
-         RowBox[{"LazyAdd", "[", 
+         RowBox[{"AddMaps", "[", 
           RowBox[{
            RowBox[{"FromMatrix", "[", 
             RowBox[{
@@ -2577,8 +2589,7 @@ Cell[BoxData[{
          RowBox[{"FromMatrix", "[", 
           RowBox[{
            RowBox[{"{", "a", "}"}], ",", 
-           RowBox[{"PauliMatrix", "[", "2", "]"}]}], "]"}], 
-         SubscriptBox["+", "L"], 
+           RowBox[{"PauliMatrix", "[", "2", "]"}]}], "]"}], "+", 
          RowBox[{"FromMatrix", "[", 
           RowBox[{
            RowBox[{"{", "c", "}"}], ",", 
@@ -2590,7 +2601,9 @@ Cell[BoxData[{
        "True"}], "]"}]}], "}"}], "]"}]}]}], "Input",
  CellChangeTimes->{{3.7059880498928337`*^9, 3.7059881392934647`*^9}, {
   3.705989741134738*^9, 3.705989742685049*^9}, {3.705989879940428*^9, 
-  3.705989965991775*^9}},ExpressionUUID->"546d790d-33a3-452c-8038-\
+  3.705989965991775*^9}, {3.7063496443172913`*^9, 3.70634964458875*^9}, {
+  3.706349737377722*^9, 
+  3.706349738468219*^9}},ExpressionUUID->"546d790d-33a3-452c-8038-\
 de357d4d8771"],
 
 Cell[BoxData[
@@ -2794,7 +2807,7 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestReportObject[
    Association[
-   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.58, "Seconds"], 
+   "Title" -> Automatic, "TimeElapsed" -> Quantity[0.43, "Seconds"], 
     "TestsSucceededCount" -> 2, "TestsFailedCount" -> 0, 
     "TestsFailedWrongResultsCount" -> 0, "TestsFailedWithMessagesCount" -> 0, 
     "TestsFailedWithErrorsCount" -> 0, "Aborted" -> False, "TestResults" -> 
@@ -2802,30 +2815,28 @@ Cell[BoxData[
         Association[
         "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
          HoldForm[MultiLinearMaps`ToMatrix[
-             MultiLinearMaps`LazyAdd[
+             MultiLinearMaps`AddMaps[
               MultiLinearMaps`FromMatrix[{$CellContext`a}, 
                PauliMatrix[2]], 
               MultiLinearMaps`FromMatrix[{$CellContext`c}, 
                PauliMatrix[3]]]] == $CellContext`yz], "ExpectedOutput" -> 
          HoldForm[True], "ActualOutput" -> HoldForm[True], 
          "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
-         Quantity[0.002038`3.4597191775023974, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0020330000000008397`, "Seconds"], "MemoryUsed" -> 
-         Quantity[408, "Bytes"]]], 2 -> TestResultObject[
+         Quantity[0.002023`3.4565108806027967, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.0020049999999995904`, "Seconds"], "MemoryUsed" -> 
+         Quantity[320, "Bytes"]]], 2 -> TestResultObject[
         Association[
         "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
-         HoldForm[MultiLinearMaps`LazyAdd[
-             MultiLinearMaps`FromMatrix[{$CellContext`a}, 
-              PauliMatrix[2]], 
-             MultiLinearMaps`FromMatrix[{$CellContext`c}, 
-              PauliMatrix[3]]] == 
+         HoldForm[MultiLinearMaps`FromMatrix[{$CellContext`a}, 
+              PauliMatrix[2]] + MultiLinearMaps`FromMatrix[{$CellContext`c}, 
+              PauliMatrix[3]] == 
            MultiLinearMaps`FromMatrix[{$CellContext`a, $CellContext`c}, \
 $CellContext`yz]], "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> 
          HoldForm[True], "ExpectedMessages" -> {}, "ActualMessages" -> {}, 
          "AbsoluteTimeUsed" -> 
-         Quantity[0.002039`3.4599322236101315, "Seconds"], "CPUTimeUsed" -> 
-         Quantity[0.0020230000000012183`, "Seconds"], "MemoryUsed" -> 
-         Quantity[304, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
+         Quantity[0.001782`3.401422697532848, "Seconds"], "CPUTimeUsed" -> 
+         Quantity[0.001778999999999975, "Seconds"], "MemoryUsed" -> 
+         Quantity[288, "Bytes"]]]], "TestsSucceededIndices" -> {1, 2}, 
     "TestsFailedIndices" -> {}, "TestsFailedWrongResultsIndices" -> {}, 
     "TestsFailedWithMessagesIndices" -> {}, 
     "TestsFailedWithErrorsIndices" -> {}]],
@@ -2833,123 +2844,510 @@ $CellContext`yz]], "ExpectedOutput" -> HoldForm[True], "ActualOutput" ->
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{{3.70598996257866*^9, 3.705989967292156*^9}, 
-   3.705990931765614*^9, 
-   3.705997484173489*^9},ExpressionUUID->"681acf36-17d0-4b4e-8858-\
-1f3f75476f64"]
+   3.705990931765614*^9, 3.705997484173489*^9, 
+   3.706349745644463*^9},ExpressionUUID->"85f3b855-d916-4dcf-bec4-\
+a37616fc90c2"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{
-  RowBox[{"mat", "=", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"0", ",", "1", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"1", ",", "0", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"0", ",", "0", ",", "0"}], "}"}]}], "}"}]}], ";", 
-  RowBox[{"VerificationTest", "[", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"FromMatrix", "[", 
-      RowBox[{
-       RowBox[{"{", 
-        RowBox[{"a", ",", "b"}], "}"}], ",", 
-       RowBox[{"{", "b", "}"}], ",", "mat"}], "]"}], "**", 
-     RowBox[{"IdentityOp", "[", "a", "]"}]}], ",", 
-    RowBox[{"MultiLinearMaps`Private`ComposeAtomicTensors", "[", 
+ RowBox[{"(*", 
+  RowBox[{
+   RowBox[{"mat", "=", 
+    RowBox[{"{", 
      RowBox[{
-      RowBox[{"MultiMap", "[", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1", ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "0"}], "}"}]}], "}"}]}], ";", 
+   RowBox[{"VerificationTest", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"FromMatrix", "[", 
        RowBox[{
-        RowBox[{"IndexDict", "[", 
-         RowBox[{
-          RowBox[{"VecSpace", "[", 
-           RowBox[{"AtomicSpace", "[", 
-            RowBox[{
-             RowBox[{"System", "[", 
-              RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<ket\>\""}], 
-            "]"}], "]"}], ",", 
-          RowBox[{"VecSpace", "[", 
-           RowBox[{"AtomicSpace", "[", 
-            RowBox[{
-             RowBox[{"System", "[", 
-              RowBox[{"\"\<b\>\"", ",", "3"}], "]"}], ",", "\"\<ket\>\""}], 
-            "]"}], "]"}], ",", 
-          RowBox[{"VecSpace", "[", 
-           RowBox[{"AtomicSpace", "[", 
-            RowBox[{
-             RowBox[{"System", "[", 
-              RowBox[{"\"\<b\>\"", ",", "3"}], "]"}], ",", "\"\<bra\>\""}], 
-            "]"}], "]"}]}], "]"}], ",", 
-        RowBox[{"SparseArray", "[", 
-         RowBox[{"Automatic", ",", 
-          RowBox[{"{", 
-           RowBox[{"2", ",", "3", ",", "3"}], "}"}], ",", "0", ",", 
-          RowBox[{"{", 
-           RowBox[{"1", ",", 
-            RowBox[{"{", 
+        RowBox[{"{", 
+         RowBox[{"a", ",", "b"}], "}"}], ",", 
+        RowBox[{"{", "b", "}"}], ",", "mat"}], "]"}], "**", 
+      RowBox[{"IdentityOp", "[", "a", "]"}]}], ",", 
+     RowBox[{"MultiLinearMaps`Private`ComposeAtomicTensors", "[", 
+      RowBox[{
+       RowBox[{"MultiMap", "[", 
+        RowBox[{
+         RowBox[{"IndexDict", "[", 
+          RowBox[{
+           RowBox[{"VecSpace", "[", 
+            RowBox[{"AtomicSpace", "[", 
              RowBox[{
-              RowBox[{"{", 
-               RowBox[{"0", ",", "2", ",", "3"}], "}"}], ",", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{"{", 
-                 RowBox[{"1", ",", "2"}], "}"}], ",", 
-                RowBox[{"{", 
-                 RowBox[{"3", ",", "1"}], "}"}], ",", 
-                RowBox[{"{", 
-                 RowBox[{"2", ",", "3"}], "}"}]}], "}"}]}], "}"}], ",", 
-            RowBox[{"{", 
-             RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "}"}]}], "]"}]}], 
-       "]"}], ",", 
-      RowBox[{"MultiMap", "[", 
-       RowBox[{
-        RowBox[{"IndexDict", "[", 
-         RowBox[{
-          RowBox[{"VecSpace", "[", 
-           RowBox[{"AtomicSpace", "[", 
-            RowBox[{
-             RowBox[{"System", "[", 
-              RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<ket\>\""}], 
-            "]"}], "]"}], ",", 
-          RowBox[{"VecSpace", "[", 
-           RowBox[{"AtomicSpace", "[", 
-            RowBox[{
-             RowBox[{"System", "[", 
-              RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<bra\>\""}], 
-            "]"}], "]"}]}], "]"}], ",", 
-        RowBox[{"SparseArray", "[", 
-         RowBox[{"Automatic", ",", 
-          RowBox[{"{", 
-           RowBox[{"2", ",", "2"}], "}"}], ",", "0", ",", 
-          RowBox[{"{", 
-           RowBox[{"1", ",", 
-            RowBox[{"{", 
+              RowBox[{"System", "[", 
+               RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<ket\>\""}], 
+             "]"}], "]"}], ",", 
+           RowBox[{"VecSpace", "[", 
+            RowBox[{"AtomicSpace", "[", 
              RowBox[{
-              RowBox[{"{", 
-               RowBox[{"0", ",", "1", ",", "2"}], "}"}], ",", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{"{", "1", "}"}], ",", 
-                RowBox[{"{", "2", "}"}]}], "}"}]}], "}"}], ",", 
-            RowBox[{"{", 
-             RowBox[{"1", ",", "1"}], "}"}]}], "}"}]}], "]"}]}], "]"}]}], 
-     "]"}], ",", 
-    RowBox[{"ComposeMaps", "::", "inputs"}]}], "]"}]}]], "Input",
+              RowBox[{"System", "[", 
+               RowBox[{"\"\<b\>\"", ",", "3"}], "]"}], ",", "\"\<ket\>\""}], 
+             "]"}], "]"}], ",", 
+           RowBox[{"VecSpace", "[", 
+            RowBox[{"AtomicSpace", "[", 
+             RowBox[{
+              RowBox[{"System", "[", 
+               RowBox[{"\"\<b\>\"", ",", "3"}], "]"}], ",", "\"\<bra\>\""}], 
+             "]"}], "]"}]}], "]"}], ",", 
+         RowBox[{"SparseArray", "[", 
+          RowBox[{"Automatic", ",", 
+           RowBox[{"{", 
+            RowBox[{"2", ",", "3", ",", "3"}], "}"}], ",", "0", ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"0", ",", "2", ",", "3"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"1", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"3", ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"2", ",", "3"}], "}"}]}], "}"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "}"}]}], "]"}]}], 
+        "]"}], ",", 
+       RowBox[{"MultiMap", "[", 
+        RowBox[{
+         RowBox[{"IndexDict", "[", 
+          RowBox[{
+           RowBox[{"VecSpace", "[", 
+            RowBox[{"AtomicSpace", "[", 
+             RowBox[{
+              RowBox[{"System", "[", 
+               RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<ket\>\""}], 
+             "]"}], "]"}], ",", 
+           RowBox[{"VecSpace", "[", 
+            RowBox[{"AtomicSpace", "[", 
+             RowBox[{
+              RowBox[{"System", "[", 
+               RowBox[{"\"\<a\>\"", ",", "2"}], "]"}], ",", "\"\<bra\>\""}], 
+             "]"}], "]"}]}], "]"}], ",", 
+         RowBox[{"SparseArray", "[", 
+          RowBox[{"Automatic", ",", 
+           RowBox[{"{", 
+            RowBox[{"2", ",", "2"}], "}"}], ",", "0", ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"0", ",", "1", ",", "2"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"{", "1", "}"}], ",", 
+                 RowBox[{"{", "2", "}"}]}], "}"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", "1"}], "}"}]}], "}"}]}], "]"}]}], "]"}]}], 
+      "]"}], ",", 
+     RowBox[{"ComposeMaps", "::", "inputs"}]}], "]"}]}], "*)"}]], "Input",
  CellChangeTimes->{{3.70599020804692*^9, 3.705990307907786*^9}, {
    3.705990398440804*^9, 3.70599041406536*^9}, {3.705990550087193*^9, 
-   3.70599057502674*^9}, 
-   3.705990671618998*^9},ExpressionUUID->"2d8783c7-255c-41d5-9c68-\
+   3.70599057502674*^9}, 3.705990671618998*^9, {3.7063503407052307`*^9, 
+   3.7063503430824623`*^9}},ExpressionUUID->"2d8783c7-255c-41d5-9c68-\
 1972214f8689"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["TestResultObject",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False}, 
+    PanelBox[
+     PaneSelectorBox[{False->GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquarePlusIconMedium"],
+            ImageSizeCache->{12., {0., 12.}}],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = True),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[{InsetBox[
+            PaneBox[
+             
+             DynamicBox[FEPrivate`FrontEndResource[
+              "MUnitExpressions", "TestFailureIcon"],
+              ImageSizeCache->{12., {4., 8.}}],
+             Alignment->Center,
+             
+             ImageSize->
+              Dynamic[{
+               Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                AbsoluteCurrentValue[Magnification]}]]]},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.93],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.55]],
+          FrameTicks->None,
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}],
+          PlotRange->{{0, 1}, {0, 1}}], GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Outcome: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["\<\"Failure\"\>",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Test ID: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["None",
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], True->
+      GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquareMinusIconMedium"]],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = False),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[{InsetBox[
+            PaneBox[
+             
+             DynamicBox[FEPrivate`FrontEndResource[
+              "MUnitExpressions", "TestFailureIcon"]],
+             Alignment->Center,
+             
+             ImageSize->
+              Dynamic[{
+               Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                AbsoluteCurrentValue[Magnification]}]]]},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.93],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.55]],
+          FrameTicks->None,
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}],
+          PlotRange->{{0, 1}, {0, 1}}], GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Outcome: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["\<\"Failure\"\>",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Test ID: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["None",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Input: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox[
+               TagBox[
+                RowBox[{
+                 RowBox[{"FromMatrix", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"a", ",", "b"}], "}"}], ",", 
+                   RowBox[{"{", "b", "}"}], ",", "mat"}], "]"}], "**", 
+                 RowBox[{"IdentityOp", "[", "a", "]"}]}],
+                Short[#, 
+                 Rational[2, 3]]& ],
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Expected output: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox[
+               TagBox[
+                RowBox[{
+                 RowBox[{"\[LeftSkeleton]", "44", "\[RightSkeleton]"}], "[", 
+                 RowBox[{
+                  RowBox[{"MultiMap", "[", 
+                   RowBox[{
+                    RowBox[{"IndexDict", "[", 
+                    RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}], 
+                    "]"}], ",", 
+                    TagBox[
+                    RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}],
+                    False,
+                    Editable->False,
+                    SelectWithContents->True,
+                    Selectable->False]}], "]"}], ",", 
+                  RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}]}], 
+                 "]"}],
+                Short[#, 
+                 Rational[2, 3]]& ],
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Actual output: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox[
+               TagBox[
+                RowBox[{"MultiLinearMaps`Private`ComposeMapsDot", "[", 
+                 RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}], "]"}],
+                Short[#, 
+                 Rational[2, 3]]& ],
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Expected messages: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox[
+               TagBox[
+                RowBox[{"{", 
+                 StyleBox[
+                  RowBox[{"ComposeMaps", "::", "inputs"}], "MessageName"], 
+                 "}"}],
+                Short[#, 
+                 Rational[2, 3]]& ],
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Actual messages: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox[
+               TagBox[
+                RowBox[{"{", 
+                 RowBox[{"Message", "[", 
+                  StyleBox[
+                   RowBox[{"ComposeMaps", "::", "inputs"}], "MessageName"], 
+                  "]"}], "}"}],
+                Short[#, 
+                 Rational[2, 3]]& ],
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Time Taken: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox[
+               TagBox[
+                
+                TemplateBox[{
+                 "0.000904`3.106683428307355","\"s\"","seconds","\"Seconds\""},
+                 "Quantity"],
+                Short[#, 
+                 Rational[2, 3]]& ],
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]}, Dynamic[
+      Typeset`open$$],
+      ImageSize->Automatic],
+     BaselinePosition->Baseline],
+    DynamicModuleValues:>{}], "]"}],
+  TestResultObject[
+   Association[
+   "TestIndex" -> 1, "TestID" -> None, "Outcome" -> "Failure", "Input" -> 
+    HoldForm[
+      NonCommutativeMultiply[
+       MultiLinearMaps`FromMatrix[{$CellContext`a, $CellContext`b}, \
+{$CellContext`b}, $CellContext`mat], 
+       MultiLinearMaps`IdentityOp[$CellContext`a]]], "ExpectedOutput" -> 
+    HoldForm[
+      MultiLinearMaps`Private`ComposeAtomicTensors[
+       MultiLinearMaps`MultiMap[
+        MultiLinearMaps`IndexDict[
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["a", 2], "ket"]], 
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["b", 3], "ket"]], 
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["b", 3], "bra"]]], SparseArray[
+        Automatic, {2, 3, 3}, 0, {
+         1, {{0, 2, 3}, {{1, 2}, {3, 1}, {2, 3}}}, {1, 1, 1}}]], 
+       MultiLinearMaps`MultiMap[
+        MultiLinearMaps`IndexDict[
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["a", 2], "ket"]], 
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["a", 2], "bra"]]], SparseArray[
+        Automatic, {2, 2}, 0, {1, {{0, 1, 2}, {{1}, {2}}}, {1, 1}}]]]], 
+    "ActualOutput" -> HoldForm[
+      MultiLinearMaps`Private`ComposeMapsDot[
+       MultiLinearMaps`MultiMap[
+        MultiLinearMaps`IndexDict[
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["a", 2], "ket"], 
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["b", 3], "ket"]], 
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["b", 3], "bra"]]], SparseArray[
+        Automatic, {6, 3}, 0, {
+         1, {{0, 1, 1, 2, 2, 3, 3}, {{2}, {1}, {3}}}, {1, 1, 1}}]], 
+       MultiLinearMaps`MultiMap[
+        MultiLinearMaps`IndexDict[
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["a", 2], "ket"]], 
+         MultiLinearMaps`VecSpace[
+          MultiLinearMaps`AtomicSpace[
+           MultiLinearMaps`System["a", 2], "bra"]]], SparseArray[
+        Automatic, {2, 2}, 0, {1, {{0, 1, 2}, {{1}, {2}}}, {1, 1}}]]]], 
+    "ExpectedMessages" -> {
+      HoldForm[
+       MessageName[MultiLinearMaps`ComposeMaps, "inputs"]]}, "ActualMessages" -> {
+      HoldForm[
+       Message[
+        MessageName[MultiLinearMaps`ComposeMaps, "inputs"]]]}, 
+    "AbsoluteTimeUsed" -> Quantity[0.000904`3.106683428307355, "Seconds"], 
+    "CPUTimeUsed" -> Quantity[0.0008610000000004447, "Seconds"], "MemoryUsed" -> 
+    Quantity[2912, "Bytes"]]],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.705990672970839*^9, 3.705990975915063*^9, 
+  3.70599748747292*^9, 
+  3.706349757160396*^9},ExpressionUUID->"2f761c79-f746-4b43-8079-\
+0b489dfbcb44"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"t", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"#", ".", 
+      RowBox[{"Transpose", "[", "#", "]"}]}], "&"}], "[", 
+    RowBox[{"RandomReal", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"3", ",", "3"}], "}"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"VerificationTest", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Tr", "[", "t", "]"}], "\[Equal]", 
+    RowBox[{"ToMatrix", "@", 
+     RowBox[{"Tr", "@", 
+      RowBox[{"FromMatrix", "[", 
+       RowBox[{
+        RowBox[{"{", "b", "}"}], ",", "t"}], "]"}]}]}]}], ",", "True"}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.706261517403364*^9, 3.706261570142727*^9}, {
+  3.7063503597305717`*^9, 
+  3.706350388479536*^9}},ExpressionUUID->"acc023df-ab07-4d07-bf51-\
+2ccef04889b5"],
 
 Cell[BoxData[
  InterpretationBox[
@@ -3092,12 +3490,12 @@ Cell[BoxData[
               PaneBox[
                TagBox[
                 RowBox[{
-                 RowBox[{"FromMatrix", "[", 
-                  RowBox[{
-                   RowBox[{"{", 
-                    RowBox[{"a", ",", "b"}], "}"}], ",", 
-                   RowBox[{"{", "b", "}"}], ",", "mat"}], "]"}], "**", 
-                 RowBox[{"IdentityOp", "[", "a", "]"}]}],
+                 RowBox[{"Tr", "[", "t", "]"}], "\[Equal]", 
+                 RowBox[{"ToMatrix", "[", 
+                  RowBox[{"Tr", "[", 
+                   RowBox[{"FromMatrix", "[", 
+                    RowBox[{
+                    RowBox[{"{", "b", "}"}], ",", "t"}], "]"}], "]"}], "]"}]}],
                 Short[#, 
                  Rational[2, 3]]& ],
                BaselinePosition->Baseline,
@@ -3112,23 +3510,7 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               PaneBox[
-               TagBox[
-                RowBox[{
-                 RowBox[{"\[LeftSkeleton]", "44", "\[RightSkeleton]"}], "[", 
-                 RowBox[{
-                  RowBox[{"MultiMap", "[", 
-                   RowBox[{
-                    RowBox[{"IndexDict", "[", 
-                    RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}], 
-                    "]"}], ",", 
-                    TagBox[
-                    RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}],
-                    False,
-                    Editable->False,
-                    SelectWithContents->True,
-                    Selectable->False]}], "]"}], ",", 
-                  RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}]}], 
-                 "]"}],
+               TagBox["True",
                 Short[#, 
                  Rational[2, 3]]& ],
                BaselinePosition->Baseline,
@@ -3143,62 +3525,7 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               PaneBox[
-               TagBox[
-                RowBox[{
-                 RowBox[{"\[LeftSkeleton]", "44", "\[RightSkeleton]"}], "[", 
-                 RowBox[{
-                  RowBox[{"MultiMap", "[", 
-                   RowBox[{
-                    RowBox[{"IndexDict", "[", 
-                    RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}], 
-                    "]"}], ",", 
-                    TagBox[
-                    RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}],
-                    False,
-                    Editable->False,
-                    SelectWithContents->True,
-                    Selectable->False]}], "]"}], ",", 
-                  RowBox[{"\[LeftSkeleton]", "1", "\[RightSkeleton]"}]}], 
-                 "]"}],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Expected messages: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox[
-                RowBox[{"{", 
-                 StyleBox[
-                  RowBox[{"ComposeMaps", "::", "inputs"}], "MessageName"], 
-                 "}"}],
-                Short[#, 
-                 Rational[2, 3]]& ],
-               BaselinePosition->Baseline,
-               ContentPadding->False,
-               FrameMargins->0,
-               ImageSize->{{1, 500}, Automatic},
-               StripOnInput->True],
-              "SummaryItem"]}]},
-           {
-            RowBox[{
-             TagBox["\<\"Actual messages: \"\>",
-              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox[
-              PaneBox[
-               TagBox[
-                RowBox[{"{", 
-                 RowBox[{"Message", "[", 
-                  StyleBox[
-                   RowBox[{"ComposeMaps", "::", "inputs"}], "MessageName"], 
-                  "]"}], "}"}],
+               TagBox["True",
                 Short[#, 
                  Rational[2, 3]]& ],
                BaselinePosition->Baseline,
@@ -3216,7 +3543,8 @@ Cell[BoxData[
                TagBox[
                 
                 TemplateBox[{
-                 "0.000638`2.955335676553154","\"s\"","seconds","\"Seconds\""},
+                 "0.000602`2.9301114890898186","\"s\"","seconds",
+                  "\"Seconds\""},
                  "Quantity"],
                 Short[#, 
                  Rational[2, 3]]& ],
@@ -3233,6 +3561,7 @@ Cell[BoxData[
            ShowStringCharacters -> False, NumberMarks -> False, 
             PrintPrecision -> 3, ShowSyntaxStyles -> False},
           GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
           GridBoxItemSize->{
            "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
           GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
@@ -3248,79 +3577,27 @@ Cell[BoxData[
     DynamicModuleValues:>{}], "]"}],
   TestResultObject[
    Association[
-   "TestIndex" -> 3, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
-    HoldForm[
-      NonCommutativeMultiply[
-       MultiLinearMaps`FromMatrix[{$CellContext`a, $CellContext`b}, \
-{$CellContext`b}, $CellContext`mat], 
-       MultiLinearMaps`IdentityOp[$CellContext`a]]], "ExpectedOutput" -> 
-    HoldForm[
-      MultiLinearMaps`Private`ComposeAtomicTensors[
-       MultiLinearMaps`MultiMap[
-        MultiLinearMaps`IndexDict[
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["a", 2], "ket"]], 
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["b", 3], "ket"]], 
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["b", 3], "bra"]]], SparseArray[
-        Automatic, {2, 3, 3}, 0, {
-         1, {{0, 2, 3}, {{1, 2}, {3, 1}, {2, 3}}}, {1, 1, 1}}]], 
-       MultiLinearMaps`MultiMap[
-        MultiLinearMaps`IndexDict[
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["a", 2], "ket"]], 
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["a", 2], "bra"]]], SparseArray[
-        Automatic, {2, 2}, 0, {1, {{0, 1, 2}, {{1}, {2}}}, {1, 1}}]]]], 
-    "ActualOutput" -> HoldForm[
-      MultiLinearMaps`Private`ComposeAtomicTensors[
-       MultiLinearMaps`MultiMap[
-        MultiLinearMaps`IndexDict[
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["a", 2], "ket"]], 
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["b", 3], "ket"]], 
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["b", 3], "bra"]]], SparseArray[
-        Automatic, {2, 3, 3}, 0, {
-         1, {{0, 2, 3}, {{1, 2}, {3, 1}, {2, 3}}}, {1, 1, 1}}]], 
-       MultiLinearMaps`MultiMap[
-        MultiLinearMaps`IndexDict[
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["a", 2], "ket"]], 
-         MultiLinearMaps`VecSpace[
-          MultiLinearMaps`AtomicSpace[
-           MultiLinearMaps`System["a", 2], "bra"]]], SparseArray[
-        Automatic, {2, 2}, 0, {1, {{0, 1, 2}, {{1}, {2}}}, {1, 1}}]]]], 
-    "ExpectedMessages" -> {
-      HoldForm[
-       MessageName[MultiLinearMaps`ComposeMaps, "inputs"]]}, "ActualMessages" -> {
-      HoldForm[
-       Message[
-        MessageName[MultiLinearMaps`ComposeMaps, "inputs"]]]}, 
-    "AbsoluteTimeUsed" -> Quantity[0.000638`2.955335676553154, "Seconds"], 
-    "CPUTimeUsed" -> Quantity[0.000634999999999053, "Seconds"], "MemoryUsed" -> 
-    Quantity[3096, "Bytes"]]],
+   "TestIndex" -> 2, "TestID" -> None, "Outcome" -> "Success", "Input" -> 
+    HoldForm[Tr[$CellContext`t] == MultiLinearMaps`ToMatrix[
+        Tr[
+         MultiLinearMaps`FromMatrix[{$CellContext`b}, $CellContext`t]]]], 
+    "ExpectedOutput" -> HoldForm[True], "ActualOutput" -> HoldForm[True], 
+    "ExpectedMessages" -> {}, "ActualMessages" -> {}, "AbsoluteTimeUsed" -> 
+    Quantity[0.000602`2.9301114890898186, "Seconds"], "CPUTimeUsed" -> 
+    Quantity[0.0006009999999996296, "Seconds"], "MemoryUsed" -> 
+    Quantity[1216, "Bytes"]]],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.705990672970839*^9, 3.705990975915063*^9, 
-  3.70599748747292*^9},ExpressionUUID->"cbe1f09d-0f83-4999-9b8f-8608b8f50fbc"]
+ CellChangeTimes->{{3.706261534329063*^9, 3.7062615703390627`*^9}, 
+   3.7063497819804983`*^9, 
+   3.7063503890829353`*^9},ExpressionUUID->"c18addcc-56eb-4ac7-afc8-\
+b42b50482886"]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{808, 655},
-WindowMargins->{{Automatic, 405}, {Automatic, 132}},
+WindowMargins->{{Automatic, 405}, {-103, Automatic}},
 FrontEndVersion->"11.1 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 16, \
 2017)",
 StyleDefinitions->"Default.nb"
@@ -3348,64 +3625,70 @@ Cell[2105, 68, 255, 4, 30, "Text", "ExpressionUUID" -> \
 Cell[CellGroupData[{
 Cell[2385, 76, 688, 19, 54, "Input", "ExpressionUUID" -> \
 "06317d9a-1335-459d-8d44-01b595b42160"],
-Cell[3076, 97, 8987, 236, 60, "Output", "ExpressionUUID" -> \
-"1008c327-5066-42d4-bbcc-3e9b44c6ddb7"]
+Cell[3076, 97, 9082, 238, 60, "Output", "ExpressionUUID" -> \
+"ed7e4e74-46db-4df3-ae67-15b83e658def"]
 }, Open  ]],
-Cell[12078, 336, 230, 4, 30, "Text", "ExpressionUUID" -> \
+Cell[12173, 338, 230, 4, 30, "Text", "ExpressionUUID" -> \
 "f1258e54-ea10-4119-a2aa-c3929a6145cf"],
-Cell[12311, 342, 356, 9, 32, "Input", "ExpressionUUID" -> \
+Cell[12406, 344, 356, 9, 32, "Input", "ExpressionUUID" -> \
 "95dfdbde-82a1-43db-93f2-911cb903ef02"],
 Cell[CellGroupData[{
-Cell[12692, 355, 2294, 58, 201, "Input", "ExpressionUUID" -> \
+Cell[12787, 357, 2294, 58, 201, "Input", "ExpressionUUID" -> \
 "958afb7d-2be3-457f-ba6a-7cc869a6dfff"],
-Cell[14989, 415, 11792, 291, 60, "Output", "ExpressionUUID" -> \
-"40be7b91-4933-4d8a-999a-7efae9804f2e"]
+Cell[15084, 417, 11856, 291, 60, "Output", "ExpressionUUID" -> \
+"c5166394-a1dd-4e53-a148-c300ed3b0b2a"]
 }, Open  ]],
-Cell[26796, 709, 152, 3, 30, "Text", "ExpressionUUID" -> \
+Cell[26955, 711, 152, 3, 30, "Text", "ExpressionUUID" -> \
 "e23a4f4d-3cea-43ef-bb2f-53ac2197f143"],
 Cell[CellGroupData[{
-Cell[26973, 716, 1516, 36, 117, "Input", "ExpressionUUID" -> \
+Cell[27132, 718, 1516, 36, 117, "Input", "ExpressionUUID" -> \
 "7a6ceca2-5250-4f49-b893-bc4f3745431c"],
-Cell[28492, 754, 10421, 267, 60, "Output", "ExpressionUUID" -> \
+Cell[28651, 756, 10529, 273, 60, "Output", "ExpressionUUID" -> \
 "e772f1cc-7554-465b-90ea-6d084aa34aa0"]
 }, Open  ]],
-Cell[38928, 1024, 868, 22, 96, "Input", "ExpressionUUID" -> \
+Cell[39195, 1032, 913, 22, 96, "Input", "ExpressionUUID" -> \
 "032b1f03-50ec-4868-87b0-3f0ba3f1f8ec"],
 Cell[CellGroupData[{
-Cell[39821, 1050, 4028, 107, 264, "Input", "ExpressionUUID" -> \
+Cell[40133, 1058, 4028, 107, 264, "Input", "ExpressionUUID" -> \
 "019cb57c-6150-4e20-aaaa-3cc9a3b2a389"],
-Cell[43852, 1159, 11911, 295, 60, "Output", "ExpressionUUID" -> \
-"77a3166a-919a-4680-80cc-e4807adc4d47"]
+Cell[44164, 1167, 12023, 297, 60, "Output", "ExpressionUUID" -> \
+"9ad27a8e-70a0-46fc-bde3-01a81905ffab"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[55800, 1459, 3050, 87, 201, "Input", "ExpressionUUID" -> \
+Cell[56224, 1469, 3050, 87, 201, "Input", "ExpressionUUID" -> \
 "ae8ab73a-5ea5-4756-8ef6-d22d752cff9a"],
-Cell[58853, 1548, 12121, 290, 60, "Output", "ExpressionUUID" -> \
-"8f48cb1f-46c9-4912-b951-7fc15ecdc801"]
+Cell[59277, 1558, 12132, 290, 60, "Output", "ExpressionUUID" -> \
+"5ba164a7-c24b-4679-83cd-96d345152171"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[71011, 1843, 4023, 114, 201, "Input", "ExpressionUUID" -> \
+Cell[71446, 1853, 4023, 114, 201, "Input", "ExpressionUUID" -> \
 "75113126-e3f0-4be3-a0da-074e6a61bae8"],
-Cell[75037, 1959, 10780, 278, 60, "Output", "ExpressionUUID" -> \
-"4f1fb577-b37a-4cab-a84b-9e70f148a220"]
+Cell[75472, 1969, 10851, 279, 60, "Output", "ExpressionUUID" -> \
+"b8949fbe-7a6c-42fd-b5bc-b512b758304b"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[85854, 2242, 1674, 48, 138, "Input", "ExpressionUUID" -> \
+Cell[86360, 2253, 1674, 48, 138, "Input", "ExpressionUUID" -> \
 "6c8423ae-21be-4840-a52a-bd8a35554987"],
-Cell[87531, 2292, 9340, 243, 60, "Output", "ExpressionUUID" -> \
-"cb05e22f-63b0-4d44-8d6e-0dfd60ac363c"]
+Cell[88037, 2303, 9407, 244, 60, "Output", "ExpressionUUID" -> \
+"42fc7677-8687-4f1e-98fd-1913e0c41541"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[96908, 2540, 1920, 53, 180, "Input", "ExpressionUUID" -> \
+Cell[97481, 2552, 1990, 54, 180, "Input", "ExpressionUUID" -> \
 "546d790d-33a3-452c-8038-de357d4d8771"],
-Cell[98831, 2595, 9265, 242, 60, "Output", "ExpressionUUID" -> \
-"681acf36-17d0-4b4e-8858-1f3f75476f64"]
+Cell[99474, 2608, 9232, 240, 60, "Output", "ExpressionUUID" -> \
+"85f3b855-d916-4dcf-bec4-a37616fc90c2"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[108133, 2842, 4078, 109, 264, "Input", "ExpressionUUID" -> \
+Cell[108743, 2853, 4256, 110, 243, "Input", "ExpressionUUID" -> \
 "2d8783c7-255c-41d5-9c68-1972214f8689"],
-Cell[112214, 2953, 13628, 364, 60, "Output", "ExpressionUUID" -> \
-"cbe1f09d-0f83-4999-9b8f-8608b8f50fbc"]
+Cell[113002, 2965, 13061, 352, 60, "Output", "ExpressionUUID" -> \
+"2f761c79-f746-4b43-8079-0b489dfbcb44"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[126100, 3322, 857, 27, 54, "Input", "ExpressionUUID" -> \
+"acc023df-ab07-4d07-bf51-2ccef04889b5"],
+Cell[126960, 3351, 8631, 243, 60, "Output", "ExpressionUUID" -> \
+"c18addcc-56eb-4ac7-afc8-b42b50482886"]
 }, Open  ]]
 }, Open  ]]
 }
