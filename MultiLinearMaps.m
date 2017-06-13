@@ -447,17 +447,16 @@ With[
 Equal[MultiMap[oL_,iL_],MultiMap[oR_,iR_]]^:=MapEqualQ[MultiMap[oL,iL],MultiMap[oR,iR]]
 
 
-AddMaps::input="Maps with differing input and output spaces cannot be added.";
-AddMaps[t1_MultiMap,t2_MultiMap]/;
+AddMapsStrict::input="Maps with differing input and output spaces cannot be added.";
+AddMapsStrict[t1_MultiMap,t2_MultiMap]/;
 If[
 	SystemMapEqualQ[t1,t2],
 	True,
-	Message[AddMaps::input];False]:=
+	Message[AddMapsStrict::input];False]:=
 With[
 	{ct1=Canonicalize[t1]},
 	MultiMap[ct1[[1]],ct1[[2]]+Canonicalize[t2][[2]]]
 ];
-Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]];
 
 
 MapDifferences[m1_MapDict,m2_MapDict]:=
@@ -465,20 +464,42 @@ With[
 	{int={Intersection[m1[[2]],m2[[2]]],Intersection[m1[[1]],m2[[1]]]}},
 	{Sort[{Complement[m2[[2]],int[[2]]],Complement[m2[[1]],int[[1]]]}],Sort[{Complement[m1[[2]],int[[2]]],Complement[m1[[1]],int[[1]]]}]}
 ];
-CompatibleQ[m1_MapDict,m2_MapDict]:=And@@(#[[1]]==#[[2]]&/@MapDifferences[m1,m2]);
+CompatibleQ[m1_MapDict,m2_MapDict]:=(And@@(#[[1]]==#[[2]]&/@MapDifferences[m1,m2]))||m1==m2;
 SystemsByName[x_IndexDict,namelist_List]:=Select[Union[#[[1]]&/@Level[x,{2}]],MemberQ[namelist,Name[#]]&];
-LazyAdd::incomp="Maps with incompatible input and output spaces cannot be added.";
-LazyAdd[t1_MultiMap,t2_MultiMap]/;
+AddMapsLazy::incomp="Maps with incompatible input and output spaces cannot be added.";
+AddMapsLazy[t1_MultiMap,t2_MultiMap]/;
 If[
 	CompatibleQ[SystemMap@t1,SystemMap@t2],
 	True,
-	Message[LazyAdd::incomp]
-]:=Module[
-	{e1,e2,diffs=#[[1]]&/@MapDifferences[SystemMap[t1],SystemMap[t2]]},
-	e1=Canonicalize[t1**IdentityOp[SystemsByName[t2[[1]],diffs[[1]]]]];
-	e2=Canonicalize[t2**IdentityOp[SystemsByName[t1[[1]],diffs[[2]]]]];
-	MultiMap[e1[[1]],e1[[2]]+e2[[2]]]
+	Message[AddMapsLazy::incomp]
+]:=With[
+	{sm1=SystemMap[t1],sm2=SystemMap[t2]},
+	If[sm1==sm2,
+		AddMapsStrict[t1,t2],
+		Module[
+			{e1,e2,diffs=#[[1]]&/@MapDifferences[sm1,sm2]},
+			e1=Canonicalize[t1**IdentityOp[SystemsByName[t2[[1]],diffs[[1]]]]];
+			e2=Canonicalize[t2**IdentityOp[SystemsByName[t1[[1]],diffs[[2]]]]];
+			MultiMap[e1[[1]],e1[[2]]+e2[[2]]]
+		]
+	]
 ];
+
+
+Options[AddMaps]={Method->"Lazy"};
+AddMaps[L_MultiMap,R_MultiMap,opts:OptionsPattern[]]:=If[
+	OptionValue[Method]=="Lazy",
+	AddMapsLazy[L,R],
+	AddMapsStrict[L,R]
+];
+AddMaps[t_MultiMap,opts:OptionsPattern[]]:=t;
+AddMaps[L_MultiMap,R_MultiMap,x__MultiMap,opts:OptionsPattern[]]:=If[
+	OptionValue[Method]=="Lazy",
+	AddMapsLazy[L,R,x],
+	AddMapsStrict[L,R,x]
+];
+
+Plus[MultiMap[x1_,y1_],MultiMap[x2_,y2_]]^:=AddMaps[MultiMap[x1,y1],MultiMap[x2,y2]];
 
 
 Matrixize[t_MultiMap,sortlist_:{}]:=
@@ -569,10 +590,10 @@ Protect[SystemMap,ComposeMaps,AddMaps,PartialTrace,MapTranspose,Adjoint,PartialT
 Protect[BasisElement,BasisKet,BasisBra,BasisProj,IdentityOp,OmegaKet,OmegaBra,OmegaOp,SwapOp,FromMatrix];
 
 
-Notation`AutoLoadNotationPalette = False;
+(*Notation`AutoLoadNotationPalette = False;
 Needs["Notation`"];
 InfixNotation[ParsedBoxWrapper[SubscriptBox["+", "1"]],LazyAdd];
-Notation`AutoLoadNotationPalette = True;
+Notation`AutoLoadNotationPalette = True;*)
 
 
 
